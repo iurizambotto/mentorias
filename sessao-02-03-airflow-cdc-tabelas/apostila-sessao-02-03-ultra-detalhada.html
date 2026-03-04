@@ -1,0 +1,788 @@
+<!DOCTYPE html><html><head>
+      <title>apostila-sessao-02-03-ultra-detalhada</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/iurizambotto/.antigravity/extensions/shd101wyy.markdown-preview-enhanced-0.8.20-universal/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="apostila--sessão-0203-airflow-cdc-e-formatos-de-dados">Apostila — Sessão 02+03: Airflow, CDC e Formatos de Dados </h1>
+<blockquote>
+<p>Sessão conjunta de orquestração, Change Data Capture e decisões de armazenamento.<br>
+Conduzida por Iuri Zambotto com Paulo Shindi. Mentorado: Aurelius Oliveira.</p>
+</blockquote>
+<hr>
+<h2 id="sumário">Sumário </h2>
+<ol>
+<li>Por que orquestrar pipelines de dados</li>
+<li>Arquitetura do Apache Airflow</li>
+<li>DAGs, tasks e dependências na prática</li>
+<li>Idempotência e retries</li>
+<li>Change Data Capture (CDC) — conceito e lifecycle</li>
+<li>CDC por ciclo de vida de ID — regras e pitfalls</li>
+<li>Formatos de arquivo: CSV, JSONL, Parquet e ORC</li>
+<li>Tipos de tabela: Hive, Iceberg e Delta Lake</li>
+<li>Camadas bronze, silver e gold</li>
+<li>Exercícios e entregáveis</li>
+</ol>
+<hr>
+<h2 id="1-por-que-orquestrar-pipelines-de-dados">1. Por que orquestrar pipelines de dados </h2>
+<p>Antes do Airflow entrar em cena, vale a pena entender o problema que ele resolve.</p>
+<p><strong>O que é orquestração de dados e por que ela existe</strong></p>
+<p>Um pipeline de dados raramente é uma tarefa única. Em geral, ele envolve sequências como: aguardar dados chegarem → extrair → transformar → carregar → notificar. Se você executar essas etapas manualmente ou via <code>cron</code> simples, problemas clássicos vão aparecer:</p>
+<ul>
+<li><strong>Ordem errada de execução.</strong> Um job de transformação pode rodar antes dos dados de origem estarem completos, gerando resultados inválidos ou zerados.</li>
+<li><strong>Duplicidade de dados.</strong> Se o job travar e você rodar manualmente, os registros podem ser inseridos duas vezes, sem que você perceba de imediato.</li>
+<li><strong>Perda de rastreio.</strong> Com scripts avulsos no cron, é difícil saber o que rodou quando, o que falhou, e por quê. O histórico vira uma caixa-preta.</li>
+<li><strong>Falta de dependências explícitas.</strong> O cron não sabe que o job B só pode rodar depois que o job A terminar. Você precisa codificar isso na mão, o que não escala.</li>
+</ul>
+<p><strong>A diferença entre agendar e orquestrar</strong></p>
+<p>Agendar é dizer "rode às 03h". Orquestrar é dizer "rode às 03h, mas só se o dado de ontem estiver disponível, e depois que esse job terminar, dispare os dois jobs seguintes em paralelo, e se qualquer um falhar, tente mais três vezes com espera exponencial".</p>
+<p>Orquestração resolve um problema de coordenação. Ela dá visibilidade, controle e auditoria ao fluxo de dados.</p>
+<p><strong>Quando faz sentido usar um orquestrador</strong></p>
+<p>Não todo pipeline precisa de Airflow. Um script simples que roda uma vez por dia e não tem dependências pode viver no cron sem problema. O orquestrador vale a pena quando:</p>
+<ul>
+<li>Há dependências entre tarefas ou entre pipelines distintos.</li>
+<li>O pipeline precisa ser reexecutado (backfill) de forma segura.</li>
+<li>É necessário monitorar SLA e receber alertas.</li>
+<li>A equipe precisa inspecionar histórico de execuções.</li>
+<li>Há múltiplos autores de pipelines que precisam de um padrão comum.</li>
+</ul>
+<p><strong>Referência do livro (Cap. 6 — Data Flow Design Patterns)</strong></p>
+<p>O padrão <em>Local Sequencer</em> descreve exatamente esse problema: quando um job monolítico cresce a ponto de ser ininteligível, a solução é decompô-lo em tarefas sequenciais com dependências explícitas. A separação de tarefas melhora a leitura do pipeline, facilita retries pontuais e define fronteiras de reprocessamento claras.</p>
+<hr>
+<h2 id="2-arquitetura-do-apache-airflow">2. Arquitetura do Apache Airflow </h2>
+<p>Airflow é um orquestrador de workflows declarado em Python. Para entender como trabalhar bem com ele, é fundamental conhecer seus componentes e o papel de cada um.</p>
+<p><strong>Os componentes principais</strong></p>
+<ul>
+<li>
+<p><strong>Webserver (ou API Server, a partir do Airflow 3.x).</strong> É a interface visual e REST API. Você acessa a UI no <code>localhost:8080</code>, visualiza DAGs, loga nas tasks, força execuções manuais e monitora o estado dos pipelines. No Airflow 3.1.x (versão desta mentoria), o componente foi renomeado para <code>airflow-apiserver</code>.</p>
+</li>
+<li>
+<p><strong>Scheduler.</strong> É o componente mais crítico. Ele varre os arquivos de DAG, determina quais tasks precisam ser enfileiradas com base nas dependências e no cronograma, e delega a execução para os workers. O scheduler não executa código de negócio diretamente. Ele apenas toma decisões de agendamento.</p>
+</li>
+<li>
+<p><strong>Worker.</strong> Executa o código das tasks. No modelo com Celery Executor, múltiplos workers podem rodar em paralelo, cada um em contêiners separados. No LocalExecutor (típico de ambientes de desenvolvimento), as tasks rodam em processos locais do scheduler.</p>
+</li>
+<li>
+<p><strong>Triggerer.</strong> Componente introduzido no Airflow 2.2 para suportar <em>deferrable operators</em>. Ele gerencia tarefas que ficam esperando um evento externo (como uma API responder ou um arquivo aparecer) sem bloquear um worker. É especialmente útil em pipelines com muitos sensors.</p>
+</li>
+<li>
+<p><strong>Metastore (banco de dados).</strong> O estado de todas as execuções é persistido em um banco relacional, geralmente PostgreSQL em produção. Inclui o histórico de DAG runs, o estado de cada task (queued, running, success, failed, skipped), logs resumidos e configurações.</p>
+</li>
+<li>
+<p><strong>Redis (ou outro broker de mensagens).</strong> Usado no modelo com Celery Executor para enfileirar as tasks entre o scheduler e os workers. O scheduler coloca a task na fila, o worker consome.</p>
+</li>
+<li>
+<p><strong>Init.</strong> No Docker Compose local, o serviço <code>airflow-init</code> é um job de bootstrap que cria o banco, aplica migrações e cria o usuário admin. Roda uma vez antes dos demais serviços subirem.</p>
+</li>
+</ul>
+<p><strong>Fluxo de uma execução</strong></p>
+<ol>
+<li>O scheduler lê os arquivos <code>.py</code> da pasta <code>dags/</code>.</li>
+<li>Identifica que uma DAG deve rodar (por schedule ou trigger manual).</li>
+<li>Cria um <em>DAG run</em> no metastore e enfileira as tasks elegíveis.</li>
+<li>O worker pega a task da fila, executa o código Python correspondente e reporta o resultado ao metastore.</li>
+<li>O scheduler usa o resultado para determinar se a próxima task na dependência pode ser enfileirada.</li>
+<li>A UI exibe o estado em tempo quase real.</li>
+</ol>
+<p><strong>Por que o scheduler não executar tasks é importante</strong></p>
+<p>Se o scheduler executasse tasks, uma task lenta ou que consome muita memória poderia travar o agendamento de todas as outras DAGs. A separação de responsabilidades é deliberada e essencial para escalabilidade.</p>
+<hr>
+<h2 id="3-dags-tasks-e-dependências-na-prática">3. DAGs, tasks e dependências na prática </h2>
+<p><strong>O que é uma DAG</strong></p>
+<p>DAG significa <em>Directed Acyclic Graph</em>. No Airflow, é o objeto principal que representa um pipeline. Ele define as tasks e a ordem em que devem rodar. "Acyclico" significa que não pode haver ciclos: task A → task B → task A nunca é permitido.</p>
+<p>Exemplo mínimo de DAG em Python:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-from">from</span> airflow <span class="token keyword keyword-import">import</span> DAG
+<span class="token keyword keyword-from">from</span> airflow<span class="token punctuation">.</span>operators<span class="token punctuation">.</span>python <span class="token keyword keyword-import">import</span> PythonOperator
+<span class="token keyword keyword-from">from</span> datetime <span class="token keyword keyword-import">import</span> datetime
+
+<span class="token keyword keyword-def">def</span> <span class="token function">extract</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string">"Extraindo dados..."</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">transform</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string">"Transformando..."</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string">"Carregando..."</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-with">with</span> DAG<span class="token punctuation">(</span>
+    dag_id<span class="token operator">=</span><span class="token string">"pipeline_marketing"</span><span class="token punctuation">,</span>
+    start_date<span class="token operator">=</span>datetime<span class="token punctuation">(</span><span class="token number">2026</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    schedule<span class="token operator">=</span><span class="token string">"@daily"</span><span class="token punctuation">,</span>
+    catchup<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span> <span class="token keyword keyword-as">as</span> dag<span class="token punctuation">:</span>
+    t1 <span class="token operator">=</span> PythonOperator<span class="token punctuation">(</span>task_id<span class="token operator">=</span><span class="token string">"extract"</span><span class="token punctuation">,</span> python_callable<span class="token operator">=</span>extract<span class="token punctuation">)</span>
+    t2 <span class="token operator">=</span> PythonOperator<span class="token punctuation">(</span>task_id<span class="token operator">=</span><span class="token string">"transform"</span><span class="token punctuation">,</span> python_callable<span class="token operator">=</span>transform<span class="token punctuation">)</span>
+    t3 <span class="token operator">=</span> PythonOperator<span class="token punctuation">(</span>task_id<span class="token operator">=</span><span class="token string">"load"</span><span class="token punctuation">,</span> python_callable<span class="token operator">=</span>load<span class="token punctuation">)</span>
+
+    t1 <span class="token operator">&gt;&gt;</span> t2 <span class="token operator">&gt;&gt;</span> t3
+</code></pre><p>O operador <code>&gt;&gt;</code> define a dependência: <code>t1</code> deve terminar com sucesso antes de <code>t2</code> iniciar.</p>
+<p><strong>Tipos de operadores mais comuns</strong></p>
+<ul>
+<li><code>PythonOperator</code>: executa uma função Python.</li>
+<li><code>BashOperator</code>: executa um comando shell.</li>
+<li><code>PostgresOperator</code>: executa uma query SQL num banco PostgreSQL.</li>
+<li><code>FileSensor</code> / <code>ExternalTaskSensor</code>: espera uma condição externa antes de avançar.</li>
+<li><code>BranchPythonOperator</code>: avalia uma condição e decide qual branch seguir (padrão <em>Exclusive Choice</em> do Cap. 6).</li>
+</ul>
+<p><strong>catchup e start_date</strong></p>
+<p>O <code>start_date</code> define quando a DAG começa a existir no tempo. Se <code>catchup=True</code> (padrão), o Airflow vai tentar rodar todos os intervalos entre <code>start_date</code> e hoje que ainda não foram executados. Isso é backfill automático. Em ambientes de produção com dados reais, isso pode ser perigoso se o pipeline não for idempotente. Por isso, em desenvolvimento, use <code>catchup=False</code>.</p>
+<p><strong>Retries e políticas de falha</strong></p>
+<p>Cada task pode ter configuração individual de retries:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>t2 <span class="token operator">=</span> PythonOperator<span class="token punctuation">(</span>
+    task_id<span class="token operator">=</span><span class="token string">"transform"</span><span class="token punctuation">,</span>
+    python_callable<span class="token operator">=</span>transform<span class="token punctuation">,</span>
+    retries<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span>
+    retry_delay<span class="token operator">=</span>timedelta<span class="token punctuation">(</span>minutes<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    retry_exponential_backoff<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span>
+</code></pre><p>Isso diz: se a task <code>transform</code> falhar, tente mais 3 vezes, com espera de 5 minutos entre as tentativas (e com backoff exponencial, o tempo entre retries cresce a cada tentativa).</p>
+<p><strong>Exemplo da DAG de marketing usada na sessão</strong></p>
+<p>A DAG didática desta sessão tem a seguinte sequência:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>extract_costs -&gt; extract_events -&gt; build_daily_metrics -&gt; publish_report
+</code></pre><p>Cada task simula uma etapa real de um pipeline de marketing:</p>
+<ul>
+<li><code>extract_costs</code>: lê custos por campanha.</li>
+<li><code>extract_events</code>: lê eventos de usuários.</li>
+<li><code>build_daily_metrics</code>: agrega as métricas diárias.</li>
+<li><code>publish_report</code>: disponibiliza o relatório para consumo.</li>
+</ul>
+<p><strong>Referência do livro (Cap. 6 — Local Sequencer)</strong></p>
+<p>Este pipeline segue exatamente o padrão <em>Local Sequencer</em>: tarefas encadeadas em sequência, onde cada uma depende da anterior. A vantagem prática é que, se <code>build_daily_metrics</code> falhar, o Airflow reexecuta apenas essa task, sem precisar refazer a extração que pode ser cara ou ter janelas de tempo.</p>
+<hr>
+<h2 id="4-idempotência-e-retries">4. Idempotência e retries </h2>
+<p><strong>O que é idempotência em dados</strong></p>
+<p>Uma operação é idempotente quando pode ser executada múltiplas vezes e sempre produz o mesmo resultado. Em dados, isso significa que rodar o mesmo pipeline duas vezes não duplica registros, não gera inconsistências, e produz exatamente o mesmo dataset que uma única execução produziria.</p>
+<p>Idempotência não é opcional em engenharia de dados: retries acontecem, falhas parciais acontecem, e backfills são necessários. Se o pipeline não for idempotente, cada retry pode ser uma bomba-relógio.</p>
+<p><strong>Por que duplicatas são o pior cenário</strong></p>
+<p>Quando um pipeline duplica dados, há dois caminhos possíveis:</p>
+<ol>
+<li>Duplicatas identificáveis: você tem chave primária, pode deduplicar. Caro, mas possível.</li>
+<li>Duplicatas não identificáveis: sem chave única, não há como saber qual registro é a repetição. Esse é o pesadelo que o livro descreve no início do Cap. 4.</li>
+</ol>
+<p><strong>Padrões de idempotência (Cap. 4 do livro)</strong></p>
+<p>O livro apresenta três famílias principais:</p>
+<ul>
+<li>
+<p><strong>Fast Metadata Cleaner</strong>: em vez de <code>DELETE FROM tabela WHERE ...</code> (caro em tabelas grandes), usa <code>TRUNCATE TABLE</code> ou <code>DROP + CREATE</code> por partição. Opera na camada de metadados, que é ordens de magnitude mais rápida que varrer dados.</p>
+</li>
+<li>
+<p><strong>Data Overwrite</strong>: quando não há camada de metadados (ex: object store puro), usa <code>INSERT OVERWRITE</code> ou equivalente. No Spark, isso é <code>input_data.write.mode('overwrite')</code>.</p>
+</li>
+<li>
+<p><strong>Merger (UPSERT)</strong>: para datasets incrementais onde não se tem o conjunto completo, usa a operação <code>MERGE INTO ... USING ...</code>. Aplica insert se o registro é novo, update se já existe. Deletes precisam ser expressados como soft deletes (flag <code>is_deleted</code>).</p>
+</li>
+</ul>
+<p><strong>Idempotência aplicada ao Airflow</strong></p>
+<p>Na DAG de marketing, a task <code>publish_report</code> é o ponto mais sensível. Se ela rodar duas vezes, o relatório pode ser duplicado para os consumidores. A solução é garantir que o relatório seja identificado por data de execução (chave idempotente) e que a escrita seja overwrite por partição de data, e não append.</p>
+<p><strong>Retries e idempotência andam juntos</strong></p>
+<p>Configurar <code>retries=3</code> em uma task não idempotente é aumentar a probabilidade de problema, não de solução. Antes de habilitar retries, certifique-se de que a task pode ser reexecutada sem efeitos colaterais.</p>
+<hr>
+<h2 id="5-change-data-capture-cdc--conceito-e-lifecycle">5. Change Data Capture (CDC) — conceito e lifecycle </h2>
+<p><strong>O que é CDC e por que existe</strong></p>
+<p>Change Data Capture é o conjunto de técnicas para capturar e representar as mudanças que ocorrem em um banco de dados de origem. Em vez de ler a tabela inteira a cada ciclo (snapshot completo), o CDC captura apenas o que mudou: inserções, atualizações e deleções.</p>
+<p>O CDC nasce de uma necessidade real: dados mudam. Um usuário atualiza o endereço, uma campanha é cancelada, um pedido é deletado. Se você só tiver o snapshot mais recente, perdeu a história do que aconteceu. Se você capturar cada evento de mudança, tem uma trilha auditável e pode reconstruir qualquer estado anterior.</p>
+<p><strong>Abordagem técnica: como o CDC é capturado</strong></p>
+<p>Há diferentes métodos de captura:</p>
+<ul>
+<li>
+<p><strong>Log-based CDC</strong>: lê o write-ahead log (WAL) do banco de dados. É o método mais confiável e menos intrusivo. Ferramentas como Debezium fazem isso para PostgreSQL, MySQL, MongoDB e outros. Cada operação DML (INSERT, UPDATE, DELETE) gera um evento no log.</p>
+</li>
+<li>
+<p><strong>Trigger-based CDC</strong>: triggers no banco disparam escrita em uma tabela de auditoria a cada mudança. Funciona, mas tem custo de escrita no próprio banco de origem.</p>
+</li>
+<li>
+<p><strong>Timestamp-based CDC</strong>: lê registros onde <code>updated_at &gt; last_processed_time</code>. Simples de implementar, mas não captura deleções e depende de o campo de timestamp existir e ser confiável.</p>
+</li>
+<li>
+<p><strong>Geração sintética (usado nesta sessão)</strong>: para fins didáticos, geramos os eventos de CDC programaticamente com regras de lifecycle controladas. O script <code>generic_cdc.py</code> + <code>generate_domain_data.py</code> produz os arquivos <code>*__cdc.csv</code>.</p>
+</li>
+</ul>
+<p><strong>Campos padrão de um evento CDC</strong></p>
+<p>Todo evento CDC carrega:</p>
+<ul>
+<li><code>cdc_op</code>: tipo da operação — <code>insert</code>, <code>update</code> ou <code>delete</code>.</li>
+<li><code>cdc_event_ts</code>: timestamp do evento.</li>
+<li><code>cdc_source_table</code>: tabela de origem.</li>
+<li>Os dados do registro no estado em que estava no momento do evento.</li>
+</ul>
+<p><strong>A diferença entre append-only e upsert</strong></p>
+<p>Uma tabela append-only só recebe novos registros; registros passados nunca mudam. Exemplos: logs de acesso, eventos de clique, transações financeiras.</p>
+<p>Uma tabela com upsert recebe inserções e também atualizações de registros existentes. Exemplos: cadastro de clientes, status de pedidos, saldo de conta.</p>
+<p>O CDC é especialmente relevante para tabelas com upsert. Se você precisar reconstruir o estado atual de um cadastro de clientes, precisa saber não apenas o insert inicial, mas todos os updates subsequentes e, eventualmente, o delete.</p>
+<hr>
+<h2 id="6-cdc-por-ciclo-de-vida-de-id--regras-e-pitfalls">6. CDC por ciclo de vida de ID — regras e pitfalls </h2>
+<p>Esta é a regra mais importante da sessão e precisa ser internalizada.</p>
+<p><strong>A regra do lifecycle por ID</strong></p>
+<p>Para cada identificador único (chave primária) numa tabela CDC, a sequência de eventos obedece a uma regra estrita:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>insert → update* → delete?
+</code></pre><p>Traduzindo:</p>
+<ol>
+<li>O ID aparece <strong>uma única vez</strong> com <code>cdc_op = insert</code>. Esse é o primeiro e único evento de criação.</li>
+<li>Após o insert, podem existir <strong>zero ou mais</strong> eventos com <code>cdc_op = update</code>. Cada update representa uma alteração no estado do registro.</li>
+<li>O <code>cdc_op = delete</code> é <strong>terminal</strong>: significa que o registro foi removido da origem. Após um delete, esse ID não pode mais aparecer em novos eventos de insert ou update.</li>
+</ol>
+<p><strong>Por que o delete é terminal</strong></p>
+<p>Quando um registro é deletado no banco de origem, ele deixa de existir. Qualquer tentativa de referenciar aquele ID depois disso é ou um erro na captura CDC ou uma reinserção (novo ciclo, novo contexto). Para fins de lifecycle, tratamos o delete como fim de vida daquele ID específico.</p>
+<p><strong>Evidência real do dataset desta sessão</strong></p>
+<p>O relatório <code>docs/notes/relatorio-cdc-por-id.md</code> mostra os resultados do dataset <code>marketing</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Tabela</th>
+<th>IDs únicos</th>
+<th>Inserts</th>
+<th>Updates</th>
+<th>Deletes</th>
+<th>Violações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>users</code></td>
+<td>80</td>
+<td>80</td>
+<td>0</td>
+<td>37</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>campaigns</code></td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td>80</td>
+<td>80</td>
+<td>584</td>
+<td>2</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>costs</code></td>
+<td>4</td>
+<td>4</td>
+<td>52</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>crm</code></td>
+<td>80</td>
+<td>80</td>
+<td>0</td>
+<td>27</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Zero violações</strong> em todas as tabelas. Cada ID começa com <code>insert</code>, updates aparecem apenas entre o insert e o possível delete, e nenhum ID reaparece após o delete.</p>
+<p>Exemplos concretos de sequências válidas:</p>
+<ul>
+<li><code>user_0001</code>: <code>insert -&gt; delete</code> (vida curta, apenas criou e foi removido)</li>
+<li><code>user_0001</code> na tabela <code>events</code>: <code>insert -&gt; update -&gt; update -&gt; update -&gt; ... -&gt; update</code> (criou e atualizou 8 vezes, ainda ativo)</li>
+<li><code>user_0009</code> na tabela <code>events</code>: <code>insert -&gt; update -&gt; update -&gt; update -&gt; delete</code> (criou, atualizou 3 vezes, foi removido)</li>
+</ul>
+<p><strong>Os pitfalls mais comuns em CDC</strong></p>
+<ul>
+<li>
+<p><strong>Insert duplicado.</strong> Um evento de insert para um ID que já existe indica erro no pipeline CDC ou problema de deduplicação. O dado não pode ser confiado sem investigação.</p>
+</li>
+<li>
+<p><strong>Update antes do insert.</strong> Se um ID aparece primeiro com <code>update</code>, o evento de criação foi perdido. Isso pode acontecer em migrações parciais ou quando a captura CDC começou depois que o registro já existia na origem.</p>
+</li>
+<li>
+<p><strong>Evento após delete.</strong> Se um ID que foi deletado reaparece com <code>update</code>, houve um problema sério: ou o delete foi registrado por engano, ou houve reinserção sem novo insert CDC. Ambos indicam inconsistência.</p>
+</li>
+<li>
+<p><strong>Timestamp fora de ordem.</strong> Eventos CDC devem ser processados em ordem temporal por ID. Se o <code>cdc_event_ts</code> estiver fora de sequência, o estado reconstruído será incorreto.</p>
+</li>
+<li>
+<p><strong>Soft delete vs hard delete.</strong> Nem todos os bancos geram eventos de delete explícito no CDC. Alguns sistemas usam soft delete: um campo <code>is_active = false</code> ou <code>deleted_at</code> é atualizado, e o registro permanece na tabela. Nesses casos, o CDC captura um <code>update</code>, não um <code>delete</code>. É importante saber qual estratégia o banco de origem usa.</p>
+</li>
+</ul>
+<p><strong>Como validar o lifecycle no código</strong></p>
+<p>A validação implementada no <code>generic_cdc.py</code> do projeto segue esta lógica:</p>
+<ol>
+<li>Agrupar eventos por <code>ID</code>.</li>
+<li>Ordenar por <code>cdc_event_ts</code>.</li>
+<li>Verificar que o primeiro evento é sempre <code>insert</code>.</li>
+<li>Verificar que após qualquer <code>delete</code>, não existem mais eventos para aquele ID.</li>
+<li>Reportar qualquer violação.</li>
+</ol>
+<hr>
+<h2 id="7-formatos-de-arquivo-csv-jsonl-parquet-e-orc">7. Formatos de arquivo: CSV, JSONL, Parquet e ORC </h2>
+<p>A escolha do formato de arquivo impacta diretamente o custo de processamento, a legibilidade, a capacidade de evolução do schema e a integração com diferentes ferramentas.</p>
+<p><strong>CSV — Comma-Separated Values</strong></p>
+<p>CSV é o mais simples e o mais universal. Qualquer ferramenta lê CSV: Python, Excel, R, Spark, bancos de dados, ferramentas SaaS. Não há dependência de ecossistema.</p>
+<p>Características:</p>
+<ul>
+<li>Formato textual, legível por humanos.</li>
+<li>Sem schema embutido: os tipos precisam ser inferidos ou declarados externamente.</li>
+<li>Sem compressão nativa (pode ser comprimido externamente com gzip, bz2).</li>
+<li>Parsing é sequencial e caro para datasets grandes (leitura linha por linha).</li>
+<li>Não suporta tipos complexos (arrays, mapas, objetos aninhados) de forma nativa.</li>
+</ul>
+<p>Quando usar:</p>
+<ul>
+<li>Ingestão inicial de dados de sistemas externos (arquivos de fornecedores, exports).</li>
+<li>Troca simples de dados entre sistemas sem dependência de biblioteca.</li>
+<li>Debugging e inspeção manual.</li>
+</ul>
+<p>O arquivo <code>exemplos/output/events.csv</code> desta sessão é o dataset de eventos gerado para a tabela <code>events</code> do domínio marketing, exportado em CSV com header.</p>
+<p><strong>JSONL — JSON Lines</strong></p>
+<p>JSONL (também chamado de NDJSON — Newline-Delimited JSON) é um formato onde cada linha é um objeto JSON válido e independente. Diferente do JSON convencional (que é um único objeto ou array), JSONL é streamável: você pode processar um registro por vez sem ler o arquivo inteiro.</p>
+<p>Características:</p>
+<ul>
+<li>Suporta tipos complexos nativamente (arrays, objetos aninhados).</li>
+<li>Schema flexível: cada linha pode ter campos diferentes (schema-on-read).</li>
+<li>Legível por humanos, mas mais verboso que CSV.</li>
+<li>Custo de scan maior que Parquet/ORC para analytics (precisa parsear JSON por linha).</li>
+<li>Ótimo para logs e eventos onde o schema pode variar.</li>
+</ul>
+<p>Quando usar:</p>
+<ul>
+<li>Captura de eventos semiestruturados (logs de aplicação, eventos de API).</li>
+<li>Ingestão na camada bronze quando o schema ainda não está estabilizado.</li>
+<li>Integração com sistemas que produzem ou consomem JSON.</li>
+</ul>
+<p>O arquivo <code>exemplos/output/events.jsonl</code> contém os mesmos eventos, mas em formato JSONL.</p>
+<p><strong>Parquet — formato colunar da Apache</strong></p>
+<p>Parquet é um formato binário e colunar. "Colunar" significa que os dados de cada coluna ficam armazenados juntos no arquivo, em vez de linha por linha.</p>
+<p>Isso tem uma consequência enorme em analytics: se você tem uma tabela com 100 colunas e sua query usa apenas 5, o Parquet permite ler apenas os blocos dessas 5 colunas. Em CSV, você leria tudo.</p>
+<p>Características:</p>
+<ul>
+<li>Compressão eficiente (Snappy, Gzip, Zstd) — reduz custo de armazenamento e I/O.</li>
+<li>Leitura seletiva de colunas (column pruning).</li>
+<li>Suporte a tipos complexos.</li>
+<li>Schema embutido no arquivo (metadata).</li>
+<li>Não é legível por humanos sem ferramentas.</li>
+<li>Dificuldade de merge e update de registros individuais (arquivo imutável por natureza).</li>
+</ul>
+<p>Quando usar:</p>
+<ul>
+<li>Camada silver e gold de um data lake.</li>
+<li>Qualquer carga analítica com queries que selecionam subconjunto de colunas.</li>
+<li>Quando custo de armazenamento e tempo de query são prioridades.</li>
+</ul>
+<p>O arquivo <code>exemplos/output/events.parquet</code> é o mesmo dataset em Parquet. Para inspecioná-lo manualmente, use <code>pandas.read_parquet()</code> ou <code>spark.read.parquet()</code>.</p>
+<p><strong>ORC — Optimized Row Columnar</strong></p>
+<p>ORC é outro formato colunar, nascido no ecossistema Apache Hive. Compartilha muitas características com Parquet, mas tem diferenças no modelo interno e em suporte de ferramentas.</p>
+<p>Características:</p>
+<ul>
+<li>Colunar, como Parquet.</li>
+<li>Estatísticas internas por stripe (blocos de dados): min, max, count. Permite bloom filters e predicate pushdown mais agressivos em algumas engines.</li>
+<li>Compressão por coluna (Zlib, Snappy, LZO).</li>
+<li>Schema embutido.</li>
+<li>Forte integração com Hive, Spark e engines do ecossistema Hadoop.</li>
+<li>Menor adoção fora do ecossistema Hadoop/Spark em comparação com Parquet.</li>
+</ul>
+<p>Quando usar:</p>
+<ul>
+<li>Plataformas com Hive, HiveQL ou Presto/Trino com catálogo Hive.</li>
+<li>Quando as características de bloom filter do ORC forem relevantes para o padrão de query.</li>
+<li>Ambientes Databricks ou EMR onde ambos são suportados — a escolha depende do ecossistema da empresa.</li>
+</ul>
+<p>O arquivo <code>exemplos/output/events.orc</code> permite comparação direta com o Parquet do mesmo dataset.</p>
+<p><strong>Tabela comparativa</strong></p>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>CSV</th>
+<th>JSONL</th>
+<th>Parquet</th>
+<th>ORC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Legível por humanos</td>
+<td>sim</td>
+<td>sim</td>
+<td>não</td>
+<td>não</td>
+</tr>
+<tr>
+<td>Schema embutido</td>
+<td>não</td>
+<td>parcial</td>
+<td>sim</td>
+<td>sim</td>
+</tr>
+<tr>
+<td>Tipos complexos</td>
+<td>não</td>
+<td>sim</td>
+<td>sim</td>
+<td>sim</td>
+</tr>
+<tr>
+<td>Compressão nativa</td>
+<td>não</td>
+<td>não</td>
+<td>sim</td>
+<td>sim</td>
+</tr>
+<tr>
+<td>Leitura colunar</td>
+<td>não</td>
+<td>não</td>
+<td>sim</td>
+<td>sim</td>
+</tr>
+<tr>
+<td>Custo de scan</td>
+<td>alto</td>
+<td>alto</td>
+<td>baixo</td>
+<td>baixo</td>
+</tr>
+<tr>
+<td>Facilidade de merge</td>
+<td>alta</td>
+<td>alta</td>
+<td>baixa</td>
+<td>baixa</td>
+</tr>
+<tr>
+<td>Ecossistema</td>
+<td>universal</td>
+<td>amplo</td>
+<td>amplo</td>
+<td>Hadoop+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Referência do livro (Cap. 8 — Data Storage Design Patterns)</strong></p>
+<p>O padrão <em>Horizontal Partitioner</em> descrito no Cap. 8 complementa diretamente a escolha de formato. Particionar por data no Parquet, por exemplo, é o que permite ao motor de query ignorar partições inteiras e ler apenas o intervalo de tempo relevante. Sem particionamento, até o melhor formato colunar vai ser forçado a escanear blocos desnecessários.</p>
+<hr>
+<h2 id="8-tipos-de-tabela-hive-iceberg-e-delta-lake">8. Tipos de tabela: Hive, Iceberg e Delta Lake </h2>
+<p>Formatos de arquivo (Parquet, ORC) são diferentes de <em>table formats</em>. O table format é a camada que define como metadados, schema, transações e histórico são gerenciados por cima dos arquivos físicos.</p>
+<p><strong>Hive Table — o modelo original do data lake</strong></p>
+<p>O modelo Hive é o mais antigo e o mais simples. Uma tabela Hive é basicamente um diretório no HDFS ou S3 com arquivos de dados, e um catálogo (Hive Metastore) que mapeia o nome da tabela para o path físico, o schema e as partições.</p>
+<p>Como funciona:</p>
+<ul>
+<li>Os arquivos físicos ficam em <code>s3://bucket/tabela/particao=data/arquivo.parquet</code>.</li>
+<li>O Hive Metastore guarda o schema e o mapeamento.</li>
+<li>Engines como Hive, Spark, Presto e Athena consultam o metastore para saber onde estão os dados.</li>
+</ul>
+<p>Limitações:</p>
+<ul>
+<li>Sem transações ACID robustas nativamente. Dois jobs escrevendo na mesma partição ao mesmo tempo podem corromper dados.</li>
+<li>Evolução de schema limitada: adicionar colunas é simples, mas renomear ou mudar tipos pode quebrar leitores existentes.</li>
+<li>Sem time travel nativo: você não consegue consultar "como estava a tabela há 3 dias" sem ter feito um backup manual.</li>
+<li>Operações de update e delete são limitadas ou ausentes (depende da engine e da versão).</li>
+</ul>
+<p>Quando ainda faz sentido:</p>
+<ul>
+<li>Pipelines simples de append-only onde não há necessidade de update ou delete.</li>
+<li>Ambientes legados onde a migração para Iceberg ou Delta não vale o custo imediato.</li>
+<li>Quando a engine disponível (ex: Athena v1, EMR antigo) não suporta os novos formatos.</li>
+</ul>
+<p><strong>Apache Iceberg — o table format moderno e multi-engine</strong></p>
+<p>Iceberg foi criado pelo Netflix e Apache para resolver as limitações do Hive. É um table format aberto, desenhado para funcionar com múltiplas engines (Spark, Flink, Trino, Athena v3, Hive).</p>
+<p>Como funciona:</p>
+<ul>
+<li>Cada escrita gera um novo <em>snapshot</em>. Um snapshot é um arquivo de metadados que aponta para os arquivos de dados que compõem o estado atual da tabela.</li>
+<li>O histórico de snapshots permite <em>time travel</em>: você pode consultar o estado da tabela em qualquer ponto do passado dentro do período de retenção.</li>
+<li><em>Schema evolution</em> é um cidadão de primeira classe: adicionar, renomear e deletar colunas é suportado sem quebrar leitores que usam o schema antigo.</li>
+<li><em>Partition evolution</em>: você pode mudar o esquema de particionamento sem precisar reescrever os dados existentes. Iceberg lida com múltiplos esquemas de partição no mesmo histórico da tabela.</li>
+<li>Suporte a operações ACID: escritas concorrentes são seguras.</li>
+</ul>
+<p>Casos de uso ideais:</p>
+<ul>
+<li>Data lakes multi-engine onde diferentes times usam Spark, Trino ou Athena para consultar os mesmos dados.</li>
+<li>Tabelas que evoluem com frequência de schema.</li>
+<li>Pipelines que precisam de time travel para auditoria ou correção de dados históricos.</li>
+<li>Ambientes cloud onde o vendor-lock é uma preocupação (Iceberg é totalmente open source).</li>
+</ul>
+<p><strong>Delta Lake — o table format do ecossistema Databricks</strong></p>
+<p>Delta Lake foi criado pela Databricks e é o table format nativo do ambiente Databricks. Funciona bem com Spark e Databricks, e tem suporte crescente em outras engines (Trino, via Delta Kernel).</p>
+<p>Como funciona:</p>
+<ul>
+<li>Usa um <em>transaction log</em> (<code>_delta_log/</code>) no diretório da tabela. Cada operação (write, delete, merge, optimize) gera um novo arquivo de log.</li>
+<li>As operações são ACID: um MERGE que processa milhões de linhas é atômico — ou tudo vai, ou nada vai.</li>
+<li><em>Time travel</em>: como o log é preservado por configuração, você pode fazer <code>SELECT * FROM tabela VERSION AS OF 5</code> ou <code>TIMESTAMP AS OF '2026-01-01'</code>.</li>
+<li><code>MERGE INTO</code> é especialmente performático em Delta Lake. É o padrão recomendado para pipelines de upsert.</li>
+<li><code>OPTIMIZE</code> e <code>ZORDER BY</code> são operações de compactação e co-localização de dados que melhoram performance de queries.</li>
+</ul>
+<p>Casos de uso ideais:</p>
+<ul>
+<li>Ambientes Databricks, onde Delta é nativo e tem suporte completo.</li>
+<li>Pipelines com mutações frequentes (merge, update, delete) onde performance transacional é crítica.</li>
+<li>Quando a integração com o ecossistema Spark/Databricks é prioritária.</li>
+</ul>
+<p><strong>Tabela comparativa</strong></p>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Hive</th>
+<th>Iceberg</th>
+<th>Delta Lake</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transações ACID</td>
+<td>limitado</td>
+<td>sim</td>
+<td>sim</td>
+</tr>
+<tr>
+<td>Schema evolution</td>
+<td>básico</td>
+<td>completo</td>
+<td>completo</td>
+</tr>
+<tr>
+<td>Partition evolution</td>
+<td>não</td>
+<td>sim</td>
+<td>não</td>
+</tr>
+<tr>
+<td>Time travel</td>
+<td>não</td>
+<td>sim</td>
+<td>sim</td>
+</tr>
+<tr>
+<td>Multi-engine</td>
+<td>sim</td>
+<td>sim (melhor)</td>
+<td>crescente</td>
+</tr>
+<tr>
+<td>Merge / upsert</td>
+<td>limitado</td>
+<td>sim</td>
+<td>sim (otimizado)</td>
+</tr>
+<tr>
+<td>Vendor</td>
+<td>Apache</td>
+<td>Apache (open)</td>
+<td>Databricks/Linux</td>
+</tr>
+<tr>
+<td>Melhor cenário</td>
+<td>legado/simples</td>
+<td>cloud multi-engine</td>
+<td>Databricks</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Referência do livro (Cap. 4 — Merger Pattern)</strong></p>
+<p>O padrão <em>Merger</em> do livro descreve exatamente o problema que Iceberg e Delta resolvem: como aplicar incrementos (inserts + updates + soft deletes) de forma idempotente a um dataset existente. A operação <code>MERGE INTO</code> do Delta/Iceberg é a implementação nativa desse padrão.</p>
+<p><strong>Referência do livro (Cap. 4 — Stateful Merger)</strong></p>
+<p>Para pipelines que precisam fazer backfill com consistência, o <em>Stateful Merger</em> depende de um banco com versionamento. Isso é exactamente o que Delta Lake (via transaction log) e Iceberg (via snapshots) fornecem: a capacidade de restaurar a tabela a uma versão anterior antes de reaplicar os dados corrigidos.</p>
+<hr>
+<h2 id="9-camadas-bronze-silver-e-gold">9. Camadas bronze, silver e gold </h2>
+<p>A arquitetura medallion (bronze/silver/gold) é um padrão de organização do data lake em camadas com diferentes níveis de curadoria.</p>
+<p><strong>Bronze — dados brutos, fidelidade máxima</strong></p>
+<p>A camada bronze recebe os dados como chegam da origem, com o mínimo de transformação possível. O objetivo é preservar a fidelidade dos dados originais.</p>
+<p>Características:</p>
+<ul>
+<li>Formato preferido: JSONL ou CSV (mantém a estrutura original, legível).</li>
+<li>Particionamento por data de ingestão, não de evento.</li>
+<li>Dados podem ter inconsistências, nulos, duplicatas — tudo é preservado.</li>
+<li>Sem remoção de campos, mesmo que sensíveis (com controle de acesso adequado).</li>
+<li>Table format: Hive simples (append-only) ou Iceberg para capturar histórico.</li>
+</ul>
+<p>Analogia: é o "fita bruta" da gravação. Você não edita a fita bruta. Tudo que aconteceu está lá.</p>
+<p><strong>Silver — dados curados, prontos para análise</strong></p>
+<p>A camada silver aplica transformações de qualidade: limpeza de nulos, deduplicação, padronização de tipos, enriquecimento com dados de referência.</p>
+<p>Características:</p>
+<ul>
+<li>Formato preferido: Parquet (leitura eficiente, schema embutido).</li>
+<li>Particionamento por data de evento (não de ingestão).</li>
+<li>Dados devem atender contratos de schema definidos.</li>
+<li>Pode incluir campos derivados simples.</li>
+<li>Table format: Parquet + Iceberg ou Delta, dependendo da necessidade de upsert.</li>
+</ul>
+<p>Analogia: é a "edição do corte" — você removeu os erros, normalizou o áudio, mas ainda não produziu o produto final.</p>
+<p><strong>Gold — dados agregados, prontos para consumo</strong></p>
+<p>A camada gold contém datasets prontos para consumo por analistas, dashboards e modelos. São as métricas, agregados e visões de negócio.</p>
+<p>Características:</p>
+<ul>
+<li>Formato preferido: Parquet ou Delta/Iceberg (depende da necessidade de merge e auditoria).</li>
+<li>Estrutura orientada ao caso de uso (ex: tabela desnormalizada por produto, por região, por canal).</li>
+<li>Alta qualidade garantida (validações AWAP passadas).</li>
+<li>Pode ter SLA de atualização definido.</li>
+</ul>
+<p>Analogia: é o produto final — o relatório, o dashboard, o número que o C-level vai olhar.</p>
+<p><strong>Recomendação didática para o Projeto 1</strong></p>
+<table>
+<thead>
+<tr>
+<th>Camada</th>
+<th>Formato</th>
+<th>Table Format</th>
+<th>Justificativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bronze</td>
+<td>JSONL / CSV</td>
+<td>Hive ou Iceberg</td>
+<td>Fidelidade máxima, ingestão direta</td>
+</tr>
+<tr>
+<td>Silver</td>
+<td>Parquet</td>
+<td>Iceberg ou Delta</td>
+<td>Analytics eficiente, schema estável, suporte a merge</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>Parquet</td>
+<td>Iceberg ou Delta</td>
+<td>Performance de query, auditabilidade, SLA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Referência do livro (Cap. 9 — AWAP Pattern)</strong></p>
+<p>O padrão <em>Audit-Write-Audit-Publish</em> descrito no Cap. 9 encaixa perfeitamente na transição silver → gold: antes de promover dados para a camada gold, você valida o dataset transformado (segunda auditoria). Se passar, promove. Se não passar, você tem opções: falha o pipeline, envia para dead-letter, ou promove com anotação de incompletude.</p>
+<p><strong>Referência do livro (Cap. 10 — Flow Interruption Detector)</strong></p>
+<p>A camada bronze é especialmente vulnerável a interrupções de fluxo. O padrão <em>Flow Interruption Detector</em> do Cap. 10 descreve como detectar quando um job parou de escrever dados sem falhar explicitamente. Implementar um detector de freshness na camada bronze previne que o silêncio de um job com bug passe despercebido por horas ou dias.</p>
+<hr>
+<h2 id="10-exercícios-e-entregáveis">10. Exercícios e entregáveis </h2>
+<h3 id="exercício-1--matriz-de-decisão-de-orquestrador">Exercício 1 — Matriz de decisão de orquestrador </h3>
+<p><strong>Objetivo:</strong> entender quando usar orquestrador vs. cron vs. sem automação.</p>
+<p>Construa uma tabela com pelo menos 5 cenários (reais ou hipotéticos) e, para cada um, justifique a escolha de ferramenta:</p>
+<table>
+<thead>
+<tr>
+<th>Cenário</th>
+<th>Dependências?</th>
+<th>Retries?</th>
+<th>Backfill?</th>
+<th>Ferramenta recomendada</th>
+<th>Justificativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Entregável:</strong> tabela preenchida + 2 parágrafos de justificativa técnica.</p>
+<hr>
+<h3 id="exercício-2--blueprint-de-camadas-bronzesilvergold">Exercício 2 — Blueprint de camadas bronze/silver/gold </h3>
+<p><strong>Objetivo:</strong> definir o padrão de armazenamento do Projeto 1.</p>
+<p>Para cada camada, defina:</p>
+<ul>
+<li>Formato de arquivo</li>
+<li>Table format</li>
+<li>Estratégia de particionamento</li>
+<li>Política de retenção</li>
+<li>Critério de promoção para a próxima camada</li>
+</ul>
+<p><strong>Entregável:</strong> tabela de decisão por camada.</p>
+<hr>
+<h3 id="exercício-3--mini-adr-de-table-format">Exercício 3 — Mini ADR de table format </h3>
+<p><strong>Objetivo:</strong> documentar formalmente a decisão de table format.</p>
+<p>Um ADR (Architecture Decision Record) é um documento curto que registra uma decisão técnica e suas justificativas. Escreva um mini ADR com:</p>
+<ul>
+<li><strong>Contexto:</strong> qual é o problema que motivou a decisão.</li>
+<li><strong>Decisão:</strong> qual table format foi escolhido.</li>
+<li><strong>Alternativas consideradas:</strong> Hive, Iceberg e Delta, com prós e contras de cada um para o contexto.</li>
+<li><strong>Consequências:</strong> o que fica mais fácil e o que fica mais difícil com a escolha feita.</li>
+</ul>
+<p><strong>Entregável:</strong> documento de 1 a 2 páginas com as quatro seções preenchidas.</p>
+<hr>
+<h3 id="exercício-4--validação-de-lifecycle-cdc">Exercício 4 — Validação de lifecycle CDC </h3>
+<p><strong>Objetivo:</strong> verificar se você entende e consegue aplicar as regras de lifecycle CDC.</p>
+<p>Dado um arquivo CSV com eventos CDC (use <code>data/generated/marketing/events__cdc.csv</code>):</p>
+<ol>
+<li>Abra o arquivo com pandas.</li>
+<li>Agrupe por <code>user_id</code>.</li>
+<li>Ordene por <code>cdc_event_ts</code> dentro de cada grupo.</li>
+<li>Implemente uma função que valida as regras de lifecycle:
+<ul>
+<li>Primeiro evento deve ser <code>insert</code>.</li>
+<li>Após <code>delete</code>, não pode haver mais eventos.</li>
+</ul>
+</li>
+<li>Imprima o número de IDs com violação.</li>
+</ol>
+<p><strong>Entregável:</strong> script Python + resultado da validação (número de violações esperado: 0).</p>
+<hr>
+<h2 id="referências-desta-sessão">Referências desta sessão </h2>
+<ul>
+<li>
+<p><strong>Livro:</strong> Data Engineering Design Patterns (2025)</p>
+<ul>
+<li>Cap. 4: Idempotency Design Patterns (Overwriting, Merger, Stateful Merger)</li>
+<li>Cap. 6: Data Flow Design Patterns (Local Sequencer, Isolated Sequencer, Fan-In, Fan-Out)</li>
+<li>Cap. 8: Data Storage Design Patterns (Horizontal Partitioner, Compactor)</li>
+<li>Cap. 9: Data Quality Design Patterns (AWAP Pattern)</li>
+<li>Cap. 10: Data Observability Design Patterns (Flow Interruption Detector)</li>
+</ul>
+</li>
+<li>
+<p><strong>Documentação do Airflow:</strong> <a href="https://airflow.apache.org/docs/">https://airflow.apache.org/docs/</a></p>
+</li>
+<li>
+<p><strong>Apache Iceberg:</strong> <a href="https://iceberg.apache.org/">https://iceberg.apache.org/</a></p>
+</li>
+<li>
+<p><strong>Delta Lake:</strong> <a href="https://delta.io/">https://delta.io/</a></p>
+</li>
+<li>
+<p><strong>Arquivos desta sessão:</strong></p>
+<ul>
+<li><code>docs/sessions/sessao-02-03-airflow-cdc-tabelas/checklist-execucao-ao-vivo.md</code></li>
+<li><code>docs/sessions/sessao-03-cdc-airflow-tabelas/exemplos/output/</code></li>
+<li><code>docs/notes/relatorio-cdc-por-id.md</code></li>
+<li><code>config/domains/marketing.yaml</code></li>
+<li><code>src/zambotto_mentoria/generic_cdc.py</code></li>
+<li><code>scripts/generate_domain_data.py</code></li>
+<li><code>infrastructure/sessao-02-03-airflow-cdc-tabelas/docker-compose.yml</code></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
