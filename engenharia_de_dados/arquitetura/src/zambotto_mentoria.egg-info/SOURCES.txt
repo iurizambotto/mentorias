@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+src/zambotto_mentoria/__init__.py
+src/zambotto_mentoria/config_loader.py
+src/zambotto_mentoria/domain_config.py
+src/zambotto_mentoria/exporters.py
+src/zambotto_mentoria/generic_cdc.py
+src/zambotto_mentoria/generic_generator.py
+src/zambotto_mentoria.egg-info/PKG-INFO
+src/zambotto_mentoria.egg-info/SOURCES.txt
+src/zambotto_mentoria.egg-info/dependency_links.txt
+src/zambotto_mentoria.egg-info/requires.txt
+src/zambotto_mentoria.egg-info/top_level.txt
+tests/test_domain_config.py
+tests/test_generate_domain_data_cli.py
+tests/test_generic_cdc.py
+tests/test_generic_generator.py

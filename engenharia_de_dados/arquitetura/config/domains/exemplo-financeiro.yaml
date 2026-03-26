@@ -1,0 +1,59 @@
+version: 1
+domain: financeiro
+settings:
+  seed: 17
+  start_date: 2025-02-01
+  days: 10
+  default_rows: 100
+
+tables:
+  - name: contas
+    rows: 50
+    primary_key: conta_id
+    fields:
+      - name: conta_id
+        type: string
+        generator:
+          kind: sequence
+          prefix: conta_
+          pad: 4
+      - name: segmento
+        type: string
+        generator:
+          kind: choice
+          values: [varejo, atacado]
+      - name: data_abertura
+        type: date
+        generator:
+          kind: date_offset
+          from: settings.start_date
+          max_days: 4
+
+  - name: transacoes
+    rows: 1200
+    fields:
+      - name: tx_id
+        type: string
+        generator:
+          kind: sequence
+          prefix: tx_
+          pad: 6
+      - name: conta_id
+        type: string
+        generator:
+          kind: reference
+          table: contas
+          field: conta_id
+      - name: valor
+        type: float
+        generator:
+          kind: random_float
+          min: 5
+          max: 5000
+          precision: 2
+      - name: tx_date
+        type: date
+        generator:
+          kind: date_offset
+          from: settings.start_date
+          max_days: 9

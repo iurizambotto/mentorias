@@ -1,0 +1,279 @@
+version: 1
+domain: marketing
+settings:
+  seed: 42
+  start_date: 2025-01-01
+  days: 14
+  default_rows: 100
+
+tables:
+  - name: users
+    rows: 80
+    primary_key: user_id
+    fields:
+      - name: user_id
+        type: string
+        generator:
+          kind: sequence
+          prefix: user_
+          pad: 4
+      - name: country
+        type: string
+        generator:
+          kind: choice
+          values: [BR, MX, CO]
+      - name: created_at
+        type: date
+        generator:
+          kind: date_offset
+          from: settings.start_date
+          max_days: 7
+
+  - name: campaigns
+    rows: 4
+    primary_key: campaign_id
+    fields:
+      - name: campaign_id
+        type: string
+        generator:
+          kind: sequence
+          prefix: camp_
+          pad: 3
+      - name: channel
+        type: string
+        generator:
+          kind: choice
+          values: [google, meta, tiktok, crm]
+      - name: created_at
+        type: date
+        generator:
+          kind: date_offset
+          from: settings.start_date
+          max_days: 5
+
+  - name: events
+    rows: 2000
+    fields:
+      - name: event_id
+        type: string
+        generator:
+          kind: sequence
+          prefix: evt_
+          pad: 6
+      - name: event_date
+        type: date
+        generator:
+          kind: date_offset
+          from: settings.start_date
+          max_days: 13
+      - name: event_ts
+        type: datetime
+        generator:
+          kind: datetime_from_field
+          field: event_date
+      - name: user_id
+        type: string
+        generator:
+          kind: reference
+          table: users
+          field: user_id
+      - name: campaign_id
+        type: string
+        generator:
+          kind: reference
+          table: campaigns
+          field: campaign_id
+      - name: channel
+        type: string
+        generator:
+          kind: choice
+          values: [google, meta, tiktok, organic, crm]
+      - name: device
+        type: string
+        generator:
+          kind: choice
+          values: [mobile, desktop]
+      - name: country
+        type: string
+        generator:
+          kind: choice
+          values: [BR, MX, CO]
+      - name: stage
+        type: string
+        generator:
+          kind: weighted_choice
+          values: [visit, signup, checkout, purchase]
+          weights: [0.70, 0.20, 0.08, 0.02]
+      - name: revenue
+        type: float
+        generator:
+          kind: random_float
+          min: 0
+          max: 250
+          precision: 2
+
+  - name: costs
+    rows: 56
+    fields:
+      - name: cost_id
+        type: string
+        generator:
+          kind: sequence
+          prefix: cost_
+          pad: 5
+      - name: cost_date
+        type: date
+        generator:
+          kind: date_offset
+          from: settings.start_date
+          max_days: 13
+      - name: campaign_id
+        type: string
+        generator:
+          kind: reference
+          table: campaigns
+          field: campaign_id
+          strategy: aligned
+      - name: spend
+        type: float
+        generator:
+          kind: random_float
+          min: 20
+          max: 200
+          precision: 2
+      - name: clicks
+        type: int
+        generator:
+          kind: random_int
+          min: 20
+          max: 400
+      - name: impressions
+        type: int
+        generator:
+          kind: random_int
+          min: 100
+          max: 8000
+
+  - name: crm
+    rows_from_table: users
+    primary_key: user_id
+    fields:
+      - name: user_id
+        type: string
+        generator:
+          kind: reference
+          table: users
+          field: user_id
+          strategy: aligned
+      - name: created_at
+        type: date
+        generator:
+          kind: date_offset
+          from: settings.start_date
+          max_days: 7
+      - name: last_seen
+        type: date
+        generator:
+          kind: date_offset
+          from: settings.start_date
+          max_days: 13
+      - name: status
+        type: string
+        generator:
+          kind: choice
+          values: [new, active, churned]
+
+cdc:
+  - table: users
+    enabled: true
+    primary_key: user_id
+    source_timestamp_field: created_at
+    sort_fields: [created_at, user_id]
+    event_timestamp_field: cdc_event_ts
+    operation_field: cdc_op
+    allow_update: true
+    allow_delete: true
+    delete_strategy: condition
+    update_when:
+      field: country
+      in_values: [BR, MX, CO]
+    delete_when:
+      field: country
+      equals: CO
+    allow_reinsert_after_delete: false
+    enforce_insert_first: true
+    enforce_terminal_delete: true
+
+  - table: campaigns
+    enabled: true
+    primary_key: campaign_id
+    source_timestamp_field: created_at
+    sort_fields: [created_at, campaign_id]
+    event_timestamp_field: cdc_event_ts
+    operation_field: cdc_op
+    allow_update: true
+    allow_delete: false
+    delete_strategy: condition
+    update_when:
+      field: channel
+      in_values: [google, meta, tiktok, crm]
+    allow_reinsert_after_delete: false
+    enforce_insert_first: true
+    enforce_terminal_delete: true
+
+  - table: events
+    enabled: true
+    primary_key: user_id
+    source_timestamp_field: event_ts
+    sort_fields: [event_ts, event_id]
+    event_timestamp_field: cdc_event_ts
+    operation_field: cdc_op
+    allow_update: true
+    allow_delete: true
+    delete_strategy: condition
+    update_when:
+      field: stage
+      in_values: [signup, checkout, purchase]
+    delete_when:
+      field: stage
+      equals: purchase
+    allow_reinsert_after_delete: false
+    enforce_insert_first: true
+    enforce_terminal_delete: true
+
+  - table: costs
+    enabled: true
+    primary_key: campaign_id
+    source_timestamp_field: cost_date
+    sort_fields: [cost_date, cost_id]
+    event_timestamp_field: cdc_event_ts
+    operation_field: cdc_op
+    allow_update: true
+    allow_delete: false
+    delete_strategy: condition
+    update_when:
+      field: spend
+      not_equals: 0
+    allow_reinsert_after_delete: false
+    enforce_insert_first: true
+    enforce_terminal_delete: true
+
+  - table: crm
+    enabled: true
+    primary_key: user_id
+    source_timestamp_field: created_at
+    sort_fields: [created_at, user_id]
+    event_timestamp_field: cdc_event_ts
+    operation_field: cdc_op
+    allow_update: true
+    allow_delete: true
+    delete_strategy: condition
+    update_when:
+      field: status
+      in_values: [active, churned]
+    delete_when:
+      field: status
+      equals: churned
+    allow_reinsert_after_delete: false
+    enforce_insert_first: true
+    enforce_terminal_delete: true
