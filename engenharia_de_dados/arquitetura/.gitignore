@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+
+# Dados gerados
+data/generated/
+data/*.csv
+data/*.jsonl
+
+# Ambiente
+.env
+
+# Airflow runtime
+logs/
+plugins/
+
+# HTML gerado
+*.html

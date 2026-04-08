@@ -1,0 +1,634 @@
+# Nome do projeto Docker da sessão 10 (cenário completo).
+name: mentoria-sessao-10-end-to-end
+
+services:
+  airflow-postgres:
+    # Banco de metadados do Airflow no cenário final.
+    image: postgres:16
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-airflow-postgres
+    # Credenciais de laboratório para Airflow.
+    environment:
+      # Usuário do banco do Airflow.
+      POSTGRES_USER: airflow
+      # Senha do banco do Airflow.
+      POSTGRES_PASSWORD: airflow
+      # Nome do banco do Airflow.
+      POSTGRES_DB: airflow
+    # Persistência do metadado do Airflow.
+    volumes:
+      # Volume dedicado ao banco do Airflow.
+      - s10-airflow-postgres:/var/lib/postgresql/data
+    # Limite de CPU do banco.
+    cpus: "0.75"
+    # Limite de memória do banco.
+    mem_limit: 900m
+    # Reserva mínima do banco.
+    mem_reservation: 350m
+
+  airflow-redis:
+    # Broker do Celery para Airflow distribuído.
+    image: redis:7.2-bookworm
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-airflow-redis
+    # Exposição interna para serviços Airflow.
+    expose:
+      # Porta padrão do Redis.
+      - "6379"
+    # Limite de CPU do broker.
+    cpus: "0.50"
+    # Limite de memória do broker.
+    mem_limit: 400m
+    # Reserva mínima do broker.
+    mem_reservation: 150m
+
+  airflow-init:
+    # Serviço de bootstrap do Airflow 3.1.x.
+    image: apache/airflow:3.1.7
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-airflow-init
+    # Executa em bash para script de migração.
+    entrypoint: /bin/bash
+    # Comando de bootstrap do banco e usuário.
+    command:
+      - -c
+      - |
+        airflow db migrate && \
+        airflow users create \
+          --username airflow \
+          --firstname Data \
+          --lastname Mentor \
+          --role Admin \
+          --email airflow@example.local \
+          --password airflow
+    # Variáveis essenciais do Airflow.
+    environment:
+      # Executor distribuído no cenário final.
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      # Conexão do banco de metadados.
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres/airflow
+      # Broker Redis do Celery.
+      AIRFLOW__CELERY__BROKER_URL: redis://:@airflow-redis:6379/0
+      # Backend de resultado no PostgreSQL.
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow-postgres/airflow
+      # Sem DAGs de exemplo.
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    # Monta DAGs e logs para observabilidade do cenário.
+    volumes:
+      # DAGs do laboratório E2E.
+      - ./airflow/dags:/opt/airflow/dags
+      # Logs do Airflow E2E.
+      - ./airflow/logs:/opt/airflow/logs
+    # Executa como root apenas no bootstrap.
+    user: "0:0"
+    # Dependências mínimas para bootstrap.
+    depends_on:
+      # Banco do Airflow deve estar disponível.
+      - airflow-postgres
+      # Redis do Airflow deve estar disponível.
+      - airflow-redis
+
+  airflow-apiserver:
+    # API/UI principal do Airflow 3.1.x.
+    image: apache/airflow:3.1.7
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-airflow-apiserver
+    # Comando da API server.
+    command: api-server
+    # Variáveis essenciais do Airflow.
+    environment:
+      # Executor distribuído no cenário final.
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      # Conexão do banco de metadados.
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres/airflow
+      # Broker Redis do Celery.
+      AIRFLOW__CELERY__BROKER_URL: redis://:@airflow-redis:6379/0
+      # Backend de resultado no PostgreSQL.
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow-postgres/airflow
+      # URL de execução interna da API.
+      AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-apiserver:8080/execution/
+      # Sem DAGs de exemplo.
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    # Publica UI do Airflow no host.
+    ports:
+      # Porta web do Airflow.
+      - "8080:8080"
+    # Monta DAGs e logs.
+    volumes:
+      # DAGs do laboratório E2E.
+      - ./airflow/dags:/opt/airflow/dags
+      # Logs do Airflow E2E.
+      - ./airflow/logs:/opt/airflow/logs
+    # Aguarda bootstrap concluir.
+    depends_on:
+      # Serviço de bootstrap do Airflow.
+      - airflow-init
+    # Limite de CPU da API.
+    cpus: "1.50"
+    # Limite de memória da API.
+    mem_limit: 1500m
+    # Reserva mínima da API.
+    mem_reservation: 600m
+
+  airflow-scheduler:
+    # Scheduler do Airflow no cenário E2E.
+    image: apache/airflow:3.1.7
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-airflow-scheduler
+    # Comando do scheduler.
+    command: scheduler
+    # Variáveis essenciais do scheduler.
+    environment:
+      # Executor distribuído no cenário final.
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      # Conexão do banco de metadados.
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres/airflow
+      # Broker Redis do Celery.
+      AIRFLOW__CELERY__BROKER_URL: redis://:@airflow-redis:6379/0
+      # Backend de resultado no PostgreSQL.
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow-postgres/airflow
+      # URL de execução interna da API.
+      AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-apiserver:8080/execution/
+      # Sem DAGs de exemplo.
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    # Monta DAGs e logs.
+    volumes:
+      # DAGs do laboratório E2E.
+      - ./airflow/dags:/opt/airflow/dags
+      # Logs do Airflow E2E.
+      - ./airflow/logs:/opt/airflow/logs
+    # Aguarda bootstrap concluir.
+    depends_on:
+      # Serviço de bootstrap do Airflow.
+      - airflow-init
+    # Limite de CPU do scheduler.
+    cpus: "1.50"
+    # Limite de memória do scheduler.
+    mem_limit: 1600m
+    # Reserva mínima do scheduler.
+    mem_reservation: 700m
+
+  airflow-worker:
+    # Worker Celery para execução de tarefas.
+    image: apache/airflow:3.1.7
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-airflow-worker
+    # Comando do worker Celery.
+    command: celery worker
+    # Variáveis essenciais do worker.
+    environment:
+      # Executor distribuído no cenário final.
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      # Conexão do banco de metadados.
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres/airflow
+      # Broker Redis do Celery.
+      AIRFLOW__CELERY__BROKER_URL: redis://:@airflow-redis:6379/0
+      # Backend de resultado no PostgreSQL.
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow-postgres/airflow
+      # URL de execução interna da API.
+      AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-apiserver:8080/execution/
+      # Sem DAGs de exemplo.
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      # Melhora comportamento de shutdown do Celery.
+      DUMB_INIT_SETSID: "0"
+    # Monta DAGs e logs.
+    volumes:
+      # DAGs do laboratório E2E.
+      - ./airflow/dags:/opt/airflow/dags
+      # Logs do Airflow E2E.
+      - ./airflow/logs:/opt/airflow/logs
+    # Aguarda API e bootstrap.
+    depends_on:
+      # API do Airflow deve estar ativa.
+      - airflow-apiserver
+      # Serviço de bootstrap do Airflow.
+      - airflow-init
+    # Limite de CPU do worker.
+    cpus: "2.00"
+    # Limite de memória do worker.
+    mem_limit: 2g
+    # Reserva mínima do worker.
+    mem_reservation: 900m
+
+  minio:
+    # Object storage do lakehouse do cenário E2E.
+    image: minio/minio:RELEASE.2025-02-03T21-03-04Z
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-minio
+    # Comando de execução do MinIO.
+    command: server /data --console-address ":9001"
+    # Credenciais de laboratório.
+    environment:
+      # Usuário administrativo do MinIO.
+      MINIO_ROOT_USER: minioadmin
+      # Senha administrativa do MinIO.
+      MINIO_ROOT_PASSWORD: minioadmin
+    # Publica API e console.
+    ports:
+      # Porta API S3.
+      - "9000:9000"
+      # Porta do console web.
+      - "9001:9001"
+    # Persistência de objetos do data lake.
+    volumes:
+      # Volume dedicado ao MinIO.
+      - s10-minio-data:/data
+    # Limite de CPU do MinIO.
+    cpus: "1.00"
+    # Limite de memória do MinIO.
+    mem_limit: 1200m
+    # Reserva mínima do MinIO.
+    mem_reservation: 400m
+
+  metastore-db:
+    # Banco relacional do Hive Metastore.
+    image: postgres:16
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-metastore-db
+    # Credenciais do banco do metastore.
+    environment:
+      # Usuário do metastore.
+      POSTGRES_USER: hive
+      # Senha do metastore.
+      POSTGRES_PASSWORD: hive
+      # Banco do metastore.
+      POSTGRES_DB: metastore
+    # Persistência dos metadados Hive.
+    volumes:
+      # Volume dedicado ao banco do metastore.
+      - s10-metastore-db:/var/lib/postgresql/data
+    # Limite de CPU do banco.
+    cpus: "0.75"
+    # Limite de memória do banco.
+    mem_limit: 900m
+    # Reserva mínima do banco.
+    mem_reservation: 350m
+
+  hive-metastore:
+    # Serviço de metadados de tabelas externas.
+    image: apache/hive:4.0.0
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-hive-metastore
+    # Inicializa schema e sobe serviço thrift do metastore.
+    command: >
+      /bin/bash -c
+      "schematool -dbType postgres -initSchema || true;
+       hive --service metastore"
+    # Configuração mínima do metastore.
+    environment:
+      # Tipo de serviço desejado.
+      SERVICE_NAME: metastore
+      # Driver de banco utilizado.
+      DB_DRIVER: postgres
+      # Connection string e credenciais do metastore.
+      SERVICE_OPTS: -Djavax.jdo.option.ConnectionURL=jdbc:postgresql://metastore-db:5432/metastore -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver -Djavax.jdo.option.ConnectionUserName=hive -Djavax.jdo.option.ConnectionPassword=hive
+    # Publica porta thrift para Trino.
+    ports:
+      # Porta do metastore.
+      - "9083:9083"
+    # Dependência do banco do metastore.
+    depends_on:
+      # Banco do metastore precisa estar ativo.
+      - metastore-db
+    # Limite de CPU do metastore.
+    cpus: "1.00"
+    # Limite de memória do metastore.
+    mem_limit: 1600m
+    # Reserva mínima do metastore.
+    mem_reservation: 700m
+
+  trino:
+    # Engine SQL para consulta do lakehouse.
+    image: trinodb/trino:479
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-trino
+    # Publica UI/endpoint SQL em porta dedicada.
+    ports:
+      # Porta local 8090 para evitar conflito com Airflow.
+      - "8090:8080"
+    # Monta catálogo Hive configurado para MinIO.
+    volumes:
+      # Configuração do catálogo Hive desta sessão.
+      - ./trino/catalog/hive.properties:/etc/trino/catalog/hive.properties
+    # Dependência de metastore e storage.
+    depends_on:
+      # Metastore deve estar ativo.
+      - hive-metastore
+      # MinIO deve estar ativo.
+      - minio
+    # Limite de CPU do Trino.
+    cpus: "2.00"
+    # Limite de memória do Trino.
+    mem_limit: 3g
+    # Reserva mínima do Trino.
+    mem_reservation: 1200m
+
+  spark-master:
+    # Master Spark para processamento distribuído no cenário E2E.
+    image: bitnami/spark:3.5
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-spark-master
+    # Configuração do papel master.
+    environment:
+      # Papel master do cluster.
+      SPARK_MODE: master
+    # Publica UI e endpoint do master.
+    ports:
+      # UI do Spark master.
+      - "8086:8080"
+      # Endpoint de cluster do Spark.
+      - "7077:7077"
+    # Limite de CPU do master.
+    cpus: "1.50"
+    # Limite de memória do master.
+    mem_limit: 2g
+    # Reserva mínima do master.
+    mem_reservation: 700m
+
+  spark-worker:
+    # Worker Spark para executar jobs distribuídos.
+    image: bitnami/spark:3.5
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-spark-worker
+    # Configuração do papel worker.
+    environment:
+      # Papel worker do cluster.
+      SPARK_MODE: worker
+      # URL do master para registro do worker.
+      SPARK_MASTER_URL: spark://spark-master:7077
+      # Memória do worker em laboratório.
+      SPARK_WORKER_MEMORY: 2G
+      # Quantidade de cores do worker.
+      SPARK_WORKER_CORES: "2"
+    # Publica UI do worker.
+    ports:
+      # UI do Spark worker.
+      - "8087:8081"
+    # Worker depende do master ativo.
+    depends_on:
+      # Dependência do serviço master.
+      - spark-master
+    # Limite de CPU do worker.
+    cpus: "2.00"
+    # Limite de memória do worker.
+    mem_limit: 2500m
+    # Reserva mínima do worker.
+    mem_reservation: 1g
+
+  mongodb:
+    # Banco NoSQL de exemplo para dados de produto/campanha.
+    image: mongo:7
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-mongodb
+    # Publica porta padrão do Mongo.
+    ports:
+      # Porta local do MongoDB.
+      - "27017:27017"
+    # Persistência dos dados NoSQL.
+    volumes:
+      # Volume dedicado ao MongoDB do cenário final.
+      - s10-mongo-data:/data/db
+    # Limite de CPU do MongoDB.
+    cpus: "1.00"
+    # Limite de memória do MongoDB.
+    mem_limit: 1200m
+    # Reserva mínima do MongoDB.
+    mem_reservation: 400m
+
+  openmetadata-postgresql:
+    # Banco do OpenMetadata no cenário completo.
+    image: docker.getcollate.io/openmetadata/postgresql:1.12.0
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-openmetadata-postgresql
+    # Credenciais do banco do OpenMetadata.
+    environment:
+      # Usuário administrativo do banco.
+      POSTGRES_USER: postgres
+      # Senha administrativa do banco.
+      POSTGRES_PASSWORD: password
+    # Persistência do banco do OpenMetadata.
+    volumes:
+      # Volume dedicado ao banco do OpenMetadata.
+      - s10-openmetadata-db:/var/lib/postgresql/data
+    # Limite de CPU do banco.
+    cpus: "1.00"
+    # Limite de memória do banco.
+    mem_limit: 1300m
+    # Reserva mínima do banco.
+    mem_reservation: 500m
+
+  openmetadata-elasticsearch:
+    # Busca/indexação para governança de metadados.
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.3.0
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-openmetadata-elasticsearch
+    # Configuração mínima de execução local.
+    environment:
+      # Modo single-node para laboratório.
+      discovery.type: single-node
+      # Heap limitada para evitar estouro de memória.
+      ES_JAVA_OPTS: -Xms1g -Xmx1g
+      # Segurança desativada apenas no ambiente de mentoria.
+      xpack.security.enabled: "false"
+    # Publica endpoint de consulta do Elasticsearch.
+    ports:
+      # Porta HTTP do Elasticsearch.
+      - "9200:9200"
+    # Persistência de índices.
+    volumes:
+      # Volume dedicado para índices.
+      - s10-openmetadata-es:/usr/share/elasticsearch/data
+    # Limite de CPU do Elasticsearch.
+    cpus: "1.50"
+    # Limite de memória do Elasticsearch.
+    mem_limit: 2g
+    # Reserva mínima do Elasticsearch.
+    mem_reservation: 900m
+
+  openmetadata-server:
+    # Serviço de governança e catálogo de dados.
+    image: docker.getcollate.io/openmetadata/server:1.12.0
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-openmetadata-server
+    # Variáveis essenciais para bootstrap local.
+    environment:
+      # Nome lógico do cluster de metadados.
+      OPENMETADATA_CLUSTER_NAME: openmetadata
+      # Porta da API/UI.
+      SERVER_PORT: 8585
+      # Porta administrativa interna.
+      SERVER_ADMIN_PORT: 8586
+      # Driver JDBC do banco.
+      DB_DRIVER_CLASS: org.postgresql.Driver
+      # Esquema de banco utilizado.
+      DB_SCHEME: postgresql
+      # Host do banco do OpenMetadata.
+      DB_HOST: openmetadata-postgresql
+      # Porta do banco do OpenMetadata.
+      DB_PORT: 5432
+      # Usuário do banco do OpenMetadata.
+      DB_USER: openmetadata_user
+      # Senha do banco do OpenMetadata.
+      DB_USER_PASSWORD: openmetadata_password
+      # Nome do banco principal da aplicação.
+      OM_DATABASE: openmetadata_db
+      # Host do Elasticsearch interno.
+      ELASTICSEARCH_HOST: openmetadata-elasticsearch
+      # Porta do Elasticsearch interno.
+      ELASTICSEARCH_PORT: 9200
+      # Endpoint de ingestão para pipelines de metadados.
+      PIPELINE_SERVICE_CLIENT_ENDPOINT: http://openmetadata-ingestion:8080
+      # Endpoint API para callbacks internos.
+      SERVER_HOST_API_URL: http://openmetadata-server:8585/api
+      # Gerenciamento de segredos em banco local.
+      SECRET_MANAGER: db
+      # Autenticação básica no laboratório.
+      AUTHENTICATION_PROVIDER: basic
+      # Chave Fernet fixa para ambiente local.
+      FERNET_KEY: jJ/9sz0g0OHxsfxOoSfdFdmk3ysNmPRnH3TUAbz3IHA=
+    # Publica UI/API e porta administrativa.
+    ports:
+      # UI/API do OpenMetadata.
+      - "8585:8585"
+      # Porta administrativa do OpenMetadata.
+      - "8586:8586"
+    # Dependências de banco e busca.
+    depends_on:
+      # Banco do OpenMetadata.
+      - openmetadata-postgresql
+      # Elasticsearch do OpenMetadata.
+      - openmetadata-elasticsearch
+    # Limite de CPU do servidor.
+    cpus: "1.50"
+    # Limite de memória do servidor.
+    mem_limit: 2200m
+    # Reserva mínima do servidor.
+    mem_reservation: 900m
+
+  openmetadata-ingestion:
+    # Serviço de ingestão/lineage do OpenMetadata.
+    image: docker.getcollate.io/openmetadata/ingestion:1.12.0
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-openmetadata-ingestion
+    # Variáveis essenciais do serviço de ingestão.
+    environment:
+      # Executor local para simplificar setup.
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      # Backend de autenticação para API local.
+      AIRFLOW__API__AUTH_BACKENDS: airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session
+      # Host do banco de suporte da ingestão.
+      DB_HOST: openmetadata-postgresql
+      # Porta do banco de suporte.
+      DB_PORT: 5432
+      # Nome do banco de suporte ao Airflow interno.
+      AIRFLOW_DB: airflow_db
+      # Usuário do banco de suporte.
+      DB_USER: airflow_user
+      # Senha do banco de suporte.
+      DB_PASSWORD: airflow_pass
+      # Driver/dialeto de banco.
+      DB_SCHEME: postgresql+psycopg2
+    # Publica UI Airflow interno em porta alternativa.
+    ports:
+      # Porta alternativa para não colidir com Airflow principal.
+      - "8088:8080"
+    # Ingestão depende do servidor OpenMetadata ativo.
+    depends_on:
+      # Servidor OpenMetadata deve estar ativo.
+      - openmetadata-server
+    # Limite de CPU da ingestão.
+    cpus: "1.00"
+    # Limite de memória da ingestão.
+    mem_limit: 1500m
+    # Reserva mínima da ingestão.
+    mem_reservation: 600m
+
+  prometheus:
+    # Coletor de métricas do cenário completo.
+    image: prom/prometheus:v3.4.2
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-prometheus
+    # Configuração de inicialização do Prometheus.
+    command:
+      # Arquivo de configuração de coleta.
+      - --config.file=/etc/prometheus/prometheus.yml
+      # Caminho de armazenamento local das séries.
+      - --storage.tsdb.path=/prometheus
+    # Publica endpoint de métricas.
+    ports:
+      # Porta do Prometheus.
+      - "9090:9090"
+    # Monta configuração local da sessão.
+    volumes:
+      # Configuração de scraping do cenário E2E.
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    # Limite de CPU do Prometheus.
+    cpus: "1.00"
+    # Limite de memória do Prometheus.
+    mem_limit: 1200m
+    # Reserva mínima do Prometheus.
+    mem_reservation: 400m
+
+  loki:
+    # Armazenamento centralizado de logs do cenário.
+    image: grafana/loki:3.2.1
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-loki
+    # Configuração de inicialização do Loki.
+    command: -config.file=/etc/loki/loki-config.yml
+    # Publica endpoint do Loki.
+    ports:
+      # Porta do Loki.
+      - "3100:3100"
+    # Monta configuração local do Loki.
+    volumes:
+      # Arquivo de configuração do Loki.
+      - ./observability/loki-config.yml:/etc/loki/loki-config.yml
+    # Limite de CPU do Loki.
+    cpus: "0.75"
+    # Limite de memória do Loki.
+    mem_limit: 900m
+    # Reserva mínima do Loki.
+    mem_reservation: 300m
+
+  grafana:
+    # Dashboard único para métricas e logs do E2E.
+    image: grafana/grafana-oss:11.1.4
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s10-grafana
+    # Credenciais de laboratório.
+    environment:
+      # Usuário admin inicial.
+      GF_SECURITY_ADMIN_USER: admin
+      # Senha admin inicial.
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    # Publica UI do Grafana.
+    ports:
+      # Porta da interface do Grafana.
+      - "3000:3000"
+    # Dependências das fontes de dados.
+    depends_on:
+      # Fonte de métricas do laboratório.
+      - prometheus
+      # Fonte de logs do laboratório.
+      - loki
+    # Limite de CPU do Grafana.
+    cpus: "0.75"
+    # Limite de memória do Grafana.
+    mem_limit: 700m
+    # Reserva mínima do Grafana.
+    mem_reservation: 250m
+
+volumes:
+  # Volume de banco do Airflow.
+  s10-airflow-postgres:
+  # Volume de objetos do MinIO.
+  s10-minio-data:
+  # Volume de banco do metastore Hive.
+  s10-metastore-db:
+  # Volume NoSQL do MongoDB.
+  s10-mongo-data:
+  # Volume de banco do OpenMetadata.
+  s10-openmetadata-db:
+  # Volume de índices do Elasticsearch.
+  s10-openmetadata-es:

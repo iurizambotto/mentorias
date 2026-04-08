@@ -1,0 +1,25 @@
+# Configuração do Promtail para enviar logs de containers ao Loki.
+server:
+  # Porta HTTP de saúde do Promtail.
+  http_listen_port: 9080
+  # Desativa porta gRPC para simplificar o laboratório.
+  grpc_listen_port: 0
+
+positions:
+  # Arquivo local de controle de offsets de leitura.
+  filename: /tmp/positions.yaml
+
+clients:
+  - # Endpoint de ingestão do Loki da própria sessão.
+    url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: docker
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          # Origem dos logs para facilitar filtros no Grafana.
+          job: docker
+          # Caminho dos arquivos de log JSON dos containers.
+          __path__: /var/lib/docker/containers/*/*-json.log
