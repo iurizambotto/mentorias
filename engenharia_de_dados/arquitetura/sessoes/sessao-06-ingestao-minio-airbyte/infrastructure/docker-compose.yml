@@ -1,0 +1,84 @@
+# Nome do projeto Docker da sessão 06.
+name: mentoria-sessao-06-minio-airbyte
+
+services:
+  minio:
+    # Storage S3-compatible usado como destino de ingestão.
+    image: minio/minio:RELEASE.2025-02-03T21-03-04Z
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s06-minio
+    # Comando para subir API e console do MinIO.
+    command: server /data --console-address ":9001"
+    # Credenciais do laboratório.
+    environment:
+      # Usuário administrativo do MinIO.
+      MINIO_ROOT_USER: minioadmin
+      # Senha administrativa do MinIO.
+      MINIO_ROOT_PASSWORD: minioadmin
+    # Publica API e console web.
+    ports:
+      # Porta S3 API.
+      - "9100:9000"
+      # Porta do console MinIO.
+      - "9101:9001"
+    # Persistência dos dados da sessão.
+    volumes:
+      # Volume nomeado para objetos do bucket.
+      - s06-minio-data:/data
+    # Limite de CPU para previsibilidade de recurso.
+    cpus: "1.00"
+    # Limite de memória do MinIO.
+    mem_limit: 1g
+    # Reserva mínima de memória do MinIO.
+    mem_reservation: 350m
+
+  minio-init:
+    # Cliente para criar buckets usados na ingestão.
+    image: minio/mc:RELEASE.2025-02-08T19-14-21Z
+    # Nome explícito para diagnóstico do bootstrap.
+    container_name: mentoria-s06-minio-init
+    # Aguarda MinIO antes de criar buckets.
+    depends_on:
+      # Dependência do serviço de storage.
+      - minio
+    # Cria bucket dedicado da sessão de ingestão.
+    entrypoint: >
+      /bin/sh -c
+      "mc alias set local http://minio:9000 minioadmin minioadmin &&
+       mc mb --ignore-existing local/mentoria-ingestao"
+    # Serviço de bootstrap one-shot.
+    restart: "no"
+
+  destination-postgres:
+    # Banco de apoio para testes de conexão no Airbyte.
+    image: postgres:16
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s06-destination-postgres
+    # Credenciais de laboratório.
+    environment:
+      # Usuário de destino para exemplos.
+      POSTGRES_USER: airbyte
+      # Senha de destino para exemplos.
+      POSTGRES_PASSWORD: airbyte
+      # Banco de destino para ingestão.
+      POSTGRES_DB: marketing_raw
+    # Publica porta para conexão de conectores.
+    ports:
+      # Porta PostgreSQL mapeada localmente.
+      - "55435:5432"
+    # Persistência dos dados do destino.
+    volumes:
+      # Volume nomeado da sessão 06.
+      - s06-postgres-data:/var/lib/postgresql/data
+    # Limite de CPU do banco.
+    cpus: "0.75"
+    # Limite de memória do banco.
+    mem_limit: 900m
+    # Reserva mínima de memória do banco.
+    mem_reservation: 300m
+
+volumes:
+  # Volume de dados do MinIO na sessão 06.
+  s06-minio-data:
+  # Volume de dados do PostgreSQL de destino.
+  s06-postgres-data:

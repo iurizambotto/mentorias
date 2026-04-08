@@ -1,0 +1,133 @@
+# Nome do projeto Docker da sessão 05.
+name: mentoria-sessao-05-infraestrutura
+
+services:
+  prometheus:
+    # Coleta métricas de infraestrutura e serviços-alvo.
+    image: prom/prometheus:v3.4.2
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s05-prometheus
+    # Parâmetros de execução apontando para config local.
+    command:
+      # Arquivo de configuração principal.
+      - --config.file=/etc/prometheus/prometheus.yml
+      # Caminho de armazenamento de séries temporais.
+      - --storage.tsdb.path=/prometheus
+      # Janela de retenção curta para laboratório.
+      - --storage.tsdb.retention.time=3d
+    # Publica a interface web de métricas.
+    ports:
+      # Porta padrão do Prometheus.
+      - "9090:9090"
+    # Monta configuração da sessão.
+    volumes:
+      # Configuração de scraping da sessão.
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    # Limite de CPU para conter uso em laptops.
+    cpus: "1.00"
+    # Limite de memória do Prometheus.
+    mem_limit: 1200m
+    # Reserva mínima para estabilidade.
+    mem_reservation: 400m
+
+  loki:
+    # Backend de logs para centralização da sessão.
+    image: grafana/loki:3.2.1
+    # Nome explícito para diagnóstico.
+    container_name: mentoria-s05-loki
+    # Parâmetro de inicialização do Loki.
+    command: -config.file=/etc/loki/loki-config.yml
+    # Publica endpoint de ingestão/consulta de logs.
+    ports:
+      # Porta padrão do Loki.
+      - "3100:3100"
+    # Monta arquivo de configuração do Loki.
+    volumes:
+      # Configuração local da sessão.
+      - ./observability/loki-config.yml:/etc/loki/loki-config.yml
+    # Limite de CPU do Loki.
+    cpus: "0.75"
+    # Limite de memória do Loki.
+    mem_limit: 900m
+    # Reserva mínima do Loki.
+    mem_reservation: 300m
+
+  promtail:
+    # Coletor de logs de containers para envio ao Loki.
+    image: grafana/promtail:3.2.1
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s05-promtail
+    # Parâmetro de configuração do Promtail.
+    command: -config.file=/etc/promtail/promtail-config.yml
+    # Montagens necessárias para leitura de logs docker.
+    volumes:
+      # Configuração do coletor.
+      - ./observability/promtail-config.yml:/etc/promtail/promtail-config.yml
+      # Acesso aos logs de containers no host.
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      # Acesso ao socket Docker para descoberta de serviços.
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    # Dependência do Loki antes de iniciar coleta.
+    depends_on:
+      # Garante endpoint de logs disponível.
+      - loki
+    # Limite de CPU do coletor.
+    cpus: "0.50"
+    # Limite de memória do coletor.
+    mem_limit: 500m
+    # Reserva mínima do coletor.
+    mem_reservation: 200m
+
+  grafana:
+    # Dashboard para métricas e logs da mentoria.
+    image: grafana/grafana-oss:11.1.4
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s05-grafana
+    # Publica interface web do Grafana.
+    ports:
+      # Porta padrão do Grafana.
+      - "3000:3000"
+    # Credenciais iniciais de laboratório.
+    environment:
+      # Usuário admin inicial do painel.
+      GF_SECURITY_ADMIN_USER: admin
+      # Senha admin inicial do painel.
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    # Dependências para navegação completa em aula.
+    depends_on:
+      # Prometheus como fonte de métricas.
+      - prometheus
+      # Loki como fonte de logs.
+      - loki
+    # Limite de CPU do Grafana.
+    cpus: "0.75"
+    # Limite de memória do Grafana.
+    mem_limit: 700m
+    # Reserva mínima do Grafana.
+    mem_reservation: 250m
+
+  cadvisor:
+    # Exportador de métricas de containers do Docker.
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s05-cadvisor
+    # Publica endpoint de métricas do cAdvisor.
+    ports:
+      # Porta padrão do cAdvisor.
+      - "8085:8080"
+    # Montagens necessárias para coleta de métricas do host.
+    volumes:
+      # Monta raiz do host em modo leitura.
+      - /:/rootfs:ro
+      # Monta runtime do Docker para metadados.
+      - /var/run:/var/run:ro
+      # Monta sysfs para métricas de kernel.
+      - /sys:/sys:ro
+      # Monta diretório de dados do Docker.
+      - /var/lib/docker/:/var/lib/docker:ro
+    # Limite de CPU do cAdvisor.
+    cpus: "0.50"
+    # Limite de memória do cAdvisor.
+    mem_limit: 500m
+    # Reserva mínima do cAdvisor.
+    mem_reservation: 200m

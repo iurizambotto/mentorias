@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Hive Metastore configuration for sessao-04 lab.
+  Points to PostgreSQL container and MinIO S3-compatible storage.
+  DO NOT use in production.
+-->
+<configuration>
+
+  <!-- PostgreSQL connection for Hive Metastore -->
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:postgresql://metastore-db:5432/metastore</value>
+  </property>
+
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>org.postgresql.Driver</value>
+  </property>
+
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>hive</value>
+  </property>
+
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>hive</value>
+  </property>
+
+  <!-- Metastore URI for clients (Trino) -->
+  <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://hive-metastore:9083</value>
+  </property>
+
+  <!--
+    Warehouse dir: local path only used when no explicit location is set.
+    The actual data for external tables is set via external_location in Trino.
+  -->
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>file:///tmp/hive/warehouse</value>
+  </property>
+
+  <!--
+    S3A filesystem config: required so the Hive Metastore can resolve
+    s3://  (mapped to s3a://) paths when registering external tables.
+    hadoop-aws and aws-java-sdk-bundle are loaded via HIVE_AUX_JARS_PATH.
+  -->
+  <property>
+    <name>fs.s3a.endpoint</name>
+    <value>http://minio:9000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.access.key</name>
+    <value>minioadmin</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.secret.key</name>
+    <value>minioadmin</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.path.style.access</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.impl</name>
+    <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.ssl.enabled</name>
+    <value>false</value>
+  </property>
+
+  <!-- Map s3:// scheme to S3AFileSystem as well -->
+  <property>
+    <name>fs.s3.impl</name>
+    <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+  </property>
+
+  <!-- Schema verification disabled to avoid startup failures -->
+  <property>
+    <name>hive.metastore.schema.verification</name>
+    <value>false</value>
+  </property>
+
+  <!--
+    Disable StorageBasedAuthorizationProvider.
+    By default, Hive 4 tries to create and check the S3 path when a schema
+    is created (CREATE SCHEMA WITH location = 's3://...'). Because the
+    metastore image lacks hadoop-aws, this check fails. Disabling storage-
+    based authorization lets Trino manage the actual S3 paths independently.
+  -->
+  <property>
+    <name>hive.security.authorization.enabled</name>
+    <value>false</value>
+  </property>
+
+  <property>
+    <name>hive.metastore.event.db.notification.api.auth</name>
+    <value>false</value>
+  </property>
+
+</configuration>

@@ -1,0 +1,17 @@
+# Configuração global do Prometheus no cenário E2E.
+global:
+  # Intervalo padrão de coleta.
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ["prometheus:9090"]
+
+  - job_name: airflow
+    static_configs:
+      - targets: ["airflow-apiserver:8080"]
+
+  - job_name: trino
+    static_configs:
+      - targets: ["trino:8080"]

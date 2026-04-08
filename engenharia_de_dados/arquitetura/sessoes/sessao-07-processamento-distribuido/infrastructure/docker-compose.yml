@@ -1,0 +1,61 @@
+# Nome do projeto Docker da sessão 07.
+name: mentoria-sessao-07-processamento-distribuido
+
+services:
+  spark-master:
+    # Nó master do cluster Spark local.
+    image: bitnami/spark:3.5
+    # Nome explícito para troubleshooting.
+    container_name: mentoria-s07-spark-master
+    # Variáveis de ambiente do papel do nó.
+    environment:
+      # Define o papel como master.
+      SPARK_MODE: master
+      # Habilita autenticação simplificada no lab.
+      SPARK_RPC_AUTHENTICATION_ENABLED: "no"
+      # Desativa criptografia para laboratório local.
+      SPARK_RPC_ENCRYPTION_ENABLED: "no"
+      # Desativa SSL para simplificar setup local.
+      SPARK_SSL_ENABLED: "no"
+    # Exposição da UI e endpoint do master.
+    ports:
+      # UI do Spark Master.
+      - "8086:8080"
+      # Endpoint do cluster Spark.
+      - "7077:7077"
+    # Limite de CPU para estabilidade em laptop.
+    cpus: "1.50"
+    # Limite de memória do nó master.
+    mem_limit: 2g
+    # Reserva mínima do nó master.
+    mem_reservation: 700m
+
+  spark-worker-1:
+    # Nó worker para execução distribuída.
+    image: bitnami/spark:3.5
+    # Nome explícito para diagnóstico.
+    container_name: mentoria-s07-spark-worker-1
+    # Variáveis de ambiente do worker.
+    environment:
+      # Define o papel como worker.
+      SPARK_MODE: worker
+      # URL de conexão com o master.
+      SPARK_MASTER_URL: spark://spark-master:7077
+      # Memória do worker para jobs de exemplo.
+      SPARK_WORKER_MEMORY: 2G
+      # Número de cores por worker.
+      SPARK_WORKER_CORES: "2"
+    # Exposição da UI do worker.
+    ports:
+      # UI do worker 1.
+      - "8087:8081"
+    # Aguarda o master para registro do worker.
+    depends_on:
+      # Dependência do serviço master.
+      - spark-master
+    # Limite de CPU do worker.
+    cpus: "2.00"
+    # Limite de memória do worker.
+    mem_limit: 2500m
+    # Reserva mínima de memória do worker.
+    mem_reservation: 1g
