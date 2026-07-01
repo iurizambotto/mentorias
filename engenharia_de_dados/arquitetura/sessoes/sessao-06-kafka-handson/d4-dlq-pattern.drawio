@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Padrao DLQ">
+    <mxGraphModel dx="1000" dy="600" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="740" pageHeight="590" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Consumer reads -->
+        <mxCell id="2" value="Consumer lê mensagem da partição" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="245" y="20" width="230" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- Try process -->
+        <mxCell id="3" value="Tenta processar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="120" width="160" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: Success? -->
+        <mxCell id="4" value="Processou&#xa;com sucesso?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="245" y="225" width="230" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Commit offset (success) -->
+        <mxCell id="5" value="Commita offset&#xa;(progresso salvo)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="380" width="165" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: Transient? -->
+        <mxCell id="6" value="Falha&#xa;transiente?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="420" y="375" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Retry -->
+        <mxCell id="7" value="Retry com backoff&#xa;exponencial" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="340" y="510" width="165" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Publish to DLQ -->
+        <mxCell id="8" value="Publica no DLQ&#xa;+ commita offset" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="540" y="510" width="165" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="9" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3" target="4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Decision → Commit (Sim) -->
+        <mxCell id="11" value="Sim" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;fontColor=#82b366;fontStyle=1;fontSize=11;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="4" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Decision → Transient? (Não) -->
+        <mxCell id="12" value="Não" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;fontColor=#b85450;fontStyle=1;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="4" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Transient → Retry (Sim) -->
+        <mxCell id="13" value="Sim" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;fontColor=#d79b00;fontStyle=1;fontSize=11;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Transient → DLQ (Não) -->
+        <mxCell id="14" value="Não (permanente)" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;fontColor=#b85450;fontStyle=1;fontSize=11;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="6" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Retry loops back -->
+        <mxCell id="15" value="nova tentativa" style="edgeStyle=elbowEdgeStyle;html=1;strokeColor=#d79b00;fontColor=#d79b00;dashed=1;fontSize=10;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;elbow=vertical;" edge="1" parent="1" source="7" target="3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="537" />
+              <mxPoint x="200" y="146" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- DLQ note -->
+        <mxCell id="16" value="Regra crítica: commitar o offset imediatamente&#xa;após publicar no DLQ para liberar a partição." style="text;html=1;align=center;fontSize=10;fontColor=#b85450;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="430" y="580" width="295" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- DLQ topic label -->
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Kafka Architecture">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ZONE: Producers -->
+        <mxCell id="3" value="Producers" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="10" y="10" width="210" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Web App&#xa;(eventos de clique / sessao)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="3">
+          <mxGeometry x="15" y="45" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="Mobile App&#xa;(eventos de navegacao)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="3">
+          <mxGeometry x="15" y="110" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="3">
+          <mxGeometry x="15" y="175" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="Debezium&#xa;(CDC Connector)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="3">
+          <mxGeometry x="15" y="250" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="Python Producer&#xa;(pipeline batch)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="3">
+          <mxGeometry x="15" y="315" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="Config: acks=all&#xa;enable.idempotence=True&#xa;(producer idempotente)" style="text;html=1;align=center;fillColor=#f0f0ff;strokeColor=#9999cc;rounded=1;fontSize=9;fontColor=#555555;" vertex="1" parent="3">
+          <mxGeometry x="15" y="385" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ZONE: Apache Kafka Cluster -->
+        <mxCell id="10" value="Apache Kafka Cluster  (KRaft - sem Zookeeper)" style="swimlane;startSize=30;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="240" y="10" width="580" height="680" as="geometry" />
+        </mxCell>
+
+        <!-- Schema Registry (child of Kafka zone) -->
+        <mxCell id="11" value="Schema Registry&#xa;(Avro / JSON Schema)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=10;" vertex="1" parent="10">
+          <mxGeometry x="190" y="42" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Topic: eventos-mkt container -->
+        <mxCell id="12" value="Topic: eventos-mkt  (key: session_id | retencao: 7 dias | cleanup: delete)" style="swimlane;startSize=35;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="10">
+          <mxGeometry x="10" y="115" width="560" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="Particao 0&#xa;offset: 0..N&#xa;Leader: Broker 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="12">
+          <mxGeometry x="10" y="42" width="165" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="Particao 1&#xa;offset: 0..N&#xa;Leader: Broker 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="12">
+          <mxGeometry x="193" y="42" width="165" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="Particao 2&#xa;offset: 0..N&#xa;Leader: Broker 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="12">
+          <mxGeometry x="376" y="42" width="165" height="72" as="geometry" />
+        </mxCell>
+
+        <!-- Topic: cdc-usuarios container -->
+        <mxCell id="16" value="Topic: cdc-usuarios  (key: user_id | cleanup: compact | Debezium CDC)" style="swimlane;startSize=35;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="10">
+          <mxGeometry x="10" y="265" width="560" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="Particao 0&#xa;op: c / u / d&#xa;before + after (JSON)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" vertex="1" parent="16">
+          <mxGeometry x="10" y="43" width="260" height="57" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="Particao 1&#xa;op: c / u / d&#xa;before + after (JSON)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" vertex="1" parent="16">
+          <mxGeometry x="285" y="43" width="260" height="57" as="geometry" />
+        </mxCell>
+
+        <!-- DLQ Topic -->
+        <mxCell id="19" value="Topic: eventos-mkt.dlq  (Dead Letter Queue - mensagens com falha permanente apos retries)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="10">
+          <mxGeometry x="10" y="400" width="560" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Broker info note -->
+        <mxCell id="20" value="Broker | Replication Factor: 3 (prod) | ISR: In-Sync Replicas | acks=all para criticos" style="text;html=1;align=center;fillColor=#fffef0;strokeColor=#d6b656;rounded=1;fontSize=9;fontColor=#888855;" vertex="1" parent="10">
+          <mxGeometry x="10" y="480" width="560" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- __consumer_offsets note -->
+        <mxCell id="53" value="Offsets dos consumer groups gravados no topic interno: __consumer_offsets" style="text;html=1;align=center;fillColor=none;strokeColor=none;fontSize=9;fontColor=#aaaaaa;" vertex="1" parent="10">
+          <mxGeometry x="10" y="532" width="560" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- ZONE: Consumers -->
+        <mxCell id="21" value="Consumers" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="840" y="10" width="230" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="Consumer Group&#xa;(grupo-analise-mkt)&#xa;2 consumers | 3 particoes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="21">
+          <mxGeometry x="15" y="45" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="Kafka Connect&#xa;S3 Sink Connector&#xa;escreve em MinIO / S3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="21">
+          <mxGeometry x="15" y="140" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="Stream Processor&#xa;(Flink / Spark Streaming)&#xa;janelas tumbling / sliding" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="21">
+          <mxGeometry x="15" y="235" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="DLQ Consumer&#xa;(retry + alerta)&#xa;commit manual | backoff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="21">
+          <mxGeometry x="15" y="330" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="Consumer Lag&#xa;lag = end_offset - committed&#xa;alerta se lag crescente" style="text;html=1;align=center;fillColor=#f0f0f0;strokeColor=#999999;rounded=1;fontSize=9;fontColor=#666666;" vertex="1" parent="21">
+          <mxGeometry x="15" y="430" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ZONE: Destinos -->
+        <mxCell id="27" value="Destinos" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="10" width="220" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="MinIO / S3&#xa;Data Lake - Bronze&#xa;formato: Parquet / Iceberg" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="27">
+          <mxGeometry x="15" y="45" width="190" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="Trino / Spark SQL&#xa;camada Silver + Gold&#xa;consultas analiticas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="27">
+          <mxGeometry x="15" y="140" width="190" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="Dashboard&#xa;(Grafana / Metabase)&#xa;metricas em tempo real" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="27">
+          <mxGeometry x="15" y="235" width="190" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="Alertas&#xa;(PagerDuty / Slack)&#xa;erros e anomalias criticas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="27">
+          <mxGeometry x="15" y="330" width="190" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- ZONE: Monitoring -->
+        <mxCell id="32" value="Monitoramento" style="swimlane;startSize=25;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="240" y="712" width="580" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="Prometheus&#xa;JMX Exporter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" vertex="1" parent="32">
+          <mxGeometry x="10" y="32" width="165" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="Grafana&#xa;lag / throughput / latencia" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" vertex="1" parent="32">
+          <mxGeometry x="192" y="32" width="196" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="kafka-ui&#xa;topics / groups / offsets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" vertex="1" parent="32">
+          <mxGeometry x="404" y="32" width="165" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- EDGES -->
+
+        <!-- PostgreSQL -> Debezium (WAL read) -->
+        <mxCell id="36" value="WAL / log" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#82b366;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Producers Zone -> Schema Registry (registra schema) -->
+        <mxCell id="41" value="registra schema" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#9673a6;fontColor=#9673a6;dashed=1;exitX=1;exitY=0.08;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3" target="11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Schema Registry -> Consumers Zone (valida schema) -->
+        <mxCell id="42" value="valida schema" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#9673a6;fontColor=#9673a6;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.08;entryDx=0;entryDy=0;" edge="1" parent="1" source="11" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Web App -> Topic eventos-mkt -->
+        <mxCell id="37" value="produce" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#6c8ebf;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="4" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Mobile App -> Topic eventos-mkt -->
+        <mxCell id="38" value="produce" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#6c8ebf;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Python Producer -> Topic eventos-mkt -->
+        <mxCell id="39" value="produce" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#6c8ebf;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="8" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Debezium -> Topic cdc-usuarios -->
+        <mxCell id="40" value="CDC events" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#82b366;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="7" target="16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Topic eventos-mkt -> Consumer Group -->
+        <mxCell id="43" value="consume P0+P1+P2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#82b366;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="12" target="22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Topic eventos-mkt -> Kafka Connect -->
+        <mxCell id="44" value="consume" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#d79b00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="12" target="23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Topic eventos-mkt -> Stream Processor -->
+        <mxCell id="45" value="consume" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#6c8ebf;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="12" target="24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Topic cdc-usuarios -> Consumer Group -->
+        <mxCell id="46" value="consume" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#82b366;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;" edge="1" parent="1" source="16" target="22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- DLQ Topic -> DLQ Consumer -->
+        <mxCell id="47" value="dead letter" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="19" target="25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Kafka Connect -> MinIO/S3 -->
+        <mxCell id="48" value="Parquet / Iceberg" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#d79b00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="23" target="28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Consumer Group -> Trino -->
+        <mxCell id="49" value="resultados" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#6c8ebf;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="22" target="29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Stream Processor -> Dashboard -->
+        <mxCell id="50" value="metricas RT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#d79b00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="24" target="30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- DLQ Consumer -> Alertas -->
+        <mxCell id="51" value="notifica" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#b85450;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="25" target="31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Kafka Cluster -> Monitoring -->
+        <mxCell id="52" value="Prometheus scrape" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;fontSize=9;strokeColor=#666666;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="10" target="32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

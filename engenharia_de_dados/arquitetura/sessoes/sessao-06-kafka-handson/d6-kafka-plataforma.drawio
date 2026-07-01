@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Kafka na Plataforma de Dados">
+    <mxGraphModel dx="1200" dy="500" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1010" pageHeight="350" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Zone: Fontes -->
+        <mxCell id="2" value="Fontes" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="10" y="10" width="195" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="API REST&#xa;(eventos de clique/sessão)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="2">
+          <mxGeometry x="12" y="45" width="171" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Banco Relacional&#xa;(via Debezium CDC)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="2">
+          <mxGeometry x="12" y="120" width="171" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="Eventos Web / Mobile&#xa;(pipeline Python)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="2">
+          <mxGeometry x="12" y="195" width="171" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Zone: Kafka + Consumer -->
+        <mxCell id="6" value="Kafka + Consumer" style="swimlane;startSize=30;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="225" y="10" width="240" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="Broker KRaft&#xa;(sem Zookeeper)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8dc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="6">
+          <mxGeometry x="15" y="45" width="210" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="Topics + Partições&#xa;(retenção configurável)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8dc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="6">
+          <mxGeometry x="15" y="118" width="210" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="Consumer Group&#xa;(Kafka Connect / Python)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8dc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="6">
+          <mxGeometry x="15" y="191" width="210" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Zone: Armazenamento -->
+        <mxCell id="10" value="Armazenamento (Data Lake)" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="485" y="10" width="245" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="Bronze (raw)&#xa;Parquet / JSON sem transformação" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#c68a00;fontSize=10;" vertex="1" parent="10">
+          <mxGeometry x="15" y="45" width="215" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="Silver (clean)&#xa;dados validados e tipados" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e0e0;strokeColor=#999999;fontSize=10;" vertex="1" parent="10">
+          <mxGeometry x="15" y="118" width="215" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="Gold (agg)&#xa;métricas e agregações" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="10">
+          <mxGeometry x="15" y="191" width="215" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Zone: Consumo Analítico -->
+        <mxCell id="14" value="Consumo Analítico" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="750" y="10" width="240" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="Trino / Spark SQL&#xa;(consultas ad-hoc sobre Silver/Gold)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=10;" vertex="1" parent="14">
+          <mxGeometry x="15" y="45" width="210" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="Airflow (batch)&#xa;(orquestra transformações dbt/Spark)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=10;" vertex="1" parent="14">
+          <mxGeometry x="15" y="120" width="210" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="Grafana / Metabase&#xa;(dashboards de negócio)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=10;" vertex="1" parent="14">
+          <mxGeometry x="15" y="195" width="210" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows between zones -->
+        <mxCell id="18" value="produz eventos&#xa;(streaming)" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;strokeColor=#6c8ebf;fontColor=#1a3c6e;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="persiste&#xa;(Bronze)" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;strokeColor=#d6b656;fontColor=#8a7200;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="Bronze→Silver→Gold&#xa;(dbt / Spark)" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;strokeColor=#82b366;fontColor=#3a7030;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="10" target="14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

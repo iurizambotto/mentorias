@@ -1,0 +1,77 @@
+# Kafka stack para sessao 11 — modo KRaft (sem Zookeeper).
+# Dois listeners: INTERNAL para kafka-ui (dentro do Docker), EXTERNAL para scripts Python no host.
+# Imagem: apache/kafka (imagem oficial Apache), pois bitnami nao publica a tag 3.9.
+#
+# Diferenca da imagem apache/kafka vs bitnami/kafka:
+#   - Sem prefixo KAFKA_CFG_ nas variaveis de ambiente.
+#   - CLUSTER_ID obrigatorio para KRaft.
+#   - CONTROLLER e INTERNAL usam o hostname do container (nao 0.0.0.0).
+#   - So o listener EXTERNAL pode usar 0.0.0.0 (para aceitar conexoes do host).
+name: mentoria-sessao-11-kafka
+
+services:
+  kafka:
+    image: apache/kafka:3.9.0
+    # hostname explici to para que kafka:9093 resolva dentro do proprio container.
+    hostname: kafka
+    container_name: mentoria-s11-kafka
+    ports:
+      # Porta externa para os scripts Python rodando no host.
+      - "9092:9092"
+    environment:
+      # ID unico do no KRaft.
+      KAFKA_NODE_ID: "1"
+      # Papeis do no: broker e controller no mesmo processo (KRaft single-node).
+      KAFKA_PROCESS_ROLES: broker,controller
+      # Quorum de controllers — aponta para si mesmo via hostname.
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      # Listeners: CONTROLLER e INTERNAL usam hostname; EXTERNAL usa 0.0.0.0 para aceitar conexoes do host.
+      KAFKA_LISTENERS: "CONTROLLER://kafka:9093,INTERNAL://kafka:29092,EXTERNAL://0.0.0.0:9092"
+      # Enderecos anunciados: kafka-ui usa INTERNAL, scripts Python usam EXTERNAL.
+      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:29092,EXTERNAL://localhost:9092"
+      # Mapeamento de protocolo por listener.
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT"
+      # Listener dedicado ao controller KRaft.
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      # Listener para comunicacao entre brokers.
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      # Topics criados automaticamente (facilita o lab).
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      # 3 particoes por padrao para demonstrar distribuicao de consumers.
+      KAFKA_NUM_PARTITIONS: "3"
+      # Replicacao 1 pois e ambiente de lab single-broker.
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      # Cluster ID obrigatorio para KRaft na imagem apache/kafka.
+      # Para gerar um novo: docker run --rm apache/kafka:3.9.0 /opt/kafka/bin/kafka-storage.sh random-uuid
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+    cpus: "1.50"
+    mem_limit: 1500m
+    mem_reservation: 600m
+    networks:
+      - kafka-net
+
+  kafka-ui:
+    # Interface web para inspecionar topics, mensagens e consumer groups.
+    image: provectuslabs/kafka-ui:v0.7.2
+    container_name: mentoria-s11-kafka-ui
+    ports:
+      # Console web do kafka-ui.
+      - "8080:8080"
+    environment:
+      # Nome do cluster na interface.
+      KAFKA_CLUSTERS_0_NAME: local
+      # Conecta ao listener INTERNAL (dentro da rede Docker).
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+    depends_on:
+      - kafka
+    cpus: "0.50"
+    mem_limit: 500m
+    mem_reservation: 200m
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge
