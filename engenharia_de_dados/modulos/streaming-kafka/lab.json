@@ -1,0 +1,127 @@
+{
+  "modulo": "streaming-kafka",
+  "verificado_em": "2026-07-30",
+  "nivel_maximo_atingido": 3,
+  "observacao": "Nivel 3 executado em 2026-07-30: stack subiu, topico criado, mensagens produzidas e consumidas, grupo de consumo com offset commitado. Saidas capturadas em labs[].",
+  "versoes": {
+    "apache/kafka": "3.9.0",
+    "provectuslabs/kafka-ui": "v0.7.2"
+  },
+  "artefatos": [
+    {
+      "arquivo": "infrastructure/docker-compose.yml",
+      "nivel": 2,
+      "comando": "docker compose -f /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/infrastructure/docker-compose.yml config -q",
+      "verificado_em": "2026-07-30",
+      "saida": "sem erro"
+    },
+    {
+      "arquivo": "scripts/consumers/01_consumer_basico.py",
+      "nivel": 2,
+      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/consumers/01_consumer_basico.py",
+      "verificado_em": "2026-07-30",
+      "saida": "sem erro"
+    },
+    {
+      "arquivo": "scripts/consumers/02_consumer_grupo.py",
+      "nivel": 2,
+      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/consumers/02_consumer_grupo.py",
+      "verificado_em": "2026-07-30",
+      "saida": "sem erro"
+    },
+    {
+      "arquivo": "scripts/consumers/03_consumer_seek.py",
+      "nivel": 2,
+      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/consumers/03_consumer_seek.py",
+      "verificado_em": "2026-07-30",
+      "saida": "sem erro"
+    },
+    {
+      "arquivo": "scripts/consumers/04_consumer_commit_manual.py",
+      "nivel": 2,
+      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/consumers/04_consumer_commit_manual.py",
+      "verificado_em": "2026-07-30",
+      "saida": "sem erro"
+    },
+    {
+      "arquivo": "scripts/producers/01_producer_basico.py",
+      "nivel": 2,
+      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/producers/01_producer_basico.py",
+      "verificado_em": "2026-07-30",
+      "saida": "sem erro"
+    },
+    {
+      "arquivo": "scripts/producers/02_producer_eventos_mkt.py",
+      "nivel": 2,
+      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/producers/02_producer_eventos_mkt.py",
+      "verificado_em": "2026-07-30",
+      "saida": "sem erro"
+    }
+  ],
+  "labs": [
+    {
+      "id": "Lab 1",
+      "titulo": "Subir a stack do Kafka",
+      "nivel": 3,
+      "comandos": [
+        "cd engenharia_de_dados/modulos/streaming-kafka/infrastructure",
+        "docker compose up -d"
+      ],
+      "saida_esperada": "Container mentoria-s11-kafka Started e mentoria-s11-kafka-ui Started"
+    },
+    {
+      "id": "Lab 2",
+      "titulo": "Criar o topico com 3 particoes",
+      "nivel": 3,
+      "comandos": [
+        "docker exec mentoria-s11-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic eventos-mkt --partitions 3 --replication-factor 1"
+      ],
+      "saida_esperada": "Created topic eventos-mkt."
+    },
+    {
+      "id": "Lab 3",
+      "titulo": "Inspecionar particoes e lider",
+      "nivel": 3,
+      "comandos": [
+        "docker exec mentoria-s11-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic eventos-mkt"
+      ],
+      "saida_esperada": "PartitionCount: 3, ReplicationFactor: 1, com Leader: 1 em cada particao"
+    },
+    {
+      "id": "Lab 4",
+      "titulo": "Produzir eventos com chave",
+      "nivel": 3,
+      "comandos": [
+        "docker exec mentoria-s11-kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic eventos-mkt --property parse.key=true --property key.separator=:"
+      ],
+      "saida_esperada": "sem erro, o produtor encerra ao fechar a entrada"
+    },
+    {
+      "id": "Lab 5",
+      "titulo": "Consumir e observar a particao de cada chave",
+      "nivel": 3,
+      "comandos": [
+        "docker exec mentoria-s11-kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic eventos-mkt --from-beginning --property print.key=true --property print.partition=true --timeout-ms 12000"
+      ],
+      "saida_esperada": "Partition:0 u2, depois Partition:1 u1 duas vezes. A mesma chave cai sempre na mesma particao"
+    },
+    {
+      "id": "Lab 6",
+      "titulo": "Inspecionar offset do grupo de consumo",
+      "nivel": 3,
+      "comandos": [
+        "docker exec mentoria-s11-kafka /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group time-analytics"
+      ],
+      "saida_esperada": "particao 0 com CURRENT-OFFSET 1 e particao 1 com 2, LAG 0 nas duas"
+    },
+    {
+      "id": "Lab 7",
+      "titulo": "Derrubar a stack",
+      "nivel": 3,
+      "comandos": [
+        "docker compose down -v"
+      ],
+      "saida_esperada": "Container mentoria-s11-kafka Removed e a rede removida"
+    }
+  ]
+}
