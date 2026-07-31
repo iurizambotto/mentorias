@@ -2,7 +2,8 @@
   "modulo": "particionamento-performance",
   "verificado_em": "2026-07-31",
   "nivel_maximo_atingido": 3,
-  "observacao": "Nivel 3 alcancado apenas para a pilha de metadados: metastore-db, hive-jdbc-init e hive-metastore subiram de verdade e o schema do Hive foi criado no PostgreSQL. MinIO, minio-init e Trino NAO foram executados, e nenhuma query particionada foi rodada, logo os laboratorios de consulta seguem sem verificacao de execucao. Todos os comandos rodam a partir de engenharia_de_dados/modulos/particionamento-performance/infrastructure.",
+  "observacao": "Pilha completa executada: MinIO, Hive Metastore, PostgreSQL e Trino. Os comandos de shell rodam a partir de engenharia_de_dados/modulos/particionamento-performance, e os de SQL dentro do container do Trino. O dado vem de scripts/gerar_dados.py, deterministico e sem dependencia externa, escrito nesta revisao porque o gerador anterior nao vive no repositorio publico e o laboratorio nao rodava para ninguem de fora.",
+  "limite_declarado": "O teto de particoes deste ambiente foi medido isolando a variavel. 5 particoes com 1000 e com 12000 linhas concluiram em 5 e 11 segundos; 15 particoes com 12000 linhas concluiram em 10 segundos; 25 particoes com 12000 linhas, 30 com 6000 e 30 com 60000 travaram na fase de commit, com o Hive Metastore deixando de responder e sem erro em nenhum log. O volume de linhas variou 12 vezes sem efeito: a variavel e a contagem de particoes. O gerador entrega 15 por padrao, com margem. A causa raiz nao foi investigada nesta revisao.",
   "versoes": {
     "apache/hive": "4.0.0",
     "debian": "bookworm-slim",
@@ -11,30 +12,112 @@
     "minio/mc": "RELEASE.2025-02-08T19-14-21Z",
     "minio/minio": "RELEASE.2025-02-03T21-03-04Z",
     "postgres": "16",
+    "python": "3.11",
     "trinodb/trino": "479"
   },
   "artefatos": [
     {
       "arquivo": "infrastructure/docker-compose.yml",
-      "nivel": 2,
-      "comando": "docker compose config -q",
+      "nivel": 3,
+      "comando": "docker compose up -d",
       "verificado_em": "2026-07-31",
-      "saida": "sem erro, codigo 0"
+      "saida": "minio, metastore-db, hive-metastore e trino de pe, com minio, metastore-db e trino reportando healthy"
     },
     {
       "arquivo": "infrastructure/hive/conf/hive-site.xml",
       "nivel": 3,
       "comando": "docker compose up -d metastore-db hive-jdbc-init hive-metastore",
       "verificado_em": "2026-07-31",
-      "saida": "Initialized schema successfully e Starting Hive Metastore Server. As 83 tabelas do schema do metastore foram criadas no PostgreSQL, com SCHEMA_VERSION 4.0.0, e a porta 9083 aceitou conexao. Isso prova que as propriedades javax.jdo deste arquivo sao suficientes para a conexao, sem duplicata em SERVICE_OPTS."
+      "saida": "Initialized schema successfully e Starting Hive Metastore Server. As 83 tabelas do schema do metastore foram criadas no PostgreSQL, com SCHEMA_VERSION 4.0.0, e a porta 9083 aceitou conexao. As propriedades javax.jdo deste arquivo sao suficientes para a conexao, sem duplicata em SERVICE_OPTS."
     },
     {
       "arquivo": "infrastructure/trino/catalog/hive.properties",
-      "nivel": 0,
-      "comando": "",
+      "nivel": 3,
+      "comando": "docker compose exec -T trino trino --execute \"SHOW CATALOGS;\"",
       "verificado_em": "2026-07-31",
-      "saida": "o Trino nao foi executado nesta verificacao, nada foi verificado neste arquivo"
+      "saida": "o catalogo hive aparece na lista, e leitura de CSV no bronze e escrita de Parquet particionado no silver funcionaram contra o MinIO"
+    },
+    {
+      "arquivo": "scripts/gerar_dados.py",
+      "nivel": 3,
+      "comando": "python3 scripts/gerar_dados.py --destino infrastructure/dados",
+      "verificado_em": "2026-07-31",
+      "saida": "events.csv com 12000 linhas e events__cdc.csv com 15566 linhas, janela de 2025-01-01 a 2025-01-15 em 15 particoes. Determinismo conferido comparando duas execucoes byte a byte. Gate de qualidade: ruff check, ruff format --check e bandit -r scripts/ -ll todos em codigo 0"
     }
   ],
-  "labs": []
+  "labs": [
+    {
+      "id": "Lab 0",
+      "titulo": "Gerar o dado e carregar no bronze",
+      "comandos": [
+        "cd engenharia_de_dados/modulos/particionamento-performance",
+        "python3 scripts/gerar_dados.py --destino infrastructure/dados",
+        "cd infrastructure && docker compose up -d",
+        "docker run --rm --network mentoria-sessao-04-particionamento_default -v \"$PWD/dados\":/data -e MC_HOST_local=\"http://minioadmin:minioadmin@minio:9000\" minio/mc:RELEASE.2025-02-08T19-14-21Z cp /data/events.csv local/bronze/marketing/raw/events/"
+      ],
+      "saida_esperada": "o gerador reporta 12000 linhas em 15 particoes, e o objeto raw/events/events.csv aparece no bucket bronze",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 1",
+      "titulo": "Criar o schema e a tabela bronze sobre CSV",
+      "comandos": [
+        "docker compose exec -T trino trino --execute \"CREATE SCHEMA IF NOT EXISTS hive.marketing WITH (location = 's3://bronze/marketing/');\"",
+        "docker compose exec -T trino trino --execute \"CREATE TABLE hive.marketing.events_raw (event_id VARCHAR, event_date VARCHAR, event_ts VARCHAR, user_id VARCHAR, campaign_id VARCHAR, channel VARCHAR, device VARCHAR, country VARCHAR, stage VARCHAR, revenue VARCHAR) WITH (format = 'CSV', external_location = 's3://bronze/marketing/raw/events/', skip_header_line_count = 1);\"",
+        "docker compose exec -T trino trino --execute \"SELECT count(*) FROM hive.marketing.events_raw;\""
+      ],
+      "saida_esperada": "CREATE SCHEMA, CREATE TABLE, e a contagem devolvendo 12000",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 2",
+      "titulo": "Criar a tabela silver particionada em Parquet",
+      "comandos": [
+        "docker compose exec -T trino trino --execute \"CREATE TABLE hive.marketing.events_silver WITH (format = 'PARQUET', partitioned_by = ARRAY['event_date'], external_location = 's3://silver/marketing/events/') AS SELECT event_id, user_id, campaign_id, channel, device, country, stage, TRY_CAST(revenue AS DOUBLE) AS revenue, CAST(event_date AS DATE) AS event_date FROM hive.marketing.events_raw;\""
+      ],
+      "saida_esperada": "CREATE TABLE: 12000 rows, em cerca de 18 segundos",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 3",
+      "titulo": "Listar as particoes registradas no catalogo",
+      "comandos": [
+        "docker compose exec -T trino trino --execute \"SELECT count(*) AS particoes FROM hive.marketing.\\\"events_silver$partitions\\\";\""
+      ],
+      "saida_esperada": "15",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 4",
+      "titulo": "Ver o partition pruning acontecer e medir",
+      "comandos": [
+        "docker compose exec -T trino trino --execute \"EXPLAIN ANALYZE SELECT event_id, user_id, campaign_id, channel FROM hive.marketing.events_silver WHERE event_date = DATE '2025-01-10';\""
+      ],
+      "saida_esperada": "Input: 800 rows (50.92kB), Physical input: 8.08kB, Splits: 1, e no plano o no TableScan com event_date:date:PARTITION_KEY :: [[2025-01-10]]",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 5",
+      "titulo": "Ver a mesma consulta sem pruning e comparar",
+      "comandos": [
+        "docker compose exec -T trino trino --execute \"EXPLAIN ANALYZE SELECT event_id, user_id, campaign_id, channel FROM hive.marketing.events_silver WHERE channel = 'organic';\""
+      ],
+      "saida_esperada": "Input: 12000 rows (761.21kB), Filtered: 80.12%, Physical input: 120.72kB, Splits: 15, e no plano o no ScanFilterProject com filterPredicate e as 15 particoes listadas. Comparado ao Lab 4, fator 15 em linhas, bytes e splits",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 6",
+      "titulo": "Derrubar a pilha e resetar o estado",
+      "comandos": ["docker compose down --volumes"],
+      "saida_esperada": "containers, rede e os tres volumes removidos. Sem --volumes, a proxima execucao encontra a tabela ja registrada no metastore e o CREATE TABLE IF NOT EXISTS devolve dado antigo em silencio",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    }
+  ]
 }

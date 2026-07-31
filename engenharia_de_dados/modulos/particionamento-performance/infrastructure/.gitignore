@@ -1,0 +1,4 @@
+# Dado gerado por scripts/gerar_dados.py. Nao entra no Git: ele e deterministico,
+# reproduzido por um comando, e sao megabytes de CSV sintetico.
+dados/
+dados-*/
