@@ -1,6 +1,6 @@
 ---
 title: "Engenharia de Dados"
-date: 2026-07-30
+date: 2026-07-31
 type: trilha
 status: active
 tags: [mentoria, trilha]
@@ -47,17 +47,17 @@ alterar este repositorio.
 
 | Modulo | Status | Lab |
 |---|---|---|
-| Transformacao com dbt | planejado | sim |
+| [Transformacao com dbt](modulos/dbt/) | rascunho | sim |
 
 ## Bloco E, Nuvem e escala
 
 | Modulo | Status | Lab |
 |---|---|---|
-| Cloud para dados | planejado | nao |
-| Infraestrutura como codigo | planejado | sim |
+| [Cloud para dados](modulos/cloud-para-dados/) | rascunho | nao |
+| [Infraestrutura como codigo](modulos/infraestrutura-como-codigo/) | rascunho | sim |
 | Processamento distribuido, Spark, PySpark e Databricks | planejado | sim |
 | [Streaming com Apache Kafka](modulos/streaming-kafka/) | publicado | sim |
-| Kubernetes para engenharia de dados | planejado | sim |
+| [Kubernetes para engenharia de dados](modulos/kubernetes/) | rascunho | sim |
 
 ## Bloco F, Transversal e fecho
 
