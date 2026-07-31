@@ -1,0 +1,177 @@
+# Trilha de Engenharia de Dados.
+# A ordem abaixo e recomendacao, nao obrigacao de percurso. Cada mentorado tem
+# um roteiro proprio, que seleciona e reordena modulos sem alterar este repositorio.
+# Contrato completo em zambotto-mentoria-core/REPO.md.
+
+trilha: engenharia_de_dados
+titulo: "Engenharia de Dados"
+atualizado_em: 2026-07-30
+
+blocos:
+  - id: A
+    nome: Fundamentos
+    modulos:
+      - introducao-engenharia-dados
+      - sql-joins
+      - docker-ambiente-local
+
+  - id: B
+    nome: Armazenamento
+    modulos:
+      - object-storage-minio
+      - formatos-e-tipos-de-tabela
+      - particionamento-performance
+      - nosql
+
+  - id: C
+    nome: Pipeline e ingestao
+    modulos:
+      - orquestracao-airflow
+      - fontes-arquitetura-contratos
+      - cdc
+      - ingestao-airbyte
+      - web-scraping
+
+  - id: D
+    nome: Transformacao
+    modulos:
+      - dbt
+
+  - id: E
+    nome: Nuvem e escala
+    modulos:
+      - cloud-para-dados
+      - infraestrutura-como-codigo
+      - spark-pyspark-databricks
+      - streaming-kafka
+      - kubernetes
+
+  - id: F
+    nome: Transversal e fecho
+    modulos:
+      - governanca-qualidade-lgpd
+      - projeto-de-engenharia
+
+modulos:
+  introducao-engenharia-dados:
+    titulo: "Introducao a engenharia de dados e diagnostico"
+    tipo: conteudo
+    status: rascunho
+    lab: false
+
+  sql-joins:
+    titulo: "SQL com foco em JOINs"
+    tipo: conteudo
+    status: publicado
+    lab: false
+
+  docker-ambiente-local:
+    titulo: "Docker e ambiente local"
+    tipo: conteudo
+    status: planejado
+    lab: true
+
+  object-storage-minio:
+    titulo: "Object storage e data lake com MinIO"
+    tipo: conteudo
+    status: planejado
+    lab: true
+
+  formatos-e-tipos-de-tabela:
+    titulo: "Formatos de arquivo e tipos de tabela"
+    tipo: conteudo
+    status: rascunho
+    lab: false
+
+  particionamento-performance:
+    titulo: "Particionamento e performance de consultas"
+    tipo: conteudo
+    status: publicado
+    lab: true
+
+  nosql:
+    titulo: "NoSQL, quando o relacional nao serve"
+    tipo: conteudo
+    status: planejado
+    lab: false
+
+  orquestracao-airflow:
+    titulo: "Orquestracao com Apache Airflow"
+    tipo: conteudo
+    status: rascunho
+    lab: true
+
+  fontes-arquitetura-contratos:
+    titulo: "Fontes, arquitetura e contratos de dados"
+    tipo: conteudo
+    status: publicado
+    lab: false
+
+  cdc:
+    titulo: "Change Data Capture"
+    tipo: conteudo
+    status: rascunho
+    lab: true
+    relacionado:
+      - streaming-kafka
+
+  ingestao-airbyte:
+    titulo: "Ingestao com Airbyte"
+    tipo: conteudo
+    status: planejado
+    lab: true
+
+  web-scraping:
+    titulo: "Web scraping"
+    tipo: conteudo
+    status: planejado
+    lab: true
+
+  dbt:
+    titulo: "Transformacao com dbt"
+    tipo: conteudo
+    status: planejado
+    lab: true
+
+  cloud-para-dados:
+    titulo: "Cloud para dados"
+    tipo: conteudo
+    status: planejado
+    lab: false
+
+  infraestrutura-como-codigo:
+    titulo: "Infraestrutura como codigo"
+    tipo: conteudo
+    status: planejado
+    lab: true
+
+  spark-pyspark-databricks:
+    titulo: "Processamento distribuido, Spark, PySpark e Databricks"
+    tipo: conteudo
+    status: planejado
+    lab: true
+
+  streaming-kafka:
+    titulo: "Streaming com Apache Kafka"
+    tipo: conteudo
+    status: publicado
+    lab: true
+    relacionado:
+      - cdc
+
+  kubernetes:
+    titulo: "Kubernetes para engenharia de dados"
+    tipo: conteudo
+    status: planejado
+    lab: true
+
+  governanca-qualidade-lgpd:
+    titulo: "Governanca, qualidade e LGPD"
+    tipo: conteudo
+    status: planejado
+    lab: false
+
+  projeto-de-engenharia:
+    titulo: "Projeto de engenharia"
+    tipo: capstone
+    status: planejado

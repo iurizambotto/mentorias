@@ -1,0 +1,31 @@
+{
+  "modulo": "particionamento-performance",
+  "verificado_em": "2026-07-30",
+  "nivel_maximo_atingido": 0,
+  "observacao": "Nivel 3, execucao real dos containers, ainda nao foi rodado neste modulo.",
+  "versoes": {
+    "apache/hive": "4.0.0",
+    "debian": "bookworm-slim",
+    "minio/mc": "RELEASE.2025-02-08T19-14-21Z",
+    "minio/minio": "RELEASE.2025-02-03T21-03-04Z",
+    "postgres": "16",
+    "trinodb/trino": "479"
+  },
+  "artefatos": [
+    {
+      "arquivo": "infrastructure/docker-compose.yml",
+      "nivel": 2,
+      "comando": "docker compose -f /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/particionamento-performance/infrastructure/docker-compose.yml config -q",
+      "verificado_em": "2026-07-30",
+      "saida": "sem erro"
+    },
+    {
+      "arquivo": "infrastructure/hive/conf/hive-site.xml",
+      "nivel": 0,
+      "comando": "",
+      "verificado_em": "2026-07-30",
+      "saida": "biblioteca ausente: defusedxml, nada foi verificado"
+    }
+  ],
+  "labs": []
+}
