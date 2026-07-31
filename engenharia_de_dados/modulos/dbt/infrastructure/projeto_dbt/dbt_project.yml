@@ -1,0 +1,17 @@
+name: "campanhas"
+version: "1.0.0"
+config-version: 2
+
+profile: "campanhas"
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+# Layer defaults. A model can still override this in its own config block.
+models:
+  campanhas:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

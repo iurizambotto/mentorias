@@ -76,6 +76,8 @@ modulos:
     tipo: conteudo
     status: planejado
     lab: true
+    relacionado:
+      - cloud-para-dados
 
   formatos-e-tipos-de-tabela:
     titulo: "Formatos de arquivo e tipos de tabela"
@@ -130,20 +132,25 @@ modulos:
   dbt:
     titulo: "Transformacao com dbt"
     tipo: conteudo
-    status: planejado
+    status: publicado
     lab: true
 
   cloud-para-dados:
     titulo: "Cloud para dados"
     tipo: conteudo
-    status: planejado
+    status: publicado
     lab: false
+    relacionado:
+      - object-storage-minio
+      - infraestrutura-como-codigo
 
   infraestrutura-como-codigo:
     titulo: "Infraestrutura como codigo"
     tipo: conteudo
-    status: planejado
+    status: publicado
     lab: true
+    relacionado:
+      - cloud-para-dados
 
   spark-pyspark-databricks:
     titulo: "Processamento distribuido, Spark, PySpark e Databricks"
@@ -162,7 +169,7 @@ modulos:
   kubernetes:
     titulo: "Kubernetes para engenharia de dados"
     tipo: conteudo
-    status: planejado
+    status: publicado
     lab: true
 
   governanca-qualidade-lgpd:

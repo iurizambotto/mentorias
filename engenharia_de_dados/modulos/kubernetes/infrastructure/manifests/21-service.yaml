@@ -1,0 +1,15 @@
+# A Pod IP changes every time the Pod is replaced. The Service gives a stable
+# name and address, and load balances across whatever Pods match the selector.
+apiVersion: v1
+kind: Service
+metadata:
+  name: servico-de-consulta
+  namespace: campanhas
+spec:
+  type: ClusterIP
+  selector:
+    app: servico-de-consulta
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

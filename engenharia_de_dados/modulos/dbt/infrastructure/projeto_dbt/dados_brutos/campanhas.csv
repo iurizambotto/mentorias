@@ -1,0 +1,6 @@
+campanha_id,nome,canal,data_inicio,orcamento_diario
+1,Black Friday Search,google_ads,2026-06-01,1200.00
+2,Black Friday Social,meta_ads,2026-06-01,900.00
+3,Remarketing Carrinho,meta_ads,2026-06-03,450.00
+4,Descoberta Video,tiktok_ads,2026-06-05,600.00
+5,Marca Institucional,google_ads,2026-06-05,300.00

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servico-de-consulta
+  namespace: campanhas
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: servico-de-consulta
+  template:
+    metadata:
+      labels:
+        app: servico-de-consulta
+    spec:
+      securityContext:
+        # Everything below is what the `restricted` profile demands.
+        runAsNonRoot: true
+        runAsUser: 101
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: servidor
+          # Immutable tag on purpose: `latest` makes the rollout unreproducible.
+          # The unprivileged image listens on 8080 and needs no capability, so
+          # the Pod satisfies `restricted` without exceptions.
+          image: nginxinc/nginx-unprivileged:1.29-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            # requests is what the scheduler reserves, limits is the hard cap.
+            requests:
+              cpu: "50m"
+              memory: "32Mi"
+            limits:
+              cpu: "200m"
+              memory: "64Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]

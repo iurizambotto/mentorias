@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: fct_desempenho_campanha
+    description: >
+      Uma linha por campanha e dia. Junta veiculacao, cadastro e conversao para
+      responder quanto custou cada conversao em cada canal.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: campanha_id
+        data_type: integer
+        constraints:
+          - type: not_null
+        data_tests:
+          - not_null
+      - name: data_evento
+        data_type: date
+        constraints:
+          - type: not_null
+      - name: nome_campanha
+        data_type: varchar
+      - name: canal
+        data_type: varchar
+      - name: grupo_de_canal
+        data_type: varchar
+      - name: impressoes
+        data_type: bigint
+      - name: cliques
+        data_type: bigint
+      - name: custo
+        data_type: decimal(12,2)
+      - name: conversoes
+        data_type: bigint
+      - name: receita
+        data_type: decimal(12,2)
+      - name: custo_por_conversao
+        description: "Nulo quando o dia nao teve conversao, e isso e proposital."
+        data_type: decimal(12,2)
+
+unit_tests:
+  - name: test_dia_sem_conversao_nao_vira_zero
+    description: >
+      Dia sem conversao precisa devolver custo_por_conversao nulo. Zero diria
+      que a conversao saiu de graca, que e o contrario do que aconteceu.
+    model: fct_desempenho_campanha
+    given:
+      - input: ref('stg_eventos_campanha')
+        rows:
+          - {evento_id: 1, campanha_id: 1, data_evento: "2026-06-01", impressoes: 100, cliques: 10, custo: 50.00}
+      - input: ref('stg_campanhas')
+        rows:
+          - {campanha_id: 1, nome_campanha: "Teste", canal: "google_ads", data_inicio: "2026-06-01", orcamento_diario: 100.00}
+      - input: ref('de_para_canal')
+        rows:
+          - {canal: "google_ads", grupo_de_canal: "Search", e_pago: true}
+      - input: ref('stg_conversoes')
+        rows: []
+    expect:
+      rows:
+        - {campanha_id: 1, data_evento: "2026-06-01", conversoes: 0, receita: 0, custo_por_conversao: null}

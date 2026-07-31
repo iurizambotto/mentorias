@@ -1,0 +1,133 @@
+{
+  "modulo": "infraestrutura-como-codigo",
+  "verificado_em": "2026-07-31",
+  "nivel_maximo_atingido": 2,
+  "observacao": "O teto de nivel 2 e decisao de guardrail do workspace, nao limitacao tecnica: terraform plan e terraform apply sao operacoes do operador humano ou do pipeline, e nenhum comando deste modulo os executa. O init roda com -backend=false, logo apenas baixa o provider do registro publico, sem tocar backend remoto, state nem conta de nuvem. O script scripts/verificar_iac.py recusa por construcao qualquer subcomando destrutivo.",
+  "limite_declarado": "Validacao de variavel declarada em bloco validation NAO e exercitada por terraform validate. Foi conferido em 2026-07-31: com dias_para_acesso_infrequente igual a 10, valor que viola a propria regra de minimo 30, o validate responde Success. Essa checagem acontece no plan, que esta fora de escopo.",
+  "versoes": {
+    "terraform": "v1.15.8",
+    "tflint": "v0.64.0",
+    "ruleset.terraform": "0.15.0-bundled",
+    "hashicorp/aws": "6.57.1",
+    "python": "3.11"
+  },
+  "artefatos": [
+    {
+      "arquivo": "infrastructure",
+      "nivel": 2,
+      "comando": "terraform fmt -check -recursive",
+      "verificado_em": "2026-07-31",
+      "saida": "sem saida, codigo 0"
+    },
+    {
+      "arquivo": "infrastructure/ambientes/dev",
+      "nivel": 2,
+      "comando": "terraform init -backend=false -input=false && terraform validate",
+      "verificado_em": "2026-07-31",
+      "saida": "Success! The configuration is valid."
+    },
+    {
+      "arquivo": "infrastructure/modulos/camada-do-lake",
+      "nivel": 2,
+      "comando": "terraform init -backend=false -input=false && terraform validate",
+      "verificado_em": "2026-07-31",
+      "saida": "Success! The configuration is valid."
+    },
+    {
+      "arquivo": "infrastructure/.tflint.hcl",
+      "nivel": 2,
+      "comando": "tflint --recursive",
+      "verificado_em": "2026-07-31",
+      "saida": "sem achado, codigo 0"
+    },
+    {
+      "arquivo": "scripts/verificar_iac.py",
+      "nivel": 3,
+      "comando": "python3 scripts/verificar_iac.py",
+      "verificado_em": "2026-07-31",
+      "saida": "6 checagem(ns), todas em nivel 2, codigo 0. Gate de qualidade do proprio script: ruff check, ruff format --check e bandit -r scripts/ -ll todos em codigo 0."
+    }
+  ],
+  "labs": [
+    {
+      "id": "Lab 0",
+      "titulo": "Conferir as ferramentas",
+      "comandos": [
+        "cd engenharia_de_dados/modulos/infraestrutura-como-codigo/infrastructure",
+        "terraform version",
+        "tflint --version"
+      ],
+      "saida_esperada": "Terraform v1.15.8 ou superior a 1.9, e TFLint 0.64.0 ou superior a 0.60",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 1",
+      "titulo": "Rodar o gate completo de validacao",
+      "comandos": [
+        "cd engenharia_de_dados/modulos/infraestrutura-como-codigo",
+        "python3 scripts/verificar_iac.py"
+      ],
+      "saida_esperada": "seis linhas comecando com OK e a linha final 6 checagem(ns), todas em nivel 2",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 2",
+      "titulo": "Rodar cada passo a mao",
+      "comandos": [
+        "cd engenharia_de_dados/modulos/infraestrutura-como-codigo/infrastructure",
+        "terraform fmt -check -recursive",
+        "cd ambientes/dev && terraform init -backend=false -input=false && terraform validate"
+      ],
+      "saida_esperada": "fmt sem saida e Success! The configuration is valid.",
+      "nivel": 2,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 3",
+      "titulo": "Quebrar a formatacao de proposito",
+      "comandos": [
+        "editar modulos/camada-do-lake/main.tf acrescentando espacos antes de um sinal de igual",
+        "terraform fmt -check -recursive",
+        "terraform fmt -recursive"
+      ],
+      "saida_esperada": "o caminho modulos/camada-do-lake/main.tf impresso, com codigo de saida 3",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 4",
+      "titulo": "Quebrar uma referencia de variavel",
+      "comandos": [
+        "trocar var.ambiente por var.ambient em ambientes/dev/main.tf",
+        "cd ambientes/dev && terraform validate"
+      ],
+      "saida_esperada": "Error: Reference to undeclared input variable, com a linha do arquivo e a sugestao Did you mean \"ambiente\"?",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 5",
+      "titulo": "Quebrar contra o schema do provider",
+      "comandos": [
+        "trocar status por statuss dentro de versioning_configuration em modulos/camada-do-lake/main.tf",
+        "cd modulos/camada-do-lake && terraform validate"
+      ],
+      "saida_esperada": "Error: Missing required argument, dizendo que o argumento status e obrigatorio",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 6",
+      "titulo": "Ver o que o validate NAO pega",
+      "comandos": [
+        "mudar o default de dias_para_acesso_infrequente para 10 em modulos/camada-do-lake/variables.tf",
+        "cd modulos/camada-do-lake && terraform validate"
+      ],
+      "saida_esperada": "Success! The configuration is valid., apesar de o valor violar o bloco validation da propria variavel. A checagem de validation acontece no plan, que esta fora de escopo",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    }
+  ]
+}

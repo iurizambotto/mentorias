@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg_campanhas
+    description: "Uma linha por campanha, com canal normalizado em minusculas."
+    columns:
+      - name: campanha_id
+        description: "Chave da campanha, vinda do cadastro da plataforma de midia."
+        data_tests:
+          - unique
+          - not_null
+      - name: canal
+        description: "Plataforma onde a campanha foi veiculada."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["google_ads", "meta_ads", "tiktok_ads"]
+
+  - name: stg_eventos_campanha
+    description: "Uma linha por campanha e dia de veiculacao."
+    columns:
+      - name: evento_id
+        data_tests:
+          - unique
+          - not_null
+      - name: campanha_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_campanhas')
+                field: campanha_id
+
+  - name: stg_conversoes
+    description: "Uma linha por conversao atribuida a uma campanha."
+    columns:
+      - name: conversao_id
+        data_tests:
+          - unique
+          - not_null
+      - name: campanha_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_campanhas')
+                field: campanha_id

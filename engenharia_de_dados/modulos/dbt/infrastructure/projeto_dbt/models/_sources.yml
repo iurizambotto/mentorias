@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: bruto
+    description: >
+      Arquivos entregues pela ingestao, ainda sem transformacao. No laboratorio
+      eles sao CSV lidos direto do disco pelo dbt-duckdb. Em nuvem, seriam
+      tabelas ja carregadas no data warehouse.
+    meta:
+      # dbt-duckdb reads the file itself instead of a table in the catalog.
+      external_location: "dados_brutos/{name}.csv"
+    tables:
+      - name: campanhas
+        description: "Cadastro de campanha paga, um registro por campanha."
+      - name: eventos_campanha
+        description: "Metricas diarias de veiculacao, um registro por campanha e dia."
+      - name: conversoes
+        description: "Conversao atribuida a uma campanha, um registro por conversao."

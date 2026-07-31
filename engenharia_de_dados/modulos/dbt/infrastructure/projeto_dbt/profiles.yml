@@ -1,0 +1,8 @@
+campanhas:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      # Relative to the project directory, which is where dbt is invoked.
+      path: campanhas.duckdb
+      threads: 4

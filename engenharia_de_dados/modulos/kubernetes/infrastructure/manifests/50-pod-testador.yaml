@@ -1,0 +1,34 @@
+# Reaches the Service by its internal DNS name, from inside the cluster.
+# It is a manifest and not a `kubectl run` one liner on purpose: the namespace
+# enforces the `restricted` profile, and the default Pod that `kubectl run`
+# builds does not satisfy it.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testador-de-dns
+  namespace: campanhas
+spec:
+  restartPolicy: Never
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: testador
+      image: busybox:1.37
+      command:
+        - wget
+        - -qO-
+        - http://servico-de-consulta.campanhas.svc.cluster.local/
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "16Mi"
+        limits:
+          cpu: "100m"
+          memory: "32Mi"
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop: ["ALL"]

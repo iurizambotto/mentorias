@@ -121,9 +121,11 @@ services:
       # Driver de banco: postgres (lido pelo entrypoint nativo da imagem).
       DB_DRIVER: postgres
       # Aponta para diretorio de conf customizado montado via volume.
+      # As quatro propriedades javax.jdo de conexao vivem em hive/conf/hive-site.xml,
+      # que e o lugar de configuracao do Hive. Elas estavam duplicadas aqui em
+      # SERVICE_OPTS, o que colocava a credencial do metastore em dois arquivos e
+      # criava a chance de os dois divergirem.
       HIVE_CUSTOM_CONF_DIR: /hive-custom-conf
-      # Opcoes JVM para o metastore apontar para PostgreSQL.
-      SERVICE_OPTS: "-Djavax.jdo.option.ConnectionURL=jdbc:postgresql://metastore-db:5432/metastore -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver -Djavax.jdo.option.ConnectionUserName=hive -Djavax.jdo.option.ConnectionPassword=hive"
       # Instrui o Hive a incluir o JDBC do PostgreSQL e o driver S3A no classpath.
       # hadoop-aws e aws-java-sdk-bundle ja existem na imagem em tools/lib/
       # mas nao sao carregados por padrao - HIVE_AUX_JARS_PATH os adiciona ao classpath.

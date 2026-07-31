@@ -1,6 +1,6 @@
 ---
 title: "Engenharia de Dados"
-date: 2026-07-30
+date: 2026-07-31
 type: trilha
 status: active
 tags: [mentoria, trilha]
@@ -10,7 +10,7 @@ tags: [mentoria, trilha]
 
 > Arquivo gerado a partir do `trilha.yml`. Nao edite a mao: rode `gerar_trilha.py` novamente, senao a edicao se perde e o documento diverge.
 
-4 de 20 modulos publicados.
+8 de 20 modulos publicados.
 
 A ordem abaixo e a recomendada. Ela nao e obrigacao de percurso: cada
 mentorado tem um roteiro proprio, que seleciona e reordena modulos sem
@@ -47,17 +47,17 @@ alterar este repositorio.
 
 | Modulo | Status | Lab |
 |---|---|---|
-| Transformacao com dbt | planejado | sim |
+| [Transformacao com dbt](modulos/dbt/) | publicado | sim |
 
 ## Bloco E, Nuvem e escala
 
 | Modulo | Status | Lab |
 |---|---|---|
-| Cloud para dados | planejado | nao |
-| Infraestrutura como codigo | planejado | sim |
+| [Cloud para dados](modulos/cloud-para-dados/) | publicado | nao |
+| [Infraestrutura como codigo](modulos/infraestrutura-como-codigo/) | publicado | sim |
 | Processamento distribuido, Spark, PySpark e Databricks | planejado | sim |
 | [Streaming com Apache Kafka](modulos/streaming-kafka/) | publicado | sim |
-| Kubernetes para engenharia de dados | planejado | sim |
+| [Kubernetes para engenharia de dados](modulos/kubernetes/) | publicado | sim |
 
 ## Bloco F, Transversal e fecho
 

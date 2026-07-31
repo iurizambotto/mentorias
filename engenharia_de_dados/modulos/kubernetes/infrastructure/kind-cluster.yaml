@@ -1,0 +1,11 @@
+# Two nodes on purpose: with a single node there is nothing to schedule onto,
+# and the difference between control plane and worker never becomes visible.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: mentoria-dados
+nodes:
+  - role: control-plane
+  - role: worker
+    labels:
+      # The lab uses this label to steer the transformation Job.
+      workload: batch
