@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: parametros-etl
+  namespace: campanhas
+data:
+  JANELA_DIAS: "7"
+  CANAIS: "google_ads,meta_ads,tiktok_ads"
+  # A whole file can live in a ConfigMap, not only a key value pair.
+  transformar.sh: |
+    #!/bin/sh
+    set -eu
+    echo "janela de ${JANELA_DIAS} dias"
+    echo "canais: ${CANAIS}"
+    total=0
+    for canal in $(echo "${CANAIS}" | tr ',' ' '); do
+      echo "processando ${canal}"
+      total=$((total + 1))
+    done
+    echo "canais processados: ${total}"

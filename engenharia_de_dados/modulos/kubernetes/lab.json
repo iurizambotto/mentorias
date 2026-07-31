@@ -1,0 +1,151 @@
+{
+  "modulo": "kubernetes",
+  "verificado_em": "2026-07-31",
+  "nivel_maximo_atingido": 3,
+  "observacao": "Cluster local com kind, dois nodes. Todos os comandos rodam a partir de engenharia_de_dados/modulos/kubernetes/infrastructure. A verificacao usou um KUBECONFIG proprio, fora do ~/.kube/config, para nao tocar em contexto de cluster real.",
+  "versoes": {
+    "kind": "v0.32.0",
+    "kubernetes": "v1.36.1",
+    "kubectl": "v1.36.3",
+    "containerd": "2.3.1",
+    "docker": "28.3.3",
+    "nginxinc/nginx-unprivileged": "1.29-alpine",
+    "alpine": "3.22",
+    "python": "3.11-slim",
+    "busybox": "1.37"
+  },
+  "artefatos": [
+    {
+      "arquivo": "infrastructure/kind-cluster.yaml",
+      "nivel": 3,
+      "comando": "kind create cluster --config infrastructure/kind-cluster.yaml",
+      "verificado_em": "2026-07-31",
+      "saida": "dois nodes em Ready, control-plane e worker, ambos v1.36.1"
+    },
+    {
+      "arquivo": "infrastructure/manifests/00-namespace.yaml",
+      "nivel": 3,
+      "comando": "kubectl apply -f infrastructure/manifests/00-namespace.yaml",
+      "verificado_em": "2026-07-31",
+      "saida": "namespace/campanhas created, com enforce restricted"
+    },
+    {
+      "arquivo": "infrastructure/manifests/20-deployment.yaml",
+      "nivel": 3,
+      "comando": "kubectl -n campanhas rollout status deploy/servico-de-consulta",
+      "verificado_em": "2026-07-31",
+      "saida": "deployment servico-de-consulta successfully rolled out, sem aviso de PodSecurity"
+    },
+    {
+      "arquivo": "infrastructure/manifests/30-job-transformacao.yaml",
+      "nivel": 3,
+      "comando": "kubectl -n campanhas logs job/transformacao-diaria",
+      "verificado_em": "2026-07-31",
+      "saida": "janela de 7 dias, tres canais processados, Job em Completed"
+    },
+    {
+      "arquivo": "infrastructure/manifests/40-pod-que-estoura-memoria.yaml",
+      "nivel": 3,
+      "comando": "kubectl -n campanhas get pod consumidor-de-memoria",
+      "verificado_em": "2026-07-31",
+      "saida": "STATUS OOMKilled, exit code 137, como projetado"
+    },
+    {
+      "arquivo": "infrastructure/manifests/50-pod-testador.yaml",
+      "nivel": 3,
+      "comando": "kubectl -n campanhas logs testador-de-dns",
+      "verificado_em": "2026-07-31",
+      "saida": "HTML de boas vindas do nginx, obtido pelo nome DNS do Service"
+    }
+  ],
+  "labs": [
+    {
+      "id": "Lab 0",
+      "titulo": "Criar o cluster local",
+      "comandos": [
+        "cd engenharia_de_dados/modulos/kubernetes/infrastructure",
+        "kind create cluster --config kind-cluster.yaml",
+        "kubectl get nodes"
+      ],
+      "saida_esperada": "mentoria-dados-control-plane e mentoria-dados-worker em Ready, versao v1.36.1",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 1",
+      "titulo": "Aplicar o estado desejado",
+      "comandos": [
+        "kubectl apply -f manifests/00-namespace.yaml",
+        "kubectl apply -f manifests/",
+        "kubectl -n campanhas rollout status deploy/servico-de-consulta"
+      ],
+      "saida_esperada": "deployment \"servico-de-consulta\" successfully rolled out, sem nenhum aviso de PodSecurity",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 2",
+      "titulo": "Apagar um Pod e ver o cluster reconciliar",
+      "comandos": [
+        "POD=$(kubectl -n campanhas get pods -l app=servico-de-consulta -o jsonpath='{.items[0].metadata.name}')",
+        "kubectl -n campanhas delete pod \"$POD\"",
+        "kubectl -n campanhas get pods -l app=servico-de-consulta"
+      ],
+      "saida_esperada": "o numero de Pods continua o mesmo, e um deles tem nome novo e alguns segundos de idade",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 3",
+      "titulo": "Ler o Job e ver ConfigMap e Secret injetados",
+      "comandos": ["kubectl -n campanhas logs job/transformacao-diaria"],
+      "saida_esperada": "janela de 7 dias, canais google_ads meta_ads tiktok_ads, canais processados: 3",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 4",
+      "titulo": "Ler a assinatura do OOMKilled",
+      "comandos": [
+        "kubectl -n campanhas get pod consumidor-de-memoria",
+        "kubectl -n campanhas describe pod consumidor-de-memoria"
+      ],
+      "saida_esperada": "STATUS OOMKilled, Reason OOMKilled e Exit Code 137, com Limits memory 64Mi",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 5",
+      "titulo": "Alcancar o Service pelo nome e pela porta local",
+      "comandos": [
+        "kubectl apply -f manifests/50-pod-testador.yaml",
+        "kubectl -n campanhas logs testador-de-dns",
+        "kubectl -n campanhas port-forward svc/servico-de-consulta 18080:80"
+      ],
+      "saida_esperada": "o HTML de boas vindas do nginx no log do testador, e http_code 200 em http://127.0.0.1:18080/ com o port-forward de pe",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 6",
+      "titulo": "Escalar, quebrar o rollout de proposito e desfazer",
+      "comandos": [
+        "kubectl -n campanhas scale deploy/servico-de-consulta --replicas=5",
+        "kubectl -n campanhas set image deploy/servico-de-consulta servidor=nginxinc/nginx-unprivileged:9.9-inexistente",
+        "kubectl -n campanhas get pods -l app=servico-de-consulta",
+        "kubectl -n campanhas rollout undo deploy/servico-de-consulta"
+      ],
+      "saida_esperada": "os Pods novos ficam em ImagePullBackOff enquanto os antigos seguem em Running, e o undo devolve a imagem nginxinc/nginx-unprivileged:1.29-alpine",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 7",
+      "titulo": "Derrubar o cluster",
+      "comandos": ["kind delete cluster --name mentoria-dados"],
+      "saida_esperada": "Deleting cluster \"mentoria-dados\" seguido de Deleted nodes",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+# Deliberately broken. This Pod asks for more memory than its own limit allows,
+# so the kernel kills it and the cluster reports OOMKilled. Applying it is the
+# point: reading the failure signature is a skill, and it is learned by seeing it.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consumidor-de-memoria
+  namespace: campanhas
+spec:
+  restartPolicy: Never
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: alocador
+      image: python:3.11-slim
+      # Allocates 200 MiB against a 64 MiB limit.
+      command:
+        - python
+        - -c
+        - |
+          bloco = bytearray(200 * 1024 * 1024)
+          print(len(bloco))
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "32Mi"
+        limits:
+          cpu: "500m"
+          memory: "64Mi"
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop: ["ALL"]
