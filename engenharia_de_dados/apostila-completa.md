@@ -348,145 +348,174 @@ Fonte: `modulos/sql-joins/apostila.md`
 
 ### Apostila, SQL com foco em JOINs
 
-> Base de leitura da sessão única de 60 minutos.
-> Domínio de referência: CRM e marketing (clientes e pedidos).
-
----
+> Trilha de Engenharia de Dados. Conduzida por Iuri Zambotto e Paulo Shindi.
 
 #### Sumário
 
-0. Como usar esta apostila
-1. Objetivo pedagógico da sessão
-2. Contexto de negócio: por que JOIN importa
-3. Fundamentos relacionais que sustentam os JOINs
-4. JOINs com leitura conceitual e diagrama de Venn
-5. `ON` vs `WHERE` (ponto mais importante da sessão)
-6. Setup e base de dados da prática
-7. Roteiro de condução (60 minutos)
-8. Exercícios guiados com gabarito comentado
-9. Mini-desafio final com solução e interpretação
-10. Rubrica de validação da aprendizagem
-11. Erros comuns e como corrigir
-12. Plano de continuidade pós-sessão
-13. Glossário rápido
-14. Referências
-
----
+- [0. Como usar esta apostila](#0-como-usar-esta-apostila)
+- [1. Objetivo pedagógico](#1-objetivo-pedagógico)
+- [2. Contexto de negócio](#2-contexto-de-negócio)
+- [3. Fundamentos relacionais que sustentam os JOINs](#3-fundamentos-relacionais-que-sustentam-os-joins)
+- [4. Os tipos de JOIN](#4-os-tipos-de-join)
+- [5. ON contra WHERE, o ponto que decide tudo](#5-on-contra-where-o-ponto-que-decide-tudo)
+- [6. A base da prática](#6-a-base-da-prática)
+- [7. Exercícios e entregáveis](#7-exercícios-e-entregáveis)
+- [8. Mini-desafio com solução](#8-mini-desafio-com-solução)
+- [9. Rubrica de validação da aprendizagem](#9-rubrica-de-validação-da-aprendizagem)
+- [10. Erros comuns e como corrigir](#10-erros-comuns-e-como-corrigir)
+- [11. Plano de continuidade](#11-plano-de-continuidade)
+- [12. Glossário](#12-glossário)
+- [Referências](#referências)
+- [Fontes verificadas (2026-07-31)](#fontes-verificadas-2026-07-31)
 
 #### 0. Como usar esta apostila
 
-Esta apostila foi escrita para servir como material principal de leitura da sessão.
+**Leitura linear.** As seções 1 a 5 constroem o modelo mental e devem ser lidas
+antes da prática. A seção 5 é o coração do módulo, e é a que resolve o erro que
+mais aparece em análise real.
 
-Uso recomendado:
+**Revisão pontual.** Se você já escreve JOIN e veio atrás de um assunto: tipos de
+JOIN na 4, `ON` contra `WHERE` na 5, diagnóstico na 10.
 
-1. Ler as seções 1 a 5 antes da prática.
-2. Executar as queries da seção 8 no editor SQL.
-3. Tentar resolver o mini-desafio (seção 9) sem olhar a solução.
-4. Voltar à seção 11 para revisar erros e anti-padrões.
+**Como praticar.** Execute o script da seção 6 num editor SQL, resolva os
+exercícios da seção 7, e tente o mini-desafio da seção 8 antes de olhar o
+gabarito. Depois volte à seção 10 para reconhecer os erros com nome.
 
-Objetivo desta abordagem: transformar o conteúdo em repertório aplicável em cenário real, e não apenas em memorização de sintaxe.
+**Pré-requisitos.** `SELECT`, `WHERE` e `GROUP BY`. Nada além disso.
 
----
+**Este módulo não tem laboratório em container.** Ele declara `lab: false` no
+`trilha.yml`, porque uma tabela de quatro linhas roda em qualquer editor SQL de
+navegador, e montar Docker para isso seria atrito sem ganho.
 
-#### 1. Objetivo pedagógico da sessão
+Isso não significa que o SQL daqui não foi executado. Todas as consultas e todas
+as tabelas de resultado desta apostila foram rodadas em PostgreSQL 16.13, e a
+seção de fontes verificadas registra o quê, quando e com qual versão.
 
-Ao final da sessão, a mentorada deve conseguir:
+**Versões.** Verificado com PostgreSQL 16.13 em 2026-07-31.
 
-1. diferenciar quando usar `INNER JOIN`, `LEFT JOIN` e `FULL OUTER JOIN`;
-2. explicar por que a posição do filtro (`ON` ou `WHERE`) muda o resultado;
-3. montar e interpretar consultas com `JOIN + filtro + agregação`;
-4. justificar a escolha da query com base em pergunta de negócio.
+#### 1. Objetivo pedagógico
 
-Resultado esperado da sessão:
+Ao terminar este módulo, você consegue:
 
-- segurança conceitual para leitura de bases relacionais;
-- autonomia para resolver problemas iniciais de análise com SQL.
+1. **Diferenciar** quando usar `INNER JOIN`, `LEFT JOIN` e `FULL OUTER JOIN`, e
+   justificar a escolha pela pergunta de negócio.
+2. **Explicar** por que a posição do filtro, no `ON` ou no `WHERE`, muda o
+   resultado de um JOIN externo.
+3. **Montar** consultas que combinam JOIN, filtro e agregação, e interpretar a
+   saída.
+4. **Identificar** por que linhas desapareceram de um resultado, a partir do que
+   a query diz.
+5. **Reconhecer** quando linhas repetidas são erro e quando são consequência
+   esperada da cardinalidade.
 
----
+O verbo de cada item é o que será cobrado. "Explicar" é oral, na call. "Montar" é
+query que roda.
 
-#### 2. Contexto de negócio: por que JOIN importa
+#### 2. Contexto de negócio
 
-No domínio de CRM e marketing, os dados quase nunca ficam em uma única tabela.
+A startup fictícia de marketing e e-commerce da trilha tem os dados espalhados,
+como toda empresa tem. Quem são os clientes está num lugar, o que eles compraram
+está em outro.
 
-Exemplo realista:
+| Tabela | Grão |
+|---|---|
+| `clientes` | uma linha por cliente |
+| `pedidos` | uma linha por pedido |
 
-- tabela `clientes`: quem são os clientes;
-- tabela `pedidos`: histórico de compras.
+As perguntas que o negócio faz atravessam as duas:
 
-Perguntas típicas:
+- Quais clientes compraram no período?
+- Quais clientes **não** compraram?
+- Qual o valor total de compras por cliente?
 
-- quais clientes compraram no período?
-- quais clientes ainda não compraram?
-- qual é o valor total de compras por cliente?
+A segunda pergunta é a mais interessante das três, e é a que separa quem sabe
+JOIN de quem decora sintaxe. Ela pede o que **não** existe no cruzamento, e
+responder errado nela é o erro mais caro deste módulo: você entrega uma lista de
+clientes inativos sem os clientes que nunca compraram.
 
-Sem JOIN, essas perguntas ficam incompletas ou exigem processamento manual.
-
-Com JOIN bem aplicado, conseguimos combinar contexto de negócio com fatos transacionais em uma única leitura analítica.
-
----
+Este módulo é o primeiro degrau da trilha em SQL. Os módulos seguintes assumem
+que ler um JOIN é automático para você.
 
 #### 3. Fundamentos relacionais que sustentam os JOINs
 
-#### 3.1 Grão da tabela (granularidade)
+##### 3.1 Grão da tabela
 
-Grão = o que cada linha representa.
+**O que é**
 
-- `clientes`: 1 linha = 1 cliente.
-- `pedidos`: 1 linha = 1 pedido.
+Grão é o que cada linha representa. Em `clientes`, uma linha é um cliente. Em
+`pedidos`, uma linha é um pedido.
 
-Se o grão não estiver claro, a leitura de JOIN fica confusa e surgem erros de interpretação.
+**O equívoco comum**
 
-#### 3.2 Chave primária e chave estrangeira
+Começar a escrever o JOIN antes de saber o grão dos dois lados. Sem isso, você
+não tem como prever quantas linhas o resultado deve ter, e portanto não tem como
+perceber que ele veio errado.
 
-- **Chave primária (PK)**: identifica unicamente uma linha.
-  - Ex.: `clientes.cliente_id`.
-- **Chave estrangeira (FK lógica)**: aponta para a PK de outra tabela.
-  - Ex.: `pedidos.cliente_id` referencia `clientes.cliente_id`.
+##### 3.2 Chave primária e chave estrangeira
+
+**O que é**
+
+A chave primária identifica unicamente uma linha, como `clientes.cliente_id`. A
+chave estrangeira aponta para a primária de outra tabela, como
+`pedidos.cliente_id`.
 
 JOIN, na prática, é o vínculo entre essas chaves.
 
-#### 3.3 Cardinalidade
+**O equívoco comum**
 
-Cardinalidade descreve como uma entidade se relaciona com outra:
+Assumir que a chave estrangeira existe como restrição no banco. Em data
+warehouse, frequentemente ela é apenas uma convenção: o relacionamento existe na
+cabeça de quem modelou e não é garantido pelo banco. Isso significa que
+`pedidos.cliente_id` pode conter um valor que não existe em `clientes`, e o
+`INNER JOIN` vai silenciosamente descartar aquele pedido.
 
-- `1:1`, um para um;
-- `1:N`, um para muitos;
-- `N:N`, muitos para muitos (geralmente exige tabela ponte).
+##### 3.3 Cardinalidade
 
-No nosso caso:
+**O que é**
 
-- um cliente pode ter vários pedidos (`1:N`).
+Cardinalidade descreve como uma entidade se relaciona com outra: um para um, um
+para muitos, ou muitos para muitos.
 
-Consequência prática: um cliente pode aparecer várias vezes após o JOIN.
+No nosso caso, um cliente pode ter vários pedidos. É um para muitos.
 
-#### 3.4 Nulos, linhas faltantes e duplicidades
+**Como funciona na prática**
 
-Três sinais para sempre observar no resultado:
+A consequência é direta: depois do JOIN, um cliente aparece uma vez por pedido.
+Ana, com dois pedidos, aparece duas vezes. Isso não é duplicidade, é o grão do
+resultado, que passou a ser o do lado "muitos".
 
-1. **Nulos (`NULL`)**: indicam ausência de correspondência (muito comum em `LEFT JOIN`).
-2. **Linhas faltantes**: geralmente JOIN muito restritivo ou filtro mal posicionado.
-3. **Duplicidades aparentes**: muitas vezes são esperadas pela cardinalidade (ex.: um cliente com dois pedidos).
+**O equívoco comum**
 
----
+Somar uma coluna do lado "um" depois de um JOIN um para muitos. Se você somasse
+um valor da tabela `clientes` depois de juntar com `pedidos`, o valor de Ana
+entraria duas vezes. É o erro de duplicação de métrica, e ele não gera erro de
+SQL: gera número errado.
 
-#### 4. JOINs com leitura conceitual e diagrama de Venn
+##### 3.4 Os três sinais para olhar em todo resultado
 
-Antes dos tipos de JOIN, definimos os conjuntos:
+| Sinal | O que costuma significar |
+|---|---|
+| Nulos | Ausência de correspondência, comum e esperada em `LEFT JOIN` |
+| Linhas faltando | JOIN restritivo demais, ou filtro na posição errada |
+| Linhas repetidas | Em geral, a cardinalidade explicando o grão do resultado |
 
-- **A** = conjunto de clientes (`clientes`).
-- **B** = conjunto de clientes que aparecem em pedidos (`pedidos`, projetado por `cliente_id`).
+O terceiro é o que mais gera alarme falso. Antes de tratar repetição como
+defeito, confirme a cardinalidade.
 
-Importante: diagrama de Venn ajuda na intuição de pertencimento de conjunto, mas não mostra multiplicidade de linhas.
+#### 4. Os tipos de JOIN
 
-##### 4.1 `INNER JOIN` (interseção)
+Antes dos tipos, os conjuntos. **A** é o conjunto de clientes. **B** é o conjunto
+de clientes que aparecem em pedidos.
 
-Retorna apenas o que existe em A e em B ao mesmo tempo.
+O diagrama de Venn ajuda na intuição de pertencimento, e tem um limite que vale
+dizer logo: **ele não mostra multiplicidade de linhas.** Ana aparece uma vez no
+diagrama e duas vezes no resultado.
 
-Leitura em conjuntos:
+##### 4.1 INNER JOIN, a interseção
 
-- `INNER JOIN = A ∩ B`
-
-Diagrama de Venn (conceitual):
+Retorna apenas o que existe em A e em B ao mesmo tempo. A documentação do
+PostgreSQL descreve assim: para cada linha de T1, a tabela resultante tem uma
+linha para cada linha de T2 que satisfaz a condição de junção.
 
 ```text
 Clientes (A)                    Pedidos (B)
@@ -496,22 +525,18 @@ Clientes (A)                    Pedidos (B)
     \           /########\           /
      \_________/##########\_________/
 
-Área hachurada (########) = resultado do INNER JOIN
+Area hachurada = resultado do INNER JOIN
 ```
 
-Quando usar:
+Quando usar: quando só interessa registro com correspondência nos dois lados.
 
-- quando você quer apenas registros com correspondência nos dois lados.
+##### 4.2 LEFT JOIN, preserva a esquerda
 
-##### 4.2 `LEFT JOIN` (preserva esquerda)
-
-Retorna tudo de A e, quando houver, dados de B.
-
-Leitura em conjuntos:
-
-- `LEFT JOIN = A`
-
-Diagrama de Venn (conceitual):
+Retorna tudo de A e, quando houver, os dados de B. A documentação é precisa sobre
+o mecanismo: primeiro a junção interna é feita; depois, para cada linha de T1 que
+não satisfez a condição com nenhuma linha de T2, uma linha é acrescentada com
+nulos nas colunas de T2. Logo a tabela resultante tem sempre pelo menos uma linha
+para cada linha de T1.
 
 ```text
 Clientes (A)                    Pedidos (B)
@@ -521,22 +546,17 @@ Clientes (A)                    Pedidos (B)
     \###########/########\           /
      \#########/##########\_________/
 
-Área hachurada = todo o conjunto A
+Area hachurada = todo o conjunto A
 ```
 
-Quando usar:
+Quando usar: quando cobrir a base da esquerda é requisito de negócio. A pergunta
+"quais clientes não compraram" só existe aqui.
 
-- quando cobertura da base da esquerda é requisito de negócio.
+##### 4.3 FULL OUTER JOIN, a união
 
-##### 4.3 `FULL OUTER JOIN` (união completa)
-
-Retorna tudo de A e tudo de B.
-
-Leitura em conjuntos:
-
-- `FULL OUTER JOIN = A ∪ B`
-
-Diagrama de Venn (conceitual):
+Retorna tudo de A e tudo de B. Pelo mecanismo da documentação: a junção interna é
+feita, depois entram as linhas de T1 sem correspondência com nulos do lado de T2,
+e também as linhas de T2 sem correspondência com nulos do lado de T1.
 
 ```text
 Clientes (A)                    Pedidos (B)
@@ -546,44 +566,54 @@ Clientes (A)                    Pedidos (B)
     \###########/########\###########/
      \#########/##########\#########/
 
-Área hachurada = A inteiro + B inteiro
+Area hachurada = A inteiro mais B inteiro
 ```
 
-Quando usar:
+Quando usar: auditoria de cobertura e reconciliação entre duas bases. É o JOIN
+que responde "o que existe de um lado e não do outro, nos dois sentidos".
 
-- auditoria de cobertura;
-- reconciliação entre duas bases.
+Uma ressalva de portabilidade: o `FULL OUTER JOIN` funciona no PostgreSQL, e foi
+executado nesta apostila. Alguns engines analíticos o suportam de forma parcial ou
+com restrição de sintaxe. Se o seu destino não é PostgreSQL, confira antes de
+depender dele.
 
-Observação prática:
+##### 4.4 Comparativo
 
-- em alguns engines, `FULL OUTER JOIN` pode ter limitações ou não ser suportado.
+| Tipo | Regra | Melhor uso | Pergunta que ele responde |
+|---|---|---|---|
+| `INNER JOIN` | Só correspondência em ambos | Análise de interseção | Quem comprou? |
+| `LEFT JOIN` | Preserva a esquerda | Cobertura da base principal | Quem não comprou? |
+| `FULL OUTER JOIN` | Preserva os dois lados | Reconciliação e auditoria | O que não bate entre as bases? |
 
-##### 4.4 Comparativo rápido
+#### 5. ON contra WHERE, o ponto que decide tudo
 
-| Tipo de JOIN | Regra | Melhor uso |
-|---|---|---|
-| `INNER JOIN` | Apenas correspondência em ambos | Análise de interseção |
-| `LEFT JOIN` | Preserva esquerda | Cobertura de base principal |
-| `FULL OUTER JOIN` | Preserva ambos | Reconciliação/auditoria |
+##### 5.1 A regra, e a razão dela
 
----
+**O que é**
 
-#### 5. `ON` vs `WHERE` (ponto mais importante da sessão)
+`ON` controla como as tabelas se conectam. `WHERE` filtra o resultado depois da
+conexão.
 
-Regra prática:
+A documentação do PostgreSQL diz o porquê em uma frase: uma restrição colocada na
+cláusula `ON` é processada **antes** da junção, e uma restrição colocada no
+`WHERE` é processada **depois**. Com junção interna isso não importa. Com junção
+externa, importa muito.
 
-- `ON` controla como as tabelas se conectam.
-- `WHERE` filtra o resultado depois da conexão.
+A mesma documentação alerta que a cláusula `ON` de uma junção externa não é
+equivalente a uma condição `WHERE`, porque ela resulta na adição de linhas, para
+as linhas sem correspondência, e não apenas na remoção.
 
-Em `LEFT JOIN`, essa diferença muda o significado da consulta.
+##### 5.2 O caso correto, filtro no ON
 
-##### 5.1 Caso correto para preservar todos os clientes
+Todos os clientes, com o total apenas do período:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
     c.cliente_id,
     c.nome,
-    COALESCE(SUM(p.valor), 0) AS valor_periodo
+    COALESCE(SUM(p.valor), 0.00) AS valor_periodo
 FROM clientes c
 LEFT JOIN pedidos p
     ON c.cliente_id = p.cliente_id
@@ -592,18 +622,32 @@ GROUP BY c.cliente_id, c.nome
 ORDER BY valor_periodo DESC, c.cliente_id;
 ```
 
-Interpretação:
+Resultado, executado de verdade:
 
-- mantém todos os clientes;
-- limita apenas os pedidos considerados na agregação.
+```
+ cliente_id | nome  | valor_periodo
+------------+-------+---------------
+          1 | Ana   |        200.00
+          2 | Bruno |         50.00
+          3 | Carla |          0.00
+          4 | Diego |          0.00
+(4 rows)
+```
 
-##### 5.2 Caso que quebra cobertura sem perceber
+Quatro clientes, quatro linhas. Carla tem pedido, mas fora do período, e por isso
+aparece com zero. Diego não tem pedido nenhum, e também aparece.
+
+##### 5.3 O caso que quebra a cobertura em silêncio
+
+O mesmo objetivo, com o filtro no `WHERE`:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
     c.cliente_id,
     c.nome,
-    COALESCE(SUM(p.valor), 0) AS valor_periodo
+    COALESCE(SUM(p.valor), 0.00) AS valor_periodo
 FROM clientes c
 LEFT JOIN pedidos p
     ON c.cliente_id = p.cliente_id
@@ -612,26 +656,51 @@ GROUP BY c.cliente_id, c.nome
 ORDER BY valor_periodo DESC, c.cliente_id;
 ```
 
-Interpretação:
+Resultado, executado de verdade:
 
-- remove clientes sem pedido no período;
-- na prática, comporta-se como `INNER JOIN` para essa condição.
+```
+ cliente_id | nome  | valor_periodo
+------------+-------+---------------
+          1 | Ana   |        200.00
+          2 | Bruno |         50.00
+(2 rows)
+```
 
-Mensagem-chave da sessão:
+**Duas linhas em vez de quatro.** Carla e Diego desapareceram, e nada na saída
+avisa que eles existiam. O `LEFT JOIN` os manteve com nulos nas colunas de
+`pedidos`, e o `WHERE` os eliminou depois, porque `NULL BETWEEN alguma coisa` não
+é verdadeiro.
 
-> Se a intenção é manter todos os clientes, filtros da tabela da direita devem ir no `ON` (quando aplicável ao relacionamento).
+**O equívoco comum**
 
----
+Escrever a segunda query, receber um resultado plausível, e entregar. Ela não dá
+erro. Ela responde outra pergunta.
 
-#### 6. Setup e base de dados da prática
+**Como inspecionar**
 
-Ferramentas sugeridas:
+Conte as linhas. Se você começou de uma tabela com quatro clientes e usou
+`LEFT JOIN`, o resultado agrupado por cliente tem que ter quatro linhas. Menos que
+isso significa que algo filtrou depois da junção.
 
-- SQLBolt: https://sqlbolt.com/
-- DB Fiddle (PostgreSQL): https://www.db-fiddle.com/
-- W3Schools SQL Tryit (contingência): https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_all
+A mensagem do módulo, em uma frase:
 
-Script base (copiar e executar):
+> Se a intenção é manter todos os clientes, o filtro da tabela da direita vai no
+> `ON`, não no `WHERE`.
+
+#### 6. A base da prática
+
+Qualquer editor SQL de navegador serve. As três opções abaixo respondiam em
+2026-07-31:
+
+| Ferramenta | Para quê |
+|---|---|
+| DB Fiddle, com PostgreSQL | O mais fiel ao que esta apostila executou |
+| SQLBolt | Exercício guiado, bom para aquecer |
+| W3Schools SQL Tryit | Contingência, quando os outros estiverem fora |
+
+Script base, para copiar e executar:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, criou as tabelas e inseriu 4 mais 4 linhas, 2026-07-31 -->
 
 ```sql
 CREATE TABLE clientes (
@@ -660,56 +729,28 @@ INSERT INTO pedidos (pedido_id, cliente_id, data_pedido, valor) VALUES
 (104, 3, '2026-03-15', 200.00);
 ```
 
-Leitura rápida da base:
+A base é pequena de propósito, e cada linha tem função didática:
 
-- 4 clientes;
-- 4 pedidos;
-- 1 cliente sem pedido (caso didático para `LEFT JOIN`).
+- quatro clientes e quatro pedidos;
+- Ana tem dois pedidos, para exercitar cardinalidade um para muitos;
+- Carla tem um pedido **fora** da janela de 1 a 10 de março, para separar "não
+  comprou" de "não comprou no período";
+- Diego não tem pedido nenhum, o caso que só o `LEFT JOIN` mostra.
 
----
+#### 7. Exercícios e entregáveis
 
-#### 7. Roteiro de condução (60 minutos)
+**Exercício 1: quem comprou**
 
-##### Bloco 1 (0,10 min), Aquecimento
+Objetivo: usar `INNER JOIN` e reconhecer quem o resultado exclui.
 
-- revisão rápida de `SELECT`, `WHERE`, `GROUP BY`;
-- confirmação de PK/FK e grão das tabelas;
-- alinhamento de objetivo da sessão.
+Contexto: a base da seção 6.
 
-##### Bloco 2 (10,25 min), Conceito de JOINs
+Entregável: a query que lista cliente, pedido e valor de quem comprou, mais uma
+frase dizendo quem ficou de fora e por quê.
 
-- `INNER JOIN`, `LEFT JOIN`, `FULL OUTER JOIN`;
-- leitura dos diagramas de Venn;
-- explicação de `ON` vs `WHERE` com exemplo comparativo.
+Gabarito:
 
-##### Bloco 3 (25,45 min), Prática guiada
-
-Distribuição sugerida:
-
-- 25,32 min: exercício 1 (`INNER JOIN`);
-- 32,39 min: exercício 2 (`LEFT JOIN`);
-- 39,45 min: exercício 3 (`JOIN + GROUP BY`).
-
-##### Bloco 4 (45,55 min), Mini-desafio
-
-- resolver query final com período e agregação;
-- interpretar resultado (nulos, cobertura da base e ordenação).
-
-##### Bloco 5 (55,60 min), Fechamento
-
-- registrar 3 aprendizados;
-- registrar 1 dúvida pendente;
-- validar se o objetivo da sessão foi atingido.
-
----
-
-#### 8. Exercícios guiados com gabarito comentado
-
-##### Exercício 1, `INNER JOIN` básico
-
-Enunciado:
-
-> Listar cliente, pedido e valor para quem comprou.
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
@@ -723,24 +764,33 @@ INNER JOIN pedidos p
 ORDER BY c.cliente_id, p.pedido_id;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome  | pedido_id | valor
+------------+-------+-----------+--------
+          1 | Ana   |       101 | 120.00
+          1 | Ana   |       102 |  80.00
+          2 | Bruno |       103 |  50.00
+          3 | Carla |       104 | 200.00
+(4 rows)
+```
 
-| cliente_id | nome | pedido_id | valor |
-|---:|---|---:|---:|
-| 1 | Ana | 101 | 120.00 |
-| 1 | Ana | 102 | 80.00 |
-| 2 | Bruno | 103 | 50.00 |
-| 3 | Carla | 104 | 200.00 |
+Por que a resposta é essa: Diego não aparece porque não tem pedido, e o
+`INNER JOIN` só devolve o que tem correspondência nos dois lados. Repare também
+que Ana ocupa duas linhas, porque o grão do resultado passou a ser o pedido.
 
-Leitura didática:
+**Exercício 2: quem não comprou**
 
-- Diego não aparece porque não possui pedido.
+Objetivo: usar `LEFT JOIN` para cobrir a base da esquerda, e isolar os sem
+correspondência.
 
-##### Exercício 2, `LEFT JOIN` para cobertura da base
+Contexto: a base da seção 6.
 
-Enunciado:
+Entregável: duas queries, uma listando todos os clientes com o pedido quando
+houver, outra listando apenas quem não tem pedido.
 
-> Listar todos os clientes e identificar quem não comprou.
+Gabarito, parte um:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
@@ -753,17 +803,20 @@ LEFT JOIN pedidos p
 ORDER BY c.cliente_id, p.pedido_id;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome  | pedido_id
+------------+-------+-----------
+          1 | Ana   |       101
+          1 | Ana   |       102
+          2 | Bruno |       103
+          3 | Carla |       104
+          4 | Diego |
+(5 rows)
+```
 
-| cliente_id | nome | pedido_id |
-|---:|---|---:|
-| 1 | Ana | 101 |
-| 1 | Ana | 102 |
-| 2 | Bruno | 103 |
-| 3 | Carla | 104 |
-| 4 | Diego | `NULL` |
+Gabarito, parte dois:
 
-Agora, apenas clientes sem pedido:
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
@@ -775,23 +828,36 @@ LEFT JOIN pedidos p
 WHERE p.pedido_id IS NULL;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome
+------------+-------
+          4 | Diego
+(1 row)
+```
 
-| cliente_id | nome |
-|---:|---|
-| 4 | Diego |
+Por que a resposta é essa: a célula vazia de Diego na primeira query é um `NULL`,
+e é justamente por ele que a segunda query filtra. Este é o único uso de `WHERE`
+sobre coluna da direita que **não** contradiz o `LEFT JOIN`: aqui a intenção é
+mesmo ficar só com quem não tem correspondência.
 
-##### Exercício 3, `JOIN + GROUP BY` (resumo analítico)
+**Exercício 3: resumo por cliente**
 
-Enunciado:
+Objetivo: combinar JOIN com agregação e tratar ausência de valor.
 
-> Calcular total financeiro e quantidade de pedidos por cliente.
+Contexto: a base da seção 6.
+
+Entregável: a query com valor total e quantidade de pedidos por cliente, mais a
+explicação do que acontece com Diego em cada uma das duas colunas.
+
+Gabarito:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
     c.cliente_id,
     c.nome,
-    COALESCE(SUM(p.valor), 0) AS valor_total,
+    COALESCE(SUM(p.valor), 0.00) AS valor_total,
     COUNT(p.pedido_id) AS total_pedidos
 FROM clientes c
 LEFT JOIN pedidos p
@@ -800,42 +866,62 @@ GROUP BY c.cliente_id, c.nome
 ORDER BY valor_total DESC, c.cliente_id;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome  | valor_total | total_pedidos
+------------+-------+-------------+---------------
+          1 | Ana   |      200.00 |             2
+          3 | Carla |      200.00 |             1
+          2 | Bruno |       50.00 |             1
+          4 | Diego |        0.00 |             0
+(4 rows)
+```
 
-| cliente_id | nome | valor_total | total_pedidos |
-|---:|---|---:|---:|
-| 1 | Ana | 200.00 | 2 |
-| 3 | Carla | 200.00 | 1 |
-| 2 | Bruno | 50.00 | 1 |
-| 4 | Diego | 0.00 | 0 |
+Por que a resposta é essa. O `COALESCE` troca o total nulo de Diego por zero, e
+sem ele a coluna viria vazia. O `COUNT(p.pedido_id)` devolve 0 para Diego porque
+`COUNT` de uma coluna ignora nulos; se estivesse escrito `COUNT(*)`, Diego
+apareceria com 1, contando a linha que o `LEFT JOIN` fabricou. Essa diferença
+entre `COUNT(coluna)` e `COUNT(*)` depois de um `LEFT JOIN` é sutil e cara.
 
-Leitura didática:
+Repare no empate entre Ana e Carla, resolvido pelo `cliente_id` no `ORDER BY`.
+Ordenação sem critério de desempate produz saída que muda de execução para
+execução.
 
-- `COALESCE` evita total nulo para clientes sem pedido;
-- `COUNT(p.pedido_id)` conta apenas linhas com pedido válido.
+**Exercício 4: o filtro na posição errada**
 
----
+Objetivo: reproduzir de propósito o erro da seção 5.
 
-#### 9. Mini-desafio final com solução e interpretação
+Contexto: a base da seção 6.
 
-##### Enunciado
+Entregável: as duas versões da query de período, a contagem de linhas de cada
+uma, e a explicação de qual pergunta cada uma responde.
 
-Monte uma query que traga todos os clientes com total de compras apenas no período de `2026-03-01` a `2026-03-10`, incluindo clientes sem compras no período. Ordene por maior valor total.
+Gabarito: as duas queries são as das seções 5.2 e 5.3, com quatro e duas linhas
+respectivamente. Escrever a explicação com as suas palavras é o exercício.
 
-##### Dicas antes do gabarito
+#### 8. Mini-desafio com solução
+
+**Enunciado**
+
+Monte uma query que traga **todos** os clientes com o total de compras apenas no
+período de 1 a 10 de março de 2026, incluindo quem não comprou no período. Ordene
+por maior valor total.
+
+**Dicas**
 
 1. Comece de `clientes`.
-2. Use `LEFT JOIN` para preservar cobertura.
-3. Posicione o filtro de período no `ON`.
-4. Agregue com `SUM` e trate nulos com `COALESCE`.
+2. Use `LEFT JOIN` para preservar a cobertura.
+3. O filtro de período tem uma posição certa, e a seção 5 diz qual.
+4. Agregue com `SUM` e trate o nulo.
 
-##### Gabarito
+**Gabarito comentado**
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
     c.cliente_id,
     c.nome,
-    COALESCE(SUM(p.valor), 0) AS valor_total_periodo,
+    COALESCE(SUM(p.valor), 0.00) AS valor_total_periodo,
     COUNT(p.pedido_id) AS qtd_pedidos_periodo
 FROM clientes c
 LEFT JOIN pedidos p
@@ -845,102 +931,229 @@ GROUP BY c.cliente_id, c.nome
 ORDER BY valor_total_periodo DESC, c.cliente_id;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome  | valor_total_periodo | qtd_pedidos_periodo
+------------+-------+---------------------+---------------------
+          1 | Ana   |              200.00 |                   2
+          2 | Bruno |               50.00 |                   1
+          3 | Carla |                0.00 |                   0
+          4 | Diego |                0.00 |                   0
+(4 rows)
+```
 
-| cliente_id | nome | valor_total_periodo | qtd_pedidos_periodo |
-|---:|---|---:|---:|
-| 1 | Ana | 200.00 | 2 |
-| 2 | Bruno | 50.00 | 1 |
-| 3 | Carla | 0.00 | 0 |
-| 4 | Diego | 0.00 | 0 |
+**Interpretação**
 
-Interpretação:
+Carla e Diego têm o mesmo zero e chegaram nele por caminhos diferentes. Carla
+comprou, no dia 15, fora da janela. Diego nunca comprou. A query não distingue os
+dois, e essa é a limitação dela.
 
-- Carla tem pedido fora do período e, por isso, fica com 0 no recorte;
-- Diego segue aparecendo por causa do `LEFT JOIN`.
+Se o negócio precisa separar "não comprou no período" de "nunca comprou", isso é
+uma coluna a mais, não um JOIN diferente. Perceber isso é o que separa a resposta
+correta da boa resposta.
 
----
+**Um detalhe que só aparece executando**
 
-#### 10. Rubrica de validação da aprendizagem
+O fallback do `COALESCE` está escrito como `0.00` e não como `0`. Os dois
+funcionam e devolvem tipo numérico, mas a escala do literal aparece na saída: com
+`0`, a linha de Diego imprime `0`, e as outras imprimem `200.00`. Coluna
+financeira com escala inconsistente na mesma saída é ruído para quem lê, e o
+conserto custa dois caracteres.
 
-Considere a sessão bem-sucedida quando a mentorada:
+#### 9. Rubrica de validação da aprendizagem
 
-- explica a diferença entre `INNER` e `LEFT` com exemplo próprio;
-- identifica por que linhas “somem” em um JOIN;
-- evita o erro clássico de filtro no `WHERE` após `LEFT JOIN`;
-- entrega mini-desafio com leitura correta do resultado;
-- comunica a lógica da query com linguagem de negócio.
+| Critério | Insuficiente | Suficiente | Excelente |
+|---|---|---|---|
+| Tipos de JOIN | Usa `INNER` para tudo | Escolhe pelo que a pergunta pede | Justifica com a pergunta de negócio, sem citar sintaxe |
+| `ON` contra `WHERE` | Comete o erro e não percebe | Sabe a regra e a aplica | Explica por que o `WHERE` elimina a linha com nulo |
+| Grão e cardinalidade | Trata repetição como defeito | Reconhece o grão do resultado | Antecipa a duplicação de métrica antes de somar |
+| Tratamento de nulo | Entrega coluna vazia | Usa `COALESCE` na apresentação | Sabe a diferença entre `COUNT(coluna)` e `COUNT(*)` |
+| Diagnóstico | Ajusta a query até parecer certa | Conta linhas e compara com o esperado | Localiza a causa a partir da contagem |
+| Comunicação | Descreve a query | Descreve o resultado | Traduz o resultado em linguagem de negócio |
 
-Checklist rápido:
+Checklist rápido, para a call:
 
-- [ ] Entendeu PK/FK e grão das tabelas.
+- [ ] Entendeu chave primária, chave estrangeira e grão das tabelas.
 - [ ] Diferenciou `INNER`, `LEFT` e `FULL OUTER`.
-- [ ] Demonstrou domínio de `ON` vs `WHERE`.
-- [ ] Construiu query final sem ajuda total.
+- [ ] Demonstrou domínio de `ON` contra `WHERE`.
+- [ ] Construiu a query do mini-desafio sem gabarito.
+- [ ] Explicou a diferença entre o zero de Carla e o zero de Diego.
 
----
+#### 10. Erros comuns e como corrigir
 
-#### 11. Erros comuns e como corrigir
+**Explosão de linhas, o produto cartesiano**
 
-1. **Esquecer condição de JOIN (`ON`)**
-   - Sintoma: explosão de linhas (produto cartesiano).
-   - Correção: validar relacionamento por chave antes de executar.
+Sintoma: o resultado vem com muito mais linhas do que qualquer um dos lados. Com
+4 clientes e 4 pedidos, vem com 16.
 
-2. **Aplicar filtro da tabela da direita no `WHERE` após `LEFT JOIN`**
-   - Sintoma: perda de clientes sem correspondência.
-   - Correção: mover o filtro para o `ON` quando a intenção for preservar a esquerda.
+Causa, e aqui vale desfazer um mito. Escrever `JOIN` **sem** `ON` não produz
+produto cartesiano no PostgreSQL: produz erro de sintaxe, e você descobre na hora.
 
-3. **Somar sem agrupar corretamente**
-   - Sintoma: erro SQL de coluna não agregada.
-   - Correção: incluir no `GROUP BY` todas as colunas não agregadas do `SELECT`.
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
-4. **Não tratar `NULL` em saída analítica**
-   - Sintoma: métricas em branco e leitura confusa.
-   - Correção: usar `COALESCE` na apresentação do resultado.
+```
+ERROR:  syntax error at or near ";"
+LINE 1: SELECT count(*) FROM clientes c JOIN pedidos p;
+```
 
-5. **Interpretar duplicidade como erro sem checar cardinalidade**
-   - Sintoma: suspeita falsa de dado duplicado.
-   - Correção: confirmar se o relacionamento `1:N` explica múltiplas linhas.
+O produto cartesiano de verdade vem de dois outros caminhos, os dois medidos na
+base desta apostila e os dois devolvendo 16 linhas:
 
----
+- a junção por vírgula, `FROM clientes c, pedidos p`, sem condição no `WHERE`;
+- uma condição que não relaciona as chaves, como `ON 1=1`.
 
-#### 12. Plano de continuidade pós-sessão
+Correção: conferir se o `ON` liga as chaves de verdade, e desconfiar de junção por
+vírgula em query nova. A conta de sanidade é rápida: 4 vezes 4 é 16, e 16 nunca
+foi a resposta esperada.
 
-Se houver necessidade de reforço:
+**Filtro da tabela da direita no `WHERE` depois de `LEFT JOIN`**
 
-1. repetir os exercícios com outra janela de datas;
-2. adicionar uma terceira tabela simples (ex.: `campanhas`) para múltiplos JOINs;
-3. montar lista curta de 10 queries progressivas (básico -> intermediário);
-4. registrar dúvidas e decisões em `../../notes/`.
+Sintoma: clientes desaparecem do resultado, sem nenhum erro.
 
-Próximo degrau natural da trilha:
+Causa: o `WHERE` roda depois da junção e elimina as linhas em que a coluna da
+direita é nula.
 
-- avançar para JOIN em mais de duas tabelas e introduzir CTE para legibilidade.
+Correção: mover o filtro para o `ON`. Confirmar contando as linhas, como na seção
+5.3.
 
----
+**Somar sem agrupar corretamente**
 
-#### 13. Glossário rápido
+Sintoma: erro de coluna que não está em função de agregação nem no `GROUP BY`.
 
-- **PK (Primary Key)**: chave única da tabela.
-- **FK (Foreign Key)**: chave que referencia outra tabela.
-- **Cardinalidade**: padrão de relacionamento entre entidades.
-- **JOIN**: operação de combinação de tabelas.
-- **`NULL`**: ausência de valor.
-- **Agregação**: resumo de dados com funções como `SUM`, `COUNT`, `AVG`.
+Causa: coluna no `SELECT` que não é agregada e não foi agrupada.
 
----
+Correção: incluir no `GROUP BY` toda coluna não agregada do `SELECT`.
 
-#### 14. Referências
+**`COUNT(*)` depois de `LEFT JOIN`**
 
-- SQLBolt: https://sqlbolt.com/
+Sintoma: cliente sem pedido aparece com contagem 1 em vez de 0.
+
+Causa: `COUNT(*)` conta a linha que o `LEFT JOIN` fabricou com nulos. `COUNT` de
+uma coluna ignora nulos.
+
+Correção: contar a coluna do lado direito, como `COUNT(p.pedido_id)`.
+
+**Não tratar nulo na saída analítica**
+
+Sintoma: métrica em branco no relatório.
+
+Causa: agregação sobre conjunto vazio devolve nulo, não zero.
+
+Correção: `COALESCE` na apresentação, com o literal na mesma escala das outras
+linhas.
+
+**Interpretar repetição como duplicidade**
+
+Sintoma: suspeita de dado duplicado onde não há.
+
+Causa: relacionamento um para muitos. Ana com dois pedidos ocupa duas linhas.
+
+Correção: confirmar a cardinalidade antes de investigar. Se a repetição é
+esperada e o problema é a métrica, agregue.
+
+**Ordenação sem desempate**
+
+Sintoma: a mesma query devolve linhas em ordem diferente entre execuções.
+
+Causa: `ORDER BY` por uma coluna com valores repetidos, como o empate de 200.00
+entre Ana e Carla.
+
+Correção: acrescentar uma coluna estável de desempate, como a chave.
+
+#### 11. Plano de continuidade
+
+**Antes da próxima call**
+
+Faça os exercícios 2 e 4. O quarto é o que mais se parece com o erro que você vai
+cometer em produção.
+
+**O que estudar em seguida, dentro da trilha**
+
+O próximo degrau natural é JOIN entre mais de duas tabelas, e a introdução de CTE
+para manter a query legível. Depois disso, o bloco de armazenamento da trilha
+mostra onde essas tabelas moram de verdade e por que a forma de guardá-las decide
+o custo da consulta.
+
+O módulo de transformação com dbt retoma tudo isto num contexto novo: lá os
+`SELECT` que você escreve aqui viram modelos versionados e testados.
+
+**O que aprofundar por conta**
+
+Reescreva os exercícios com outra janela de datas, e depois com uma terceira
+tabela, por exemplo campanhas, para exercitar o JOIN em cadeia. Não precisa de
+ferramenta nova.
+
+**O que não perseguir agora**
+
+Otimização de plano de execução e índices. Eles importam, e importam depois de a
+leitura de JOIN ser automática para você.
+
+#### 12. Glossário
+
+| Termo | Significado |
+|---|---|
+| Agregação | Resumo de dados com funções como `SUM`, `COUNT` e `AVG` |
+| Cardinalidade | Padrão de relacionamento entre duas entidades |
+| Chave estrangeira | Coluna que referencia a chave primária de outra tabela |
+| Chave primária | Coluna que identifica unicamente uma linha |
+| `COALESCE` | Função que devolve o primeiro valor não nulo da lista |
+| Grão | O que cada linha de uma tabela representa |
+| JOIN | Operação que combina linhas de duas tabelas por uma condição |
+| Junção externa | JOIN que preserva linhas sem correspondência, com nulos |
+| Junção interna | JOIN que devolve apenas linhas com correspondência |
+| `NULL` | Ausência de valor, diferente de zero e de texto vazio |
+| Produto cartesiano | Cruzamento de todas as linhas com todas, quando falta condição |
+
+#### Referências
+
+Documentação oficial do PostgreSQL 16, consultada em 2026-07-31:
+
+- Expressões de tabela e tipos de junção: https://www.postgresql.org/docs/16/queries-table-expressions.html
+- Funções condicionais, incluindo `COALESCE`: https://www.postgresql.org/docs/16/functions-conditional.html
+
+Ferramentas de prática, conferidas em 2026-07-31:
+
 - DB Fiddle: https://www.db-fiddle.com/
+- SQLBolt: https://sqlbolt.com/
 - W3Schools SQL Tryit: https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_all
 
-Materiais locais da sessão:
+#### Fontes verificadas (2026-07-31)
 
-- `sessao-01-sql-joins.md`
-- `plano-aula.md`
-- `checklist-execucao-ao-vivo.md`
+- Uma restrição na cláusula `ON` é processada antes da junção, e uma restrição no
+  `WHERE` é processada depois. Isso não importa em junção interna e importa muito
+  em junção externa. A mesma documentação afirma que a cláusula `ON` de uma junção
+  externa não é equivalente a uma condição `WHERE`, porque resulta na adição de
+  linhas para as entradas sem correspondência, e não apenas na remoção.
+  https://www.postgresql.org/docs/16/queries-table-expressions.html
+- O mecanismo do `LEFT OUTER JOIN` é: primeiro a junção interna, depois, para cada
+  linha de T1 sem correspondência em T2, uma linha com nulos nas colunas de T2.
+  Logo o resultado tem sempre pelo menos uma linha por linha de T1. O
+  `FULL OUTER JOIN` faz o mesmo nos dois sentidos.
+  https://www.postgresql.org/docs/16/queries-table-expressions.html
+- Todo o SQL desta apostila foi executado em PostgreSQL 16.13 em 2026-07-31, em
+  container descartável, e todas as tabelas de resultado transcritas aqui são a
+  saída real do `psql`. Isso inclui o script de criação, as quatro consultas dos
+  exercícios, as duas consultas comparativas da seção 5, o mini-desafio e o
+  `FULL OUTER JOIN`. Nenhuma tabela de resultado desta apostila foi escrita de
+  memória.
+- O contraste central do módulo foi medido: com o filtro no `ON`, a consulta da
+  seção 5.2 devolve 4 linhas; com o mesmo filtro no `WHERE`, a consulta da seção
+  5.3 devolve 2. As duas foram executadas na mesma base.
+- O `FULL OUTER JOIN` foi executado com sucesso no PostgreSQL 16.13, devolvendo 5
+  linhas. A ressalva de portabilidade da seção 4.3 não foi testada em outros
+  engines, e está escrita como ressalva justamente por isso.
+- A escala do literal usado como fallback do `COALESCE` aparece na saída. Com
+  `COALESCE(SUM(p.valor), 0)` a linha sem pedido imprime `0`, e com
+  `COALESCE(SUM(p.valor), 0.00)` imprime `0.00`. Nos dois casos o tipo devolvido é
+  numérico, conferido com `pg_typeof`. Esta apostila usa a forma decimal, e as
+  tabelas de resultado refletem isso.
+  https://www.postgresql.org/docs/16/functions-conditional.html
+- As três ferramentas de prática da seção 6 responderam com código 200 em
+  2026-07-31.
+- O `JOIN` sem `ON` é erro de sintaxe no PostgreSQL 16.13, e não produto
+  cartesiano. O produto cartesiano de 16 linhas foi reproduzido de duas outras
+  formas na base desta apostila: junção por vírgula sem condição, e `ON 1=1`. A
+  versão anterior desta apostila atribuía a explosão de linhas à ausência do `ON`,
+  e a execução mostrou que isso está errado.
 
 ---
 
@@ -1267,565 +1480,724 @@ Pendente. Nenhuma afirmacao deste modulo foi conferida contra doc oficial.
 
 Fonte: `modulos/particionamento-performance/apostila.md`
 
-### Apostila, Particionamento + integração do pipeline
+### Apostila, particionamento e performance de consultas
 
-> Estratégias de particionamento, partition pruning, skew e laboratório integrado com CDC, Trino, MinIO e Hive Metastore.
-> Conduzida por Iuri Zambotto com Paulo Shindi.
-
----
+> Trilha de Engenharia de Dados. Conduzida por Iuri Zambotto e Paulo Shindi.
 
 #### Sumário
 
-0. Visão integrada do Projeto 1 (as caixinhas)
-0.1 Modelagem mínima antes do particionamento
-1. Por que particionamento importa
-2. Como o particionamento físico funciona
-3. Partition pruning, o mecanismo central
-4. Estratégias de particionamento
-5. Cardinalidade e escolha de chave de partição
-6. Skew de partição
-7. Hot partitions
-8. Custo versus performance
-9. A stack do laboratório: MinIO, Hive Metastore, Trino e o papel do Airflow
-10. Laboratório integrado: CDC → MinIO → Trino → particionamento
-11. Análise do domínio de marketing
-12. Exercícios e entregáveis
+- [0. Como usar esta apostila](#0-como-usar-esta-apostila)
+- [1. Objetivo pedagógico](#1-objetivo-pedagógico)
+- [2. Contexto de negócio](#2-contexto-de-negócio)
+- [3. Por que particionamento importa](#3-por-que-particionamento-importa)
+- [4. Como o particionamento físico funciona](#4-como-o-particionamento-físico-funciona)
+- [5. Partition pruning, o mecanismo central](#5-partition-pruning-o-mecanismo-central)
+- [6. Estratégias de particionamento](#6-estratégias-de-particionamento)
+- [7. Cardinalidade e escolha de chave de partição](#7-cardinalidade-e-escolha-de-chave-de-partição)
+- [8. Skew de partição](#8-skew-de-partição)
+- [9. Hot partitions](#9-hot-partitions)
+- [10. Custo contra performance](#10-custo-contra-performance)
+- [11. A stack do laboratório](#11-a-stack-do-laboratório)
+- [12. Laboratório](#12-laboratório)
+- [13. Análise do domínio de marketing](#13-análise-do-domínio-de-marketing)
+- [14. Exercícios e entregáveis](#14-exercícios-e-entregáveis)
+- [15. Mini-desafio com solução](#15-mini-desafio-com-solução)
+- [16. Rubrica de validação da aprendizagem](#16-rubrica-de-validação-da-aprendizagem)
+- [17. Erros comuns e como corrigir](#17-erros-comuns-e-como-corrigir)
+- [18. Plano de continuidade](#18-plano-de-continuidade)
+- [19. Glossário](#19-glossário)
+- [Referências](#referências)
+- [Fontes verificadas (2026-07-31)](#fontes-verificadas-2026-07-31)
 
----
+#### 0. Como usar esta apostila
 
-#### 0. Visão integrada do Projeto 1 (as caixinhas)
+**Leitura linear.** As seções 3 a 5 constroem o mecanismo. Da 6 à 10 cada seção
+trata de uma decisão de projeto com consequência de custo. A 12 é o laboratório, e
+ele é o centro deste módulo.
 
-Antes de escolher partição, o mentorado precisa enxergar o projeto como um todo.
+**Revisão pontual.** Pruning na 5, escolha de chave na 7, custo na 10,
+diagnóstico na 17.
 
-**Mapa simplificado do pipeline**
+**Pré-requisitos.** Os módulos de object storage e de formatos de arquivo. Este
+material assume que você sabe o que é um bucket, o que é Parquet e por que formato
+colunar importa.
+
+**Este módulo tem laboratório, e ele foi executado.** MinIO, Hive Metastore e
+Trino, em Docker, sem nuvem. O `lab.json` registra cada laboratório com o comando
+que provou, a saída e a data.
+
+**Uma advertência sobre escala, e ela é o próprio conteúdo.** O laboratório roda
+com 15 partições e 12.000 linhas. Não é preguiça de dimensionamento: acima de
+cerca de 20 partições, o Hive Metastore desta pilha trava na fase de commit de um
+CTAS particionado. A medição está na seção 17, e ela é a demonstração literal do
+que a seção 10 ensina sobre overhead de metadados.
+
+**Versões.** Verificado com Trino 479, Hive 4.0.0, PostgreSQL 16, MinIO
+RELEASE.2025-02-03T21-03-04Z e Docker Compose v2.39.1, em 2026-07-31.
+
+#### 1. Objetivo pedagógico
+
+Ao terminar este módulo, você consegue:
+
+1. **Explicar** o que particionamento faz no nível de armazenamento, e por que o
+   engine consegue não ler o que não precisa.
+2. **Demonstrar** partition pruning num plano de execução real, e dizer quanto ele
+   economizou.
+3. **Escolher** chave e granularidade de partição a partir do padrão de acesso e
+   da cardinalidade, justificando pela pergunta que o negócio faz.
+4. **Prever** os três modos de falha de uma escolha errada: small files, skew e
+   hot partition.
+5. **Calcular** o impacto de custo de uma decisão de particionamento com o modelo
+   de cobrança por dado escaneado.
+6. **Reconhecer** o limite de metadados de um catálogo Hive, tendo visto ele
+   acontecer.
+
+#### 2. Contexto de negócio
+
+A startup fictícia de marketing e e-commerce da trilha já tem o dado bruto no
+object storage e já sabe consultar. O problema agora é o preço da resposta.
+
+O time de marketing pergunta, todos os dias: quantos cliques por campanha na
+última semana? Sem particionamento, cada uma dessas perguntas varre o histórico
+inteiro. A resposta é a mesma, o custo cresce todo mês, e ninguém percebe até a
+fatura chegar.
+
+**As caixas do pipeline, e onde estamos**
 
 ```
 [Origem] -> [CDC] -> [Bronze] -> [Silver] -> [Gold] -> [Consumo]
                ^
-               | (Airflow orquestra a ordem e os checks)
+               | (o orquestrador garante a ordem e os checks)
 ```
 
-**O que cada caixa resolve**
+| Caixa | O que resolve |
+|---|---|
+| CDC | Representa mudança de forma auditável |
+| Bronze | Dado bruto, fidelidade máxima, sem transformação |
+| Silver | Dado limpo e padronizado, pronto para análise |
+| Gold | Métrica e tabela de consumo |
+| Engine de consulta | Valida e explora, sem armazenar |
 
-- **CDC**: representa mudanças (insert/update/delete) de forma auditável.
-- **Bronze**: dados brutos, sem transformação (fidelidade máxima).
-- **Silver**: dados limpos e padronizados (prontos para análise).
-- **Gold**: métricas e tabelas de consumo.
-- **Trino**: motor de consulta para validar e explorar.
+Este módulo mora entre bronze e silver: é ali que a decisão de particionamento é
+tomada, e é ela que decide o custo de tudo que vem depois.
 
-**Perguntas guia (pensar o todo)**
+**A modelagem mínima que precede a decisão**
 
-- Qual problema de negócio estamos resolvendo?
-- Qual o grão de cada tabela?
-- Onde os dados nascem e onde precisam chegar?
-- O que precisa ser idempotente (e onde)?
-- Qual coluna define o tempo do dado (event_date, updated_at)?
+Particionamento é decisão de armazenamento, e ela depende de saber o grão.
 
-#### 0.1 Modelagem mínima antes do particionamento
+| Entidade | Grão | Chave | Tipo de mudança | Partição sugerida |
+|---|---|---|---|---|
+| events | 1 evento | event_id | append-only | event_date |
+| campaigns | 1 campanha | campaign_id | upsert | created_date, se existir |
+| costs | 1 campanha por dia | (campaign_id, cost_date) | upsert | cost_date |
+| crm | 1 usuário | user_id | upsert | updated_at, se existir |
 
-Particionamento é decisão de armazenamento. Antes disso, precisamos do básico da modelagem.
+Se houver dado pessoal, marque e restrinja o acesso antes de promover para silver
+ou gold. Isso é assunto do módulo de governança, e a decisão precisa ser tomada
+aqui, não lá.
 
-| Entidade | Grão | Chave principal | Tipo de mudança | Camada base | Partição sugerida |
-|---|---|---|---|---|---|
-| events | 1 evento | event_id | append-only | bronze/silver | event_date |
-| campaigns | 1 campanha | campaign_id | upsert | bronze/silver | created_date (se existir) |
-| costs | 1 campanha x dia | (campaign_id, cost_date) | upsert | bronze/silver | cost_date |
-| crm | 1 usuário | user_id | upsert | bronze/silver | updated_at (se existir) |
-| users | 1 usuário | user_id | upsert | bronze/silver | updated_at (se existir) |
+**As perguntas que guiam o módulo**
 
-**Nota de PII:** se existir dado sensível (ex.: email, telefone), marcar e limitar acesso antes de promover para silver/gold.
+- Qual coluna define o tempo do dado?
+- Qual coluna aparece no filtro das queries mais caras?
+- Qual o volume por partição que essa escolha produz?
 
----
+#### 3. Por que particionamento importa
 
-#### 1. Por que particionamento importa
+##### 3.1 O cenário sem partição
 
-Antes de falar sobre técnica, vale entender o problema que o particionamento resolve.
+**O que é**
 
-**O cenário sem particionamento**
+Imagine uma tabela de eventos com 5 bilhões de registros cobrindo três anos. Você
+precisa do total de cliques da última semana. Sem particionamento, a consulta
+varre os 5 bilhões para achar os que caem na janela. Isso é uma varredura completa:
+caro, lento, e crescendo linearmente com o volume.
 
-Imagine uma tabela de eventos de uma plataforma de e-commerce com 5 bilhões de registros, cobrindo três anos de histórico. Você precisa calcular o total de cliques da última semana. Sem particionamento, a query precisa varrer todos os 5 bilhões de registros para encontrar os que caem na janela de tempo solicitada. Isso é um *full table scan*: caro, lento, e que cresce linearmente com o volume de dados.
-
-Em sistemas como Athena (serviço gerenciado da AWS sobre o Presto/Trino), você paga por byte escaneado. Um full scan em 5 bilhões de registros pode custar dezenas de dólares por consulta. Multiplique isso por centenas de consultas por dia e o custo torna-se inviável.
+Em serviços que cobram por byte escaneado, isso aparece na fatura. A seção 10 faz
+a conta com número.
 
 **O que o particionamento faz**
 
-Particionamento é a prática de organizar fisicamente os dados em subconjuntos (partições) com base nos valores de uma ou mais colunas. Quando o engine de consulta precisa responder a uma query com filtro sobre a coluna de partição, ele consulta apenas as partições relevantes, ignorando todo o resto.
+Particionar é organizar fisicamente o dado em subconjuntos, pelos valores de uma
+ou mais colunas. Quando a consulta filtra pela coluna de partição, o engine lê
+apenas as partições relevantes e ignora o resto.
 
-No exemplo acima: se os eventos estão particionados por data, a query da última semana lê apenas 7 partições de 3 anos (mais de 1000 partições). Em vez de varrer 5 bilhões de registros, o engine lê apenas os da última semana, talvez 30 ou 40 milhões. A redução de custo e de latência é de uma ou duas ordens de magnitude.
+No exemplo: com os eventos particionados por data, a consulta da última semana lê
+7 partições de mais de mil. Em vez de 5 bilhões de registros, ela lê os da semana.
+A redução é de uma ou duas ordens de magnitude.
 
-**A decisão que mais impacta o custo do datalake**
+##### 3.2 A decisão que mais mexe no custo
 
-Particionamento é, frequentemente, a decisão de design de dados com maior impacto direto em custo. Uma escolha errada de chave de partição pode:
+**O equívoco comum**
 
-- Fazer com que todas as queries continuem sendo full scans (partição com alta cardinalidade que nenhuma query usa como filtro).
-- Gerar dezenas de milhares de arquivos minúsculos (small files), degradando o próprio mecanismo que deveria melhorar a performance.
-- Criar desequilíbrio de tamanho entre partições (*skew*), onde uma partição tem 1000x mais dados que outra.
+Tratar particionamento como detalhe de implementação. É frequentemente a decisão
+de projeto de dados com maior impacto direto em custo, e ela é tomada uma vez e
+paga todo mês.
 
-Esta sessão cobre essas decisões em detalhe, com laboratório prático.
+Uma escolha errada produz um destes três resultados:
 
-**Referência do livro (Cap. 8, Data Storage Design Patterns)**
+| Erro | Consequência |
+|---|---|
+| Partição por coluna que nenhuma consulta filtra | Toda consulta continua varrendo tudo |
+| Partição por coluna de altíssima cardinalidade | Dezenas de milhares de arquivos minúsculos |
+| Partição por coluna desbalanceada | Uma partição com ordens de magnitude mais dado que as outras |
 
-O capítulo 8 descreve o padrão *Partitioned Table* como fundamento de qualquer estratégia de storage em larga escala. A premissa é simples: o acesso aos dados deve ser O(1) em relação ao volume total sempre que possível. Particionar por uma coluna que é filtrada sistematicamente é a forma mais direta de atingir isso.
+Os três têm nome, e as seções 7, 8 e 9 tratam de cada um.
 
----
+#### 4. Como o particionamento físico funciona
 
-#### 2. Como o particionamento físico funciona
+##### 4.1 A metáfora do armário
 
-**A metáfora do armário de arquivos**
+**O que é**
 
-Antes de entrar no modelo S3/MinIO, vale a metáfora de um armário físico de arquivos. Imagine que você tem 365 pastas, uma para cada dia do ano. Quando alguém pede os documentos de 15 de janeiro, você vai diretamente na pasta "2026-01-15" e pega. Você não abre cada pasta do ano para procurar.
+Imagine 365 pastas, uma por dia do ano. Quando alguém pede os documentos de 15 de
+janeiro, você vai direto na pasta e pega. Você não abre as outras 364.
 
-Isso é exatamente o que o particionamento faz no nível de storage.
+É literalmente o que o particionamento faz no armazenamento.
 
-**Organização em diretórios no S3/MinIO**
-
-Em sistemas como o S3 (e o MinIO, que é compatível com S3), os dados particionados ficam organizados em prefixos de caminho que seguem a convenção Hive. Por exemplo, uma tabela de eventos particionada por `event_date` seria armazenada assim:
-
-```
-s3://bronze/marketing/events/
-  event_date=2026-01-10/
-    part-00000-abc123.parquet
-    part-00001-def456.parquet
-  event_date=2026-01-11/
-    part-00000-ghi789.parquet
-  event_date=2026-01-12/
-    part-00000-jkl012.parquet
-```
-
-Cada subdiretório `event_date=<valor>` é uma partição. Os arquivos dentro dele contêm apenas os registros daquele dia específico.
-
-**O papel do Hive Metastore**
-
-O S3 não sabe que aqueles diretórios são partições de uma tabela. Ele enxerga apenas objetos com prefixos de caminho. Quem dá significado a essa estrutura é o Hive Metastore.
-
-O Hive Metastore é um serviço que mantém um catálogo de metadados. Ele sabe:
-
-- Que existe uma tabela chamada `events` no schema `marketing`.
-- Que essa tabela está armazenada em `s3://bronze/marketing/events/`.
-- Que a coluna de partição é `event_date`.
-- Quais partições existem, com seus caminhos e estatísticas.
-
-Quando o Trino recebe uma query como `SELECT * FROM hive.marketing.events WHERE event_date = '2026-01-10'`, ele consulta o Hive Metastore para descobrir quais partições existem e quais se encaixam no filtro antes de tocar qualquer arquivo no MinIO.
-
-**Registro de partições**
-
-Para que o Metastore saiba que uma partição existe, ela precisa ser registrada. Isso acontece de forma automática quando:
-
-- Você usa `INSERT INTO` via Trino (o Trino registra a partição no metastore após gravar os arquivos).
-- Você executa `MSCK REPAIR TABLE` manualmente (escaneia o S3 e registra partições existentes).
-
-Se você gravar arquivos diretamente no S3 sem registrar no metastore, as queries não encontrarão os dados.
-
-**O arquivo Parquet e a coluna de partição**
-
-Um detalhe importante: a coluna de partição (`event_date`, neste exemplo) geralmente **não é armazenada dentro dos arquivos Parquet de cada partição**. Ela está codificada no próprio caminho do diretório. Isso economiza espaço e evita redundância, o valor `2026-01-10` não precisa aparecer em cada linha de um arquivo que já está dentro de `event_date=2026-01-10/`.
-
-Quando o engine faz o merge dos dados com o metadado de partição ao retornar resultados, ele reconstrói a coluna automaticamente a partir do caminho.
-
----
-
-#### 3. Partition pruning, o mecanismo central
-
-**O que é partition pruning**
-
-Partition pruning (ou partition elimination) é o mecanismo pelo qual o engine de consulta identifica, a partir dos filtros da query, quais partições precisam ser lidas e descarta todas as demais antes de tocar qualquer arquivo.
-
-O nome "pruning" vem de "podar", como podar galhos desnecessários de uma árvore.
+##### 4.2 Organização em prefixos
 
 **Como funciona na prática**
 
-Considere a query:
+No S3, e no MinIO que implementa a mesma API, o dado particionado fica em prefixos
+que seguem a convenção Hive:
+
+```
+s3://silver/marketing/events/
+  event_date=2025-01-10/
+    20260731_190000_00001_abcde_...
+  event_date=2025-01-11/
+    20260731_190000_00001_abcde_...
+```
+
+Cada subdiretório `event_date=<valor>` é uma partição, e os arquivos dentro dele
+contêm só os registros daquele dia. Os nomes de arquivo acima são do formato que o
+Trino gera de verdade, observado no laboratório.
+
+##### 4.3 O papel do catálogo
+
+**O que é**
+
+O object storage não sabe que aqueles prefixos são partições. Ele vê objetos com
+nomes. Quem dá significado é o Hive Metastore, que guarda:
+
+- que existe uma tabela `events_silver` no schema `marketing`;
+- onde ela está armazenada;
+- que a coluna de partição é `event_date`;
+- quais partições existem.
+
+Quando o Trino recebe uma consulta com filtro de data, ele pergunta ao metastore
+quais partições existem e quais casam com o filtro, **antes** de tocar qualquer
+arquivo.
+
+**O equívoco comum**
+
+Gravar arquivo direto no bucket e esperar que a consulta o encontre. Se a partição
+não foi registrada no metastore, ela não existe para o engine.
+
+O registro acontece de duas formas: o próprio Trino escrevendo, ou você mandando
+sincronizar. E aqui há uma pegadinha de dialeto que vale saber antes de procurar
+no lugar errado. O comando do Hive é `MSCK REPAIR TABLE`, e **o Trino não tem esse
+comando**. No Trino é um procedimento:
+
+<!-- verificacao: nivel 1, conferido na documentacao do conector Hive do Trino, nao executado, 2026-07-31 -->
+
+```sql
+CALL hive.system.sync_partition_metadata(
+    schema_name => 'marketing',
+    table_name => 'events_silver',
+    mode => 'ADD');
+```
+
+O modo `ADD` acrescenta as partições que existem no storage e não estão no
+catálogo. Há também `DROP` e `FULL`. Material que manda rodar `MSCK REPAIR TABLE`
+no Trino está misturando os dois dialetos.
+
+##### 4.4 A coluna de partição não vive dentro do arquivo
+
+**O que é**
+
+A coluna de partição em geral **não** é armazenada dentro dos arquivos Parquet. O
+valor está codificado no caminho do prefixo. Isso economiza espaço: `2025-01-10`
+não precisa aparecer em cada linha de um arquivo que já está dentro de
+`event_date=2025-01-10/`.
+
+**Como inspecionar**
+
+O plano de execução do Trino diz isso explicitamente. Observado no laboratório:
+
+<!-- verificacao: nivel 3, EXPLAIN executado no Trino 479, saida real, 2026-07-31 -->
+
+```
+event_id := event_id:string:REGULAR
+event_date:date:PARTITION_KEY
+```
+
+`event_id` é `REGULAR`, ou seja, lido do arquivo. `event_date` é `PARTITION_KEY`,
+ou seja, reconstruído a partir do caminho. É a prova da afirmação, na saída da
+própria ferramenta.
+
+#### 5. Partition pruning, o mecanismo central
+
+##### 5.1 O que é
+
+Partition pruning é o mecanismo pelo qual o engine identifica, a partir dos
+filtros, quais partições precisa ler, e descarta as demais antes de abrir arquivo.
+O nome vem de podar.
+
+##### 5.2 Como funciona, passo a passo
+
+Considere a consulta:
+
+<!-- verificacao: nivel 3, executada no Trino 479 contra a tabela do laboratorio, 2026-07-31 -->
 
 ```sql
 SELECT campaign_id, COUNT(*) AS total_clicks
-FROM hive.marketing.events
-WHERE event_date BETWEEN DATE '2026-01-10' AND DATE '2026-01-12'
-  AND event_type = 'click'
+FROM hive.marketing.events_silver
+WHERE event_date BETWEEN DATE '2025-01-10' AND DATE '2025-01-12'
+  AND stage = 'click'
 GROUP BY campaign_id;
 ```
 
-O Trino processa esta query assim:
+O que o Trino faz:
 
-1. Analisa o predicado `event_date BETWEEN ...`.
-2. Consulta o Hive Metastore: quais partições existem e quais caem no intervalo?
-3. Recebe a lista: `event_date=2026-01-10`, `event_date=2026-01-11`, `event_date=2026-01-12`.
-4. Ignora todas as outras partições e envia requests ao MinIO apenas para os arquivos dessas três partições.
-5. Aplica o filtro `event_type = 'click'` dentro dos arquivos lidos (filtro de coluna, não de partição).
+1. Analisa o predicado de `event_date`.
+2. Pergunta ao metastore quais partições existem e quais caem no intervalo.
+3. Recebe a lista das três partições.
+4. Envia requisições ao storage apenas para os arquivos dessas três.
+5. Aplica o filtro de `stage` **dentro** dos arquivos lidos, porque `stage` não é
+   coluna de partição.
 
-Resultado: em vez de ler todos os dados históricos, o engine lê apenas 3 dias.
+##### 5.3 O pruning só acontece na coluna de partição
 
-**Pruning só funciona na coluna de partição**
+**O equívoco comum**
 
-Um equívoco comum é achar que qualquer filtro ativa o pruning. Só a coluna de partição pode ativar o pruning. Filtros em outras colunas (`event_type`, `user_id`, `campaign_id`) não eliminam partições, eles aplicam filtros dentro dos arquivos já carregados.
+Achar que qualquer filtro ativa o pruning. Só a coluna de partição elimina
+partição. Filtro em outra coluna é aplicado depois, dentro do que já foi lido.
 
-Isso tem uma implicação prática importante: a coluna de partição deve ser aquela mais usada como filtro nas queries mais frequentes e mais caras do sistema.
+A implicação prática decide o projeto: **a coluna de partição deve ser a mais usada
+como filtro nas consultas mais frequentes e mais caras.**
 
-**Pruning e Pushdown, conceitos relacionados**
+##### 5.4 Pruning e pushdown
 
-Em engines modernos como o Trino, existe também o *pushdown* de predicados para o nível de arquivo. O Parquet, por exemplo, armazena estatísticas de min/max por *row group*. O Trino pode usar essas estatísticas para pular row groups inteiros dentro de um arquivo Parquet, mesmo após o pruning de partições.
+Existe otimização em mais de um nível, e vale saber a ordem:
 
-A hierarquia de otimização é:
+| Nível | O que elimina |
+|---|---|
+| Partition pruning | Partições inteiras, sem abrir arquivo |
+| File pruning | Arquivos individuais, em formatos como Iceberg |
+| Row group pruning | Blocos dentro do Parquet, por estatística de mínimo e máximo |
 
-1. Partition pruning: elimina partições inteiras (não toca os arquivos).
-2. File pruning: em formatos como Iceberg, elimina arquivos individuais.
-3. Row group pruning: usa estatísticas de min/max dentro de arquivos Parquet.
+Este módulo trata do primeiro. Ele é o que dá o maior ganho e o único que você
+controla ao decidir a chave de partição.
 
-Para a sessão 04, o foco é no nível de partição.
+##### 5.5 Como inspecionar, e o que o Trino 479 realmente imprime
 
-**Como inspecionar o pruning com EXPLAIN**
+**Como inspecionar**
 
-No Trino, você pode usar `EXPLAIN` para ver se o engine está fazendo pruning:
+Material mais antigo manda procurar a palavra `Constraint` na linha do
+`TableScan`. **O Trino 479 não imprime isso.** O que ele imprime é mais direto:
+a lista de partições que serão lidas.
 
-```sql
-EXPLAIN
-SELECT *
-FROM hive.marketing.events
-WHERE event_date = DATE '2026-01-10';
+Com pruning, observado no laboratório:
+
+<!-- verificacao: nivel 3, EXPLAIN executado no Trino 479, saida real, 2026-07-31 -->
+
+```
+└─ TableScan[table = hive:marketing:events_silver]
+       Layout: [event_id:varchar]
+       event_id := event_id:string:REGULAR
+       event_date:date:PARTITION_KEY
+           :: [[2025-01-10]]
 ```
 
-A saída mostra o plano de execução. Quando o pruning acontece, você vê algo como:
+Uma partição na lista. Sem pruning, filtrando por uma coluna comum, o plano muda
+de forma e lista todas:
+
+<!-- verificacao: nivel 3, EXPLAIN executado no Trino 479, saida real, 2026-07-31 -->
 
 ```
-TableScan[hive:marketing:events]
-    Constraint: event_date IN (2026-01-10)
+└─ ScanFilterProject[table = hive:marketing:events_silver, filterPredicate = (channel = varchar 'organic')]
+       event_date:date:PARTITION_KEY
+           :: [[2025-01-01], [2025-01-02], ... [2025-01-15]]
 ```
 
-Isso confirma que o engine só vai ler a partição `event_date=2026-01-10`.
+Duas diferenças para ler no plano: o nó deixa de ser `TableScan` e passa a ser
+`ScanFilterProject` com `filterPredicate`, e a lista de partições passa de um
+valor para quinze.
 
----
+##### 5.6 Quanto isso economiza, medido
 
-#### 4. Estratégias de particionamento
+**Como funciona na prática**
 
-**Particionamento por tempo**
+Mesma tabela, mesmo dado, dois filtros. Números de `EXPLAIN ANALYZE` reais:
 
-A estratégia mais comum em datalakes. Faz sentido quando:
+| Medida | Com pruning | Sem pruning | Fator |
+|---|---|---|---|
+| Linhas lidas | 800 | 12.000 | 15x |
+| Bytes lidos | 50,92 kB | 761,21 kB | 15x |
+| Entrada física | 8,08 kB | 120,72 kB | 14,9x |
+| Splits | 1 | 15 | 15x |
+| CPU | 11,85 ms | 173,42 ms | 14,6x |
+| Tempo de I/O físico | 3,80 ms | 77,31 ms | 20x |
 
-- Os dados têm uma dimensão temporal forte (eventos, transações, logs).
-- As queries mais frequentes filtram por período de tempo (dia, semana, mês).
-- Os dados chegam de forma incremental e nunca são atualizados em partições antigas.
+O fator 15 não é coincidência: é a contagem de partições da tabela. Uma partição
+lida em vez de quinze. Numa tabela com três anos por dia, o mesmo raciocínio dá um
+fator na casa do milhar.
 
-A granularidade do particionamento por tempo deve ser escolhida com cuidado:
+Repare que a consulta sem pruning ainda devolve o resultado certo. Ela só custa
+quinze vezes mais para chegar nele.
 
-- **Muito grosso (por ano):** cada partição acumula volume enorme, reduzindo o benefício do pruning para queries diárias.
-- **Muito fino (por hora ou por minuto):** gera excesso de partições e arquivos minúsculos, aumentando overhead de metadados.
-- **Por dia:** o equilíbrio mais comum para dados transacionais. Uma partição por dia é gerenciável, e a maioria das queries operacionais filtra por dia ou intervalos de dias.
+#### 6. Estratégias de particionamento
 
-Exemplo de hierarquia temporal:
+##### 6.1 Por tempo
+
+**O que é**
+
+A estratégia mais comum em data lake. Faz sentido quando o dado tem dimensão
+temporal forte, as consultas filtram por período, e o dado chega de forma
+incremental sem atualizar partição antiga.
+
+**A granularidade decide tudo**
+
+| Granularidade | Problema |
+|---|---|
+| Por ano | Partição enorme, o pruning não ajuda consulta diária |
+| Por hora ou minuto | Excesso de partições e arquivos minúsculos |
+| Por dia | O equilíbrio mais comum em dado transacional |
+
+Hierarquia temporal também é possível, e é útil quando você filtra tanto por mês
+quanto por dia:
 
 ```
 s3://bronze/events/
   year=2026/month=01/day=10/
   year=2026/month=01/day=11/
-  year=2026/month=02/day=01/
 ```
 
-Esta hierarquia é útil quando você frequentemente filtra por mês (poda todas as partições de outros meses) ou por dia (poda até o nível mais granular).
+##### 6.2 Por chave de negócio
 
-**Particionamento por chave de negócio**
+Usado quando as consultas importantes filtram por uma dimensão como `country`,
+`channel` ou `campaign_id`.
 
-Usado quando as queries mais importantes filtram por uma dimensão de negócio específica, como `country`, `category`, `channel` ou `campaign_id`.
+Particionar por país faz sentido se a maioria das consultas é por mercado, se os
+países têm volume parecido, e se o número deles é baixo e estável.
 
-Por exemplo, em uma plataforma multi-país, particionar por `country` faz sentido se:
+##### 6.3 Híbrido, chave composta
 
-- A maioria das queries é scoped por país (analytics por mercado).
-- Cada país tem volume similar (sem skew).
-- O número de países é fixo e baixo (poucos valores, portanto poucos arquivos por partição).
-
-**Particionamento híbrido (chave composta)**
-
-Combina duas dimensões, tipicamente tempo + chave de negócio:
+Combina tempo e chave de negócio:
 
 ```
 s3://bronze/events/
-  event_date=2026-01-10/country=BR/
-  event_date=2026-01-10/country=US/
-  event_date=2026-01-11/country=BR/
+  event_date=2025-01-10/country=BR/
+  event_date=2025-01-10/country=US/
 ```
 
-O benefício: queries que filtram por data **e** país eliminam ainda mais partições. O risco: se o número de combinações for grande, o número de partições pode explodir, criando overhead de metadados.
+O ganho: consultas que filtram por data **e** país eliminam ainda mais partições.
+O risco: o número de combinações multiplica, e o número de partições explode.
 
-**Não existe estratégia universalmente correta**
+Este risco não é teórico neste laboratório. Veja a seção 17: 15 partições rodam em
+10 segundos, e 25 travam o metastore. Uma chave composta de 15 datas por 5 países
+já daria 75.
 
-A decisão de particionamento deve ser orientada pelos padrões de acesso reais do sistema. Perguntas que guiam a decisão:
+##### 6.4 Não existe estratégia universalmente correta
 
-- Qual coluna aparece mais frequentemente nos filtros das queries mais custosas?
-- Qual a cardinalidade dessa coluna? (número de valores distintos)
-- Há risco de skew? (valores com distribuição muito desigual)
-- Qual o volume médio por partição? (objetivo: partições entre 128 MB e 1 GB)
+A decisão vem do padrão de acesso real. As quatro perguntas que a resolvem:
 
----
+- Qual coluna aparece mais nos filtros das consultas mais custosas?
+- Qual a cardinalidade dessa coluna?
+- Há risco de distribuição desigual?
+- Qual o volume por partição que isso produz?
 
-#### 5. Cardinalidade e escolha de chave de partição
+#### 7. Cardinalidade e escolha de chave de partição
 
-**O que é cardinalidade**
+##### 7.1 O que é cardinalidade
 
-Cardinalidade é o número de valores distintos de uma coluna. Alta cardinalidade significa muitos valores distintos (ex: `user_id` com milhões de usuários). Baixa cardinalidade significa poucos valores (ex: `country` com 10 países, `event_type` com 5 tipos).
+Cardinalidade é o número de valores distintos de uma coluna. `user_id` com milhões
+de usuários é alta. `country` com dez países é baixa.
 
-**Por que alta cardinalidade é problemática para partição**
+##### 7.2 Por que alta cardinalidade quebra
 
-Se você particionar por `user_id` em uma tabela de 100 milhões de usuários distintos, terá 100 milhões de partições. Cada partição terá, em média, pouquíssimos registros. Os problemas resultantes são:
+**O que é**
 
-- **Small files problem:** cada partição gera um ou mais arquivos minúsculos. O S3 e o HDFS têm overhead fixo por arquivo (requests, metadata lookups). Milhões de arquivos pequenos degradam drasticamente a performance de qualquer operação sobre o dataset.
-- **Overhead de metastore:** o Hive Metastore precisa armazenar e indexar os metadados de cada partição. Com 100 milhões de partições, o metastore fica lento e instável.
-- **Pruning ineficaz:** em alta cardinalidade, o pruning reduz pouco o scan (você elimina poucas partições do total). O custo de gerenciar as partições supera o benefício.
+Particionar por `user_id` numa tabela de 100 milhões de usuários dá 100 milhões de
+partições, cada uma com pouquíssimos registros. Três problemas ao mesmo tempo:
 
-**A faixa ideal de cardinalidade para partição**
+| Problema | Por quê |
+|---|---|
+| Small files | Cada partição gera arquivo minúsculo, e o storage tem custo fixo por arquivo |
+| Overhead de catálogo | O metastore guarda e indexa metadado de cada partição |
+| Pruning inútil | Eliminar poucas partições de milhões não reduz o scan de forma relevante |
 
-Não existe um número mágico, mas a prática do mercado indica que partições funcionam bem com cardinalidade entre 10 e 10.000 valores distintos. Abaixo de 10, o pruning é limitado. Acima de 10.000, o risco de small files e overhead de metadados cresce.
+O segundo problema é o que a seção 17 mostra acontecendo, com número.
 
-Para colunas de alta cardinalidade que precisam ser filtradas com frequência, a solução adequada não é a partição, mas o *clustering* ou o *Z-ordering* (disponível em formatos como Delta e Iceberg), técnicas que organizam os dados dentro de arquivos para melhorar o pruning a nível de row group.
+##### 7.3 A faixa que funciona
 
-**Exemplos do domínio de marketing**
+Não existe número mágico. A prática de mercado indica que partição funciona bem
+com cardinalidade entre 10 e 10.000 valores distintos. Abaixo de 10 o pruning é
+limitado; acima de 10.000 o risco de small files e de overhead cresce.
 
-| Coluna | Cardinalidade estimada | Adequada para partição? |
+Para coluna de alta cardinalidade que precisa ser filtrada com frequência, a
+resposta não é partição, é organização interna do arquivo, como clustering ou
+ordenação multidimensional, disponíveis em formatos de tabela mais novos.
+
+##### 7.4 O caso do domínio de marketing
+
+| Coluna | Cardinalidade estimada | Serve como partição? |
 |---|---|---|
-| `event_date` | 365 por ano | Sim, padrão clássico |
-| `event_type` | 5 a 10 | Sim, mas avaliar skew |
+| `event_date` | 365 por ano | Sim, o padrão clássico |
+| `stage` | 4 a 10 | Sim, mas avaliar desequilíbrio |
 | `campaign_id` | 100 a 10.000 | Depende do volume por campanha |
-| `user_id` | Milhões | Não, alta cardinalidade |
-| `country` | 10 a 50 | Sim, se volume equilibrado |
+| `channel` | 5 a 50 | Sim, se o volume for equilibrado |
+| `user_id` | Milhões | Não |
 
----
+#### 8. Skew de partição
 
-#### 6. Skew de partição
+##### 8.1 O que é
 
-**O que é skew**
+Skew é o desequilíbrio de tamanho entre partições. Numa tabela particionada por
+`stage`, se a maioria dos eventos é impressão, aquela partição fica muito maior
+que as outras.
 
-Skew (distorção) é o desequilíbrio de tamanho entre partições. Em uma tabela particionada por `event_type`, se 90% dos eventos são do tipo `view` e os outros tipos somam 10%, a partição `event_type=view` será 9 vezes maior que todas as outras juntas.
+O laboratório tem skew embutido de propósito: a campanha `cmp_001` concentra cerca
+de 35 por cento do tráfego. Se você particionasse por `campaign_id`, veria o
+efeito.
 
-**Por que skew é um problema**
+##### 8.2 Por que é um problema
 
-Em engines distribuídos como o Trino ou o Spark, o trabalho é dividido entre workers. Se uma partição é muito maior que as demais, o worker responsável por ela termina muito depois dos outros. O tempo total da query é limitado pelo worker mais lento. Esse fenômeno é chamado de *stragglers* ou *tail latency*.
+Em engine distribuído, o trabalho é dividido entre workers. Se uma partição é
+muito maior, o worker dela termina muito depois dos outros, e o tempo total da
+consulta é o do mais lento. Isso se chama straggler.
 
-Além do impacto em queries, o skew complica o gerenciamento operacional:
+Além da consulta, o skew complica a operação: reprocessar a partição grande é
+desproporcionalmente caro, e estimar crescimento fica difícil.
 
-- Backups e reprocessamentos da partição grande são desproporcionalmente caros.
-- Estimar o tamanho de novos dados fica difícil (a distribuição é imprevisível).
-- Monitorar o crescimento da tabela torna-se mais complexo.
+##### 8.3 Como detectar
 
-**Como detectar skew**
+**Como inspecionar**
 
-No Trino, você pode inspecionar as estatísticas de partições:
+O Trino expõe as partições como uma tabela de sistema:
+
+<!-- verificacao: nivel 3, executado no Trino 479 contra a tabela do laboratorio, 2026-07-31 -->
 
 ```sql
--- Lista todas as partições e seus tamanhos estimados
-SELECT partition_key, row_count, data_size
-FROM hive.marketing."$partitions";
+SELECT * FROM hive.marketing."events_silver$partitions";
 ```
 
-Se os valores de `data_size` variarem em ordens de magnitude, há skew.
+Se os tamanhos variarem em ordens de magnitude, há skew. No console do MinIO, em
+`http://localhost:9001`, a comparação visual dos prefixos dá a mesma pista mais
+rápido.
 
-Uma forma prática de detectar durante o desenvolvimento: olhar o tamanho dos arquivos no MinIO Console (`http://localhost:9001`) e comparar visualmente as partições.
+##### 8.4 O que fazer
 
-**Estratégias para lidar com skew**
+| Estratégia | Quando |
+|---|---|
+| Trocar a chave | O desequilíbrio é natural na coluna escolhida |
+| Sub-particionar | Uma segunda dimensão equilibra a distribuição |
+| Bucketing | Distribuir em N arquivos de tamanho parecido dentro da partição |
+| Aceitar | O desequilíbrio é inevitável, e você otimiza a consulta da partição grande |
 
-- **Mudar a chave de partição:** se a coluna de partição tem skew natural, avaliar uma chave mais equilibrada.
-- **Sub-particionar:** adicionar uma segunda dimensão que equilibre a distribuição (ex: `event_type` + `event_date`).
-- **Bucketing:** dentro de uma partição, distribuir os dados em N arquivos (buckets) de tamanho similar. O Hive e o Spark suportam bucketing. O Trino suporta leitura de tabelas com bucket, mas a criação é via Hive.
-- **Aceitar o skew:** em alguns casos, o skew é inevitável e o correto é aceitá-lo e otimizar as queries para a partição grande especificamente (ex: via pushdown de row group ou Z-ordering no Iceberg).
+A última linha é uma resposta legítima, e dizer isso por escrito vale mais que
+uma otimização que não vai acontecer.
 
----
+#### 9. Hot partitions
 
-#### 7. Hot partitions
+##### 9.1 O que é, e por que é diferente de skew
 
-**O que são hot partitions**
+Hot partition é uma partição que recebe volume desproporcional de **escritas
+simultâneas**. Acontece em tabela particionada por tempo quando vários processos
+escrevem no dia de hoje ao mesmo tempo.
 
-Hot partition é o fenômeno em que uma partição específica recebe um volume desproporcional de escritas simultâneas. Acontece com frequência em tabelas particionadas por tempo quando vários processos escrevem para o "dia de hoje" ao mesmo tempo.
+| Fenômeno | Natureza |
+|---|---|
+| Skew | Problema de leitura, a partição é grande |
+| Hot partition | Problema de escrita, a partição recebe muitos writers |
 
-**Por que é um problema diferente do skew**
+##### 9.2 O caso clássico
 
-Skew é um problema de leitura: a partição é grande e demora para ser lida. Hot partition é um problema de escrita: a partição recebe muitos writes concorrentes, o que pode:
+Num pipeline quase em tempo real, vários workers escrevem em
+`event_date=<hoje>` ao longo do dia. Cada microbatch gera um arquivo, e ao fim do
+dia a partição tem centenas ou milhares de arquivos pequenos.
 
-- Causar conflitos de arquivo (especialmente em formatos sem controle de concorrência como Hive clássico).
-- Gerar muitos arquivos pequenos porque cada processo escreve um arquivo separado.
-- Sobrecarregar o metastore com atualizações de metadados da partição atual.
+##### 9.3 Mitigação
 
-**O caso clássico: partição do dia atual**
+| Estratégia | Como |
+|---|---|
+| Compactação | Job periódico une os arquivos pequenos da partição em arquivos maiores |
+| Área de staging | Os jobs escrevem fora da partição final, e um merge periódico consolida |
+| Serialização pelo orquestrador | O orquestrador impede writers simultâneos na partição do dia |
 
-Em um pipeline de eventos com processamento quase em tempo real, vários workers escrevem para `event_date=2026-03-03` ao longo do dia. Cada job de microbatch gera um arquivo. Ao fim do dia, a partição pode ter centenas ou milhares de arquivos pequenos.
+Formatos de tabela mais novos têm compactação nativa e transacional. No Hive
+clássico, que é o deste laboratório, o processo é manual.
 
-**Estratégias de mitigação**
+#### 10. Custo contra performance
 
-- **Compaction (compactação):** um job periódico (ex: rodando via Airflow a cada hora ou uma vez por dia) lê todos os arquivos pequenos de uma partição, une-os em arquivos maiores e sobrescreve. O Iceberg e o Delta Lake têm compaction nativo e transacional. No Hive clássico, o processo é manual.
-- **Staging area:** em vez de escrever diretamente na partição final, os jobs escrevem em uma área de staging (`s3://bronze/events_staging/`). Um job de merge periódico move os dados para a partição oficial com compaction automática.
-- **Controle de concorrência via orquestrador:** o Airflow pode serializar as escritas para a partição do dia atual, evitando múltiplos writers simultâneos.
+##### 10.1 O trade-off
 
----
+Particionar resolve um problema e cria outro. Menos dado lido por consulta, e mais
+metadado para gerenciar. Mais partições significa mais entradas no catálogo, e
+operações que percorrem o schema inteiro ficam mais lentas.
 
-#### 8. Custo versus performance
+Este módulo tem a demonstração literal disso na seção 17.
 
-**O trade-off fundamental**
+##### 10.2 O problema dos small files
 
-Particionar resolve um problema, mas cria outro. A redução de custo e latência de queries vem com um custo de overhead de gerenciamento: mais partições = mais metadados = mais overhead do metastore = maior latência para operações que valem o schema inteiro.
+**O que é**
 
-**O problema dos small files**
+Cada arquivo no object storage tem custo fixo de operação. Se uma partição tem
+1.000 arquivos de 1 KB, o engine faz 1.000 requisições para ler 1 MB. Comparado a
+uma requisição para um arquivo de 1 MB, o desperdício é enorme.
 
-Cada arquivo no S3 tem um custo fixo de operação: um GET request para abrir, um PUT para escrever. Em um Parquet típico, o overhead de abertura é de dezenas de milissegundos. Se uma partição tem 1000 arquivos de 1 KB cada, o engine faz 1000 GETs para ler 1 MB de dados. Comparado a 1 GET para um arquivo de 1 MB, o overhead é enorme.
+**A regra prática**
 
-A regra prática: arquivos entre **128 MB e 1 GB** são o ideal para queries analíticas em S3. Abaixo de 10 MB, o overhead começa a ser perceptível. Abaixo de 1 MB, é um problema.
+Arquivos entre 128 MB e 1 GB são o alvo para consulta analítica em object storage.
+Abaixo de 10 MB o overhead começa a aparecer; abaixo de 1 MB é problema. Isso é
+heurística de mercado, não número de documentação.
 
-**Granularidade de partição versus tamanho de arquivo**
+**A tensão com a granularidade**
 
-Há uma tensão direta entre granularidade de partição e tamanho de arquivo:
+Particionar por hora dá 24 partições por dia; com volume baixo, cada uma tem
+poucos MB e você criou o problema de small files. Particionar por mês resolve os
+arquivos e mata o pruning diário.
 
-- Particionar por hora gera 24 partições por dia. Se o volume de dados for baixo, cada partição pode ter poucos MB, gerando small files.
-- Particionar por mês resolve o small files problem, mas reduz drasticamente o benefício do pruning para queries diárias.
+A conta que resolve: se você sabe o volume diário, sabe qual granularidade deixa
+cada partição com pelo menos alguns arquivos grandes.
 
-A decisão correta depende do volume de dados. A regra de ouro: **cada partição deve ter pelo menos alguns arquivos de 128 MB ou mais**. Se você sabe o volume diário de dados, você consegue calcular qual granularidade é adequada.
+##### 10.3 A conta de custo, com o modelo por dado escaneado
 
-**Overhead de metadados no Hive Metastore**
+**Como funciona na prática**
 
-O Hive Metastore guarda uma entrada no banco (PostgreSQL, neste lab) para cada partição. Com milhares de partições, operações como `SHOW PARTITIONS`, `DESCRIBE`, e o próprio processo de resolução de schema ficam mais lentos.
+Serviços que consultam direto no object storage cobram por byte escaneado. A
+página de preço do Athena usa 5 dólares por terabyte como taxa ilustrativa do
+exemplo dela, e é essa taxa que os exercícios deste módulo usam.
 
-Formatos como Iceberg resolvem parte desse problema ao usar um catálogo próprio baseado em arquivos de manifesto, reduzindo a dependência do Hive Metastore para listagem de partições.
+Suponha a tabela `events` com 730 dias, 10 milhões de registros por dia e 200
+bytes por registro em Parquet. Total de 1,46 TB.
 
-**Referência do livro (Cap. 8 e 10)**
+| Cenário | Volume lido por consulta | Custo por consulta |
+|---|---|---|
+| Sem partição, filtro de 7 dias | 1,46 TB | 7,30 dólares |
+| Particionado por dia, filtro de 7 dias | 7 de 730, cerca de 14 GB | 0,07 dólares |
 
-O Cap. 8 cobre o padrão *Partitioned Table* com discussão explícita do trade-off entre granularidade e overhead. O Cap. 10 (Data Observability) menciona a importância de monitorar o tamanho de partições e o número de arquivos como métricas operacionais fundamentais de um datalake.
+Cem consultas por dia é a diferença entre 730 dólares e 7 dólares por dia. A
+decisão foi tomada uma vez, no dia em que a tabela foi criada.
 
----
+##### 10.4 Overhead de catálogo
 
-#### 9. A stack do laboratório: MinIO, Hive Metastore, Trino e o papel do Airflow
+O Hive Metastore guarda uma entrada no banco relacional para cada partição. Com
+milhares de partições, operações como listar partições e resolver schema ficam
+mais lentas.
 
-Esta seção explica o papel de cada componente antes do laboratório prático.
+Formatos de tabela mais novos reduzem essa dependência ao manter o próprio
+catálogo em arquivos de manifesto no storage.
 
-**MinIO, Object Storage S3-compatible**
+#### 11. A stack do laboratório
 
-O MinIO é um servidor de object storage de código aberto que implementa a API do Amazon S3. Ele funciona idêntico ao S3 para qualquer cliente que usa o SDK ou API do S3: você cria buckets, faz PUT de objetos, faz GET, lista prefixos.
+**MinIO, o object storage**
 
-A diferença em relação ao S3 real: o MinIO roda localmente, sem custo e sem precisar de conta na AWS. Para fins de laboratório e desenvolvimento, é indistinguível do S3.
+Implementa a API do S3. Para qualquer cliente que use o SDK do S3, é
+indistinguível dele. Roda local, sem custo e sem conta em nuvem. O laboratório
+usa três buckets: `bronze`, `silver` e `gold`.
 
-Nesta sessão, o MinIO tem três buckets:
+**Hive Metastore, o catálogo**
 
-- `bronze`: dados brutos, particionados por data.
-- `silver`: dados curados e transformados.
-- `gold`: dados agregados para consumo analítico.
+Serviço que guarda metadado de tabela: nome, schema, localização, colunas de
+partição e a lista de partições. Usa um banco relacional como backend, aqui um
+PostgreSQL.
 
-**Hive Metastore, Catálogo de tabelas**
+**Uma correção que vale registrar.** Na AWS, o Glue Data Catalog cumpre o mesmo
+**papel**, e é comum dizer que ele "fala o mesmo protocolo Thrift". Não fala. O
+Glue é acessado pela API da AWS, e no Trino isso é configuração diferente:
 
-O Hive Metastore é um serviço independente que armazena metadados de tabelas: nome, schema (colunas e tipos), localização no S3, colunas de partição, lista de partições existentes e estatísticas.
+| Catálogo | Configuração no Trino |
+|---|---|
+| Hive Metastore | `hive.metastore=thrift`, com `hive.metastore.uri` |
+| AWS Glue | `hive.metastore=glue`, com `hive.metastore.glue.region` |
 
-Ele usa um banco relacional como backend. Neste lab, o backend é um PostgreSQL. Em produção na AWS, o serviço equivalente é o AWS Glue Data Catalog, que é totalmente compatível com o protocolo Thrift do Hive Metastore.
+O que muda para você: trocar de um para o outro é mudança de configuração do
+conector, não apenas de endereço. O conceito de catálogo é o mesmo, o mecanismo de
+acesso não.
 
-A comunicação entre o Trino e o Hive Metastore é via protocolo Thrift na porta 9083. O Trino consulta o metastore sempre que precisa resolver metadados de uma tabela.
+**Trino, o engine de consulta**
 
-**Trino, Engine de consulta SQL**
-
-O Trino (anteriormente PrestoSQL) é um engine de consulta SQL distribuído, desenhado para consultas analíticas de alta performance sobre dados em object storage. Ele não armazena dados: apenas os lê e os processa.
-
-O Trino se conecta ao Hive Metastore via conector Hive (configurado em `catalog/hive.properties`) e ao MinIO via protocolo S3 (com endpoint override apontando para `http://minio:9000`).
-
-Para o usuário final, o Trino aparece como um banco SQL padrão. Você conecta via CLI, UI web ou JDBC, e escreve queries SQL normais.
+Engine SQL distribuído para consulta analítica sobre object storage. Ele não
+armazena nada: lê e processa. Conecta ao metastore via Thrift e ao MinIO via API
+do S3.
 
 **Como os três se conectam**
 
 ```
-[Usuário / Query] --> [Trino :8090]
-                           |
-                           |-- (1) Consulta metadados --> [Hive Metastore :9083]
-                           |                                     |
-                           |                               [PostgreSQL :5432]
-                           |
-                           |-- (2) Lê arquivos ----------> [MinIO :9000]
-                                                              |
-                                                         [bronze/silver/gold]
+[Consulta] --> [Trino :8090]
+                    |
+                    |-- (1) metadado --> [Hive Metastore :9083] -> [PostgreSQL]
+                    |
+                    |-- (2) arquivos --> [MinIO :9000] -> [bronze/silver/gold]
 ```
 
-O fluxo de uma query:
+O fluxo: a consulta chega ao Trino, ele pede o metadado ao metastore, decide quais
+partições ler com base nos predicados, lê os arquivos dessas partições no MinIO, e
+processa.
 
-1. O usuário envia a query para o Trino.
-2. O Trino consulta o Hive Metastore para obter metadados da tabela (schema, localização, partições).
-3. Com base nos predicados da query, o Trino determina quais partições ler (partition pruning).
-4. O Trino lê os arquivos Parquet das partições selecionadas diretamente do MinIO via API S3.
-5. O Trino processa e retorna o resultado.
+**Onde o orquestrador entra**
 
-**Onde o Airflow entra**
+Nesta sessão o Airflow não sobe. O desenho do DAG é suficiente para conectar as
+caixas: gerar o dado, carregar no bronze, construir a silver particionada, e rodar
+as consultas de validação.
 
-O Airflow orquestra a sequência das etapas, mas nesta sessão ele não precisa subir. O desenho do DAG é suficiente para conectar as caixinhas:
+#### 12. Laboratório
 
-- `generate_cdc` → gera eventos (ou captura CDC real)
-- `load_bronze` → envia arquivos para o MinIO (bronze)
-- `build_silver` → cria ou atualiza tabela particionada
-- `validate_queries` → roda queries de validação e EXPLAIN
+O laboratório roda em Docker, sem nuvem. Os runbooks em
+`infrastructure/runbooks/` trazem o passo a passo, inclusive o reset de estado, que
+não é opcional e a seção 17 explica por quê.
 
----
+**Sobre a escala.** O gerador entrega 15 partições e 12.000 linhas por padrão.
+Esse número é um teto medido, não uma preferência. A seção 17 tem a tabela.
 
-#### 10. Laboratório integrado: CDC → MinIO → Trino → particionamento
+##### Lab 0: Gerar o dado e carregar no bronze
 
-Esta seção conecta CDC, storage e consulta. Vamos usar os dados sintéticos já gerados em `data/generated/marketing`.
-
-**Conectar ao Trino via CLI**
+Pré-condição: Docker e Docker Compose v2, e cerca de 8 GB de memória livre.
 
 ```bash
-docker exec -it mentoria-s04-trino trino
+cd engenharia_de_dados/modulos/particionamento-performance
+python3 scripts/gerar_dados.py --destino infrastructure/dados
+cd infrastructure
+docker compose up -d
 ```
 
-Você verá o prompt `trino>`. A partir daqui, todos os comandos são SQL.
+Saída esperada do gerador:
 
-**Verificar o catálogo disponível**
-
-```sql
-SHOW CATALOGS;
+```
+events.csv: 12000 linhas
+events__cdc.csv: 15566 linhas
+janela: 2025-01-01 a 2025-01-15, 15 particoes de event_date
 ```
 
-Deve retornar pelo menos: `hive` (configurado em `hive.properties`).
-
----
-
-##### Lab 0: Carregar dados no MinIO (bronze)
-
-Usaremos o MinIO Client via Docker (sem instalar nada no host).
-
-Antes, aponte a variavel abaixo para a pasta onde os dados sinteticos foram gerados na sua
-maquina. E o unico caminho que muda de pessoa para pessoa:
+Depois, com a pilha de pé, envie os arquivos ao MinIO:
 
 ```bash
-export DADOS_GERADOS="$HOME/dados-mentoria/marketing"
-```
-
-```bash
-docker run --rm \
-  --network mentoria-sessao-04-particionamento_default \
-  -v "$DADOS_GERADOS":/data \
+docker run --rm --network mentoria-sessao-04-particionamento_default \
+  -v "$PWD/dados":/data \
   -e MC_HOST_local="http://minioadmin:minioadmin@minio:9000" \
-  minio/mc:RELEASE.2025-08-13T08-35-41Z \
+  minio/mc:RELEASE.2025-02-08T19-14-21Z \
   cp /data/events.csv local/bronze/marketing/raw/events/
-
-docker run --rm \
-  --network mentoria-sessao-04-particionamento_default \
-  -v "$DADOS_GERADOS":/data \
-  -e MC_HOST_local="http://minioadmin:minioadmin@minio:9000" \
-  minio/mc:RELEASE.2025-08-13T08-35-41Z \
-  cp /data/events__cdc.csv local/bronze/marketing/raw/events_cdc/
 ```
 
-Isso cria dois prefixos no bucket `bronze`: `raw/events/` e `raw/events_cdc/`.
+O gerador é determinístico, com semente fixa. Rodar duas vezes produz o mesmo
+arquivo, e é por isso que esta apostila pode publicar contagens e esperar que elas
+se reproduzam na sua máquina.
 
----
-
-##### Lab 1: Criar schema e tabela bronze (raw)
-
-**Criar schema no bucket bronze**
+##### Lab 1: Criar o schema e a tabela bronze
 
 ```sql
 CREATE SCHEMA IF NOT EXISTS hive.marketing
 WITH (location = 's3://bronze/marketing/');
 ```
 
-**Criar tabela raw (CSV), somente VARCHAR**
-
 ```sql
-CREATE TABLE IF NOT EXISTS hive.marketing.events_raw (
-    event_id    VARCHAR,
-    event_date  VARCHAR,
-    event_ts    VARCHAR,
-    user_id     VARCHAR,
-    campaign_id VARCHAR,
-    channel     VARCHAR,
-    device      VARCHAR,
-    country     VARCHAR,
-    stage       VARCHAR,
-    revenue     VARCHAR
+CREATE TABLE hive.marketing.events_raw (
+    event_id VARCHAR, event_date VARCHAR, event_ts VARCHAR,
+    user_id VARCHAR, campaign_id VARCHAR, channel VARCHAR,
+    device VARCHAR, country VARCHAR, stage VARCHAR, revenue VARCHAR
 )
 WITH (
     format = 'CSV',
@@ -1834,301 +2206,463 @@ WITH (
 );
 ```
 
-**Nota importante**: o formato CSV no Hive/Trino aceita apenas VARCHAR. Tipos são aplicados na tabela silver via CAST.
+Saída esperada da contagem: `12000`.
 
-**(Opcional) Criar tabela CDC raw**
+O formato CSV no Hive aceita apenas `VARCHAR`. A tipagem entra na silver, via
+`CAST`. Isso não é limitação do laboratório, é como o formato funciona.
 
-```sql
-CREATE TABLE IF NOT EXISTS hive.marketing.events_cdc_raw (
-    event_id         VARCHAR,
-    event_date       DATE,
-    event_ts         DATE,
-    user_id          VARCHAR,
-    campaign_id      VARCHAR,
-    channel          VARCHAR,
-    device           VARCHAR,
-    country          VARCHAR,
-    stage            VARCHAR,
-    revenue          DOUBLE,
-    cdc_op           VARCHAR,
-    cdc_event_ts     TIMESTAMP(3),
-    cdc_source_table VARCHAR
-)
-WITH (
-    format = 'CSV',
-    external_location = 's3://bronze/marketing/raw/events_cdc/',
-    skip_header_line_count = 1
-);
-```
-
----
-
-##### Lab 2: Criar tabela silver particionada
+##### Lab 2: Criar a silver particionada
 
 ```sql
-CREATE TABLE IF NOT EXISTS hive.marketing.events_silver
+CREATE TABLE hive.marketing.events_silver
 WITH (
     format = 'PARQUET',
     partitioned_by = ARRAY['event_date'],
     external_location = 's3://silver/marketing/events/'
 ) AS
 SELECT
-    event_id,
-    user_id,
-    campaign_id,
-    channel,
-    device,
-    country,
-    stage,
+    event_id, user_id, campaign_id, channel, device, country, stage,
     TRY_CAST(revenue AS DOUBLE) AS revenue,
     CAST(event_date AS DATE) AS event_date
 FROM hive.marketing.events_raw;
 ```
 
-**Nota:** no Trino, a coluna de partição precisa estar na lista de colunas e, no CTAS, deve aparecer no SELECT.
+Saída esperada: `CREATE TABLE: 12000 rows`, em cerca de 18 segundos.
 
----
+Repare que `event_date` é a **última** coluna do `SELECT`. A documentação do
+conector Hive registra que o Hive exige que as colunas de partição sejam as últimas
+colunas da tabela, e num CTAS é a ordem do `SELECT` que define a ordem da tabela.
+Por isso a coluna de partição vai no fim.
 
-##### Lab 3: Listar partições
+##### Lab 3: Listar as partições
 
 ```sql
-SELECT * FROM hive.marketing."events_silver$partitions";
+SELECT count(*) AS particoes FROM hive.marketing."events_silver$partitions";
 ```
 
----
+Saída esperada: `15`.
 
-##### Lab 4: Query com partition pruning
+##### Lab 4: Ver o pruning acontecer
 
 ```sql
+EXPLAIN ANALYZE
 SELECT event_id, user_id, campaign_id, channel
 FROM hive.marketing.events_silver
 WHERE event_date = DATE '2025-01-10';
 ```
 
-**Verificar o plano de execução:**
+Saída esperada, na linha de entrada do plano:
 
-```sql
-EXPLAIN
-SELECT event_id, user_id, campaign_id, channel
-FROM hive.marketing.events_silver
-WHERE event_date = DATE '2025-01-10';
+```
+Input: 800 rows (50.92kB), Physical input: 8.08kB, Splits: 1
 ```
 
-No plano retornado, procure por `Constraint` na linha do `TableScan`. Deve mostrar `event_date IN (2025-01-10)`.
+Um split, uma partição, 800 linhas.
 
----
-
-##### Lab 5: Query sem partition pruning (full scan)
+##### Lab 5: Ver a mesma consulta sem pruning
 
 ```sql
+EXPLAIN ANALYZE
 SELECT event_id, user_id, campaign_id, channel
 FROM hive.marketing.events_silver
 WHERE channel = 'organic';
 ```
 
-**Verificar o plano:**
+Saída esperada:
 
-```sql
-EXPLAIN
-SELECT event_id, user_id, campaign_id, channel
-FROM hive.marketing.events_silver
-WHERE channel = 'organic';
+```
+Input: 12000 rows (761.21kB), Filtered: 80.12%, Physical input: 120.72kB, Splits: 15
 ```
 
-No plano, a linha do `TableScan` não terá `Constraint` de partição.
+Quinze splits, a tabela inteira lida, e 80 por cento do que foi lido descartado
+pelo filtro. Compare com o Lab 4: mesma tabela, resultado correto nos dois, e
+quinze vezes o custo.
 
----
+Este é o laboratório central do módulo. Se você fizer só um, faça este junto com o
+Lab 4.
 
-##### Lab 6 (opcional): CDC aplicado (última versão por event_id)
+##### Lab 6: Derrubar e resetar
 
-```sql
-CREATE TABLE IF NOT EXISTS hive.marketing.events_latest
-WITH (
-    format = 'PARQUET',
-    partitioned_by = ARRAY['event_date'],
-    external_location = 's3://silver/marketing/events_latest/'
-) AS
-SELECT
-    event_id,
-    user_id,
-    campaign_id,
-    channel,
-    device,
-    country,
-    stage,
-    revenue,
-    event_date
-FROM (
-    SELECT
-        *,
-        row_number() OVER (PARTITION BY event_id ORDER BY cdc_event_ts DESC) AS rn
-    FROM hive.marketing.events_cdc_raw
-    WHERE cdc_op <> 'delete'
-) t
-WHERE rn = 1;
+```bash
+docker compose down --volumes
 ```
 
----
+A opção `--volumes` não é detalhe. Sem ela, o MinIO e o metastore guardam o estado
+da execução anterior, e o `CREATE TABLE IF NOT EXISTS` da próxima vez encontra a
+tabela já registrada, não faz nada, e devolve dado velho como se fosse novo. A
+seção 17 conta o caso real.
 
-##### Lab 7 (opcional): Alta cardinalidade e particionamento híbrido
+#### 13. Análise do domínio de marketing
 
-Use os labs de alta cardinalidade e particionamento híbrido como extensão (ver checklist e exemplos da sessão 02+03).
+Com a tabela criada, as perguntas típicas de um analista de marketing, e o que
+cada uma faz com as partições.
 
----
-
-#### 11. Análise do domínio de marketing
-
-Com a tabela de eventos criada no lab, podemos fazer as perguntas típicas de um analista de marketing e observar o impacto do particionamento.
-
-**Agregação diária de cliques por campanha (query frequente)**
+**Cliques por campanha e por dia, a consulta frequente**
 
 ```sql
-SELECT
-    event_date,
-    campaign_id,
-    COUNT(*) AS total_clicks
+SELECT event_date, campaign_id, COUNT(*) AS total_clicks
 FROM hive.marketing.events_silver
-WHERE event_date >= DATE '2025-01-10'
-  AND event_date <= DATE '2025-01-12'
+WHERE event_date BETWEEN DATE '2025-01-10' AND DATE '2025-01-12'
   AND stage = 'click'
 GROUP BY event_date, campaign_id
 ORDER BY event_date, campaign_id;
 ```
 
-Esta query usa o filtro de `event_date` (coluna de partição) e um filtro adicional de `stage` (filtro de coluna). O Trino faz pruning de partições fora do intervalo e depois aplica o filtro de `stage` dentro das partições lidas.
+Filtro de partição em `event_date`, filtro de coluna em `stage`. O Trino poda as
+partições fora do intervalo e depois aplica `stage` no que sobrou.
 
-**Total de eventos por tipo na semana**
-
-```sql
-SELECT
-    stage,
-    COUNT(*) AS total
-FROM hive.marketing.events_silver
-WHERE event_date BETWEEN DATE '2025-01-10' AND DATE '2025-01-12'
-GROUP BY stage
-ORDER BY total DESC;
-```
-
-**Usuários únicos por campanha (métrica de alcance)**
+**Usuários únicos por campanha**
 
 ```sql
-SELECT
-    campaign_id,
-    COUNT(DISTINCT user_id) AS unique_users
+SELECT campaign_id, COUNT(DISTINCT user_id) AS unique_users
 FROM hive.marketing.events_silver
 WHERE event_date = DATE '2025-01-10'
 GROUP BY campaign_id;
 ```
 
-**Ponto de aprendizado**: todas essas queries de marketing são naturalmente filtradas por data. Isso é o padrão dominante no domínio de analytics: "me dá os dados do dia X, da semana Y, do mês Z". Por isso, particionar por data é a decisão padrão e correta para tabelas de eventos.
+**O ponto de aprendizado**
 
-**Quando particionar por campanha em vez de data?**
+Todas as consultas de marketing são naturalmente filtradas por data. "Me dá os
+dados do dia X, da semana Y" é o padrão dominante em analytics. Por isso partição
+por data é a decisão padrão para tabela de evento, e a justificativa vem do padrão
+de acesso, não do hábito.
 
-Se as queries mais comuns fossem "me dá todos os eventos da campanha A desde o início dos tempos", particionar por `campaign_id` faria mais sentido. Mas esse padrão é menos comum porque:
+**Quando particionar por campanha em vez de data**
 
-- O número de campanhas pode ser alto e variável (risco de skew e muitas partições).
-- Campanhas têm ciclos de vida curtos, a maioria das análises ainda usa janelas de tempo.
+Se a consulta dominante fosse "todos os eventos da campanha A desde sempre",
+particionar por `campaign_id` faria mais sentido. Esse padrão é menos comum
+porque o número de campanhas é alto e variável, e porque campanha tem ciclo de
+vida curto enquanto a análise continua usando janela de tempo.
 
-A decisão final deve vir dos padrões de acesso reais, não de suposições.
+#### 14. Exercícios e entregáveis
 
----
+**Exercício 1: Plano de particionamento**
 
-#### 12. Exercícios e entregáveis
+Objetivo: escolher chave e granularidade a partir do padrão de acesso.
 
-##### Exercício 1: Mapa do pipeline + contrato mínimo
+Contexto: quatro tabelas do projeto.
 
-**Objetivo:** conectar as caixinhas do Projeto 1.
-
-**Entregável esperado:** diagrama com:
-- origem, CDC, bronze, silver, gold e consumo;
-- onde entra o Airflow (orquestração);
-- contratos básicos (granularidade e chaves).
-
----
-
-##### Exercício 2: Modelagem mínima
-
-**Objetivo:** definir o grão e as chaves de cada entidade.
-
-**Entregável esperado:** tabela com entidade, grão, chave principal e tipo de mudança (append/upsert).
-
----
-
-##### Exercício 3: Plano de particionamento
-
-**Contexto:** você está projetando a camada bronze e silver para o Projeto 1 (plataforma de marketing analytics).
-
-**Tabelas a planejar:**
-
-| Tabela | Volume estimado | Padrões de query mais comuns |
+| Tabela | Volume estimado | Consultas mais comuns |
 |---|---|---|
-| `events` | 10 M registros/dia | Por data, por campanha, por stage |
-| `campaigns` | 500 registros/mês | Por data de criação, por status |
-| `costs` | 1000 registros/dia | Por data, por campanha |
-| `crm` | 200 K registros total, com atualizações diárias | Por segmento, por data de última atualização |
+| `events` | 10 M por dia | Por data, por campanha, por stage |
+| `campaigns` | 500 por mês | Por data de criação, por status |
+| `costs` | 1.000 por dia | Por data, por campanha |
+| `crm` | 200 K no total, atualizado diariamente | Por segmento, por data de atualização |
 
-**Entregável esperado:** proposta de particionamento para cada tabela com:
-- Chave de partição escolhida.
-- Justificativa (padrões de acesso, cardinalidade esperada).
-- Granularidade (diária, mensal, etc.).
-- Riscos identificados (skew, small files, hot partitions).
+Entregável: proposta por tabela com chave escolhida, justificativa pelo padrão de
+acesso e pela cardinalidade, granularidade, e riscos identificados entre small
+files, skew e hot partition.
 
----
+**Exercício 2: Análise de custo**
 
-##### Exercício 4: Análise de custo
+Objetivo: ligar decisão técnica a linha de fatura.
 
-**Contexto:** a tabela `events` tem 2 anos de histórico (730 dias) e 10 M registros por dia, totalizando 7,3 bilhões de registros. Cada registro ocupa 200 bytes em Parquet, totalizando 1,46 TB.
+Contexto: os volumes do exercício 1, e a taxa ilustrativa de 5 dólares por
+terabyte escaneado.
 
-**Cenário A, Sem partição:**
-- Uma query que filtra os últimos 7 dias varre todos 1,46 TB.
-- Custo estimado no Athena: 1,46 TB x $5/TB = $7,30 por query.
+Entregável: tabela comparativa de custo mensal por tabela, nos dois cenários, com
+e sem partição, assumindo 100 consultas por dia. Diga também qual das quatro
+tabelas não vale particionar, e por quê.
 
-**Cenário B, Particionado por dia:**
-- A mesma query lê apenas 7 partições de 730.
-- Volume lido: 7/730 x 1,46 TB = ~14 GB.
-- Custo estimado no Athena: 14 GB x $5/TB = $0,07 por query.
+**Exercício 3: Medir o seu próprio pruning**
 
-**Entregável esperado:** tabela comparativa de custo para as tabelas do Exercício 3, usando os volumes estimados e o modelo de precificação do Athena ($5/TB). Calcule o custo mensal assumindo 100 queries/dia para cada tabela nos dois cenários (sem partição vs com partição).
+Objetivo: usar o plano de execução como instrumento, não como enfeite.
 
----
+Contexto: a tabela do laboratório.
 
-##### Exercício 5: Mini ADR de estratégia de partição
+Entregável: três consultas suas, uma com pruning, uma sem, e uma com filtro
+composto de partição e coluna comum. Para cada uma, o `Input`, o `Physical input`
+e o número de `Splits` do `EXPLAIN ANALYZE`, mais uma frase explicando o número.
 
-**ADR** (Architecture Decision Record) é um documento curto que registra uma decisão técnica com contexto, alternativas consideradas e justificativa.
+**Exercício 4: A última versão de cada evento**
 
-**Entregável esperado:** ADR com:
-- **Título:** Estratégia de particionamento para tabela de eventos.
-- **Status:** Proposta.
-- **Contexto:** o que motivou a decisão.
-- **Decisão:** qual estratégia foi escolhida.
-- **Alternativas consideradas:** pelo menos 2 outras estratégias com seus trade-offs.
-- **Consequências:** o que muda no pipeline com essa decisão.
+Objetivo: aplicar CDC sobre dado particionado.
 
----
+Contexto: o `events__cdc.csv` que o gerador produz tem um insert por evento, mais
+update ou delete para parte deles. São 15.566 linhas para 12.000 eventos.
 
-#### Checklist de validação da sessão
+Entregável: uma tabela `events_latest` com a última versão de cada `event_id`,
+descartando o que foi deletado, particionada por `event_date`. A dica está em
+função de janela com `row_number()`. Diga quantas linhas sobraram e por quê.
 
-- [ ] Mapa do pipeline end-to-end desenhado.
-- [ ] Modelagem mínima definida (grão e chaves).
-- [ ] Tabela silver particionada criada com dados do MinIO.
-- [ ] Partition pruning demonstrado via EXPLAIN.
-- [ ] Plano de particionamento iniciado para o Projeto 1.
-- [ ] Trade-offs de custo calculados para pelo menos uma tabela.
+Este exercício não é um laboratório desta apostila porque não foi executado na
+verificação. Rodar é parte do exercício.
 
----
+**Exercício 5: Mini ADR da estratégia**
+
+Objetivo: registrar decisão de forma que outra pessoa entenda em seis meses.
+
+Entregável: um ADR curto com título, status, contexto, decisão, pelo menos duas
+alternativas consideradas com seus trade-offs, e consequências para o pipeline.
+
+#### 15. Mini-desafio com solução
+
+**Enunciado**
+
+O time quer acrescentar `country` à chave de partição, para acelerar as análises
+por mercado. São 5 países no dado do laboratório e 15 datas.
+
+Avalie a proposta. Se recomendar, diga o que muda. Se recusar, diga o que fazer no
+lugar.
+
+**Dicas**
+
+- Multiplique antes de opinar.
+- A seção 17 tem um número que decide.
+- Volume por partição é o critério que ninguém lembra de aplicar.
+
+**Gabarito comentado**
+
+Recuso, e por dois motivos independentes.
+
+O primeiro é aritmético e imediato: 15 datas por 5 países dá 75 partições. A
+medição da seção 17 mostra que este laboratório trava acima de cerca de 20. A
+proposta não roda no ambiente onde ela seria testada.
+
+O segundo é o que importa em produção, onde o catálogo aguenta. Com 12.000 linhas
+divididas em 75 partições, cada uma fica com cerca de 160 linhas, alguns kilobytes
+de Parquet. A regra da seção 10 pede partição com arquivos na casa das centenas de
+megabytes. Você teria criado o problema de small files para resolver um problema
+de pruning que talvez não exista.
+
+O que fazer no lugar, em ordem: primeiro, medir. Quantas das consultas realmente
+filtram por país? Se for uma minoria, `country` não deveria ser partição, deveria
+ser apenas uma coluna, e o filtro dela é aplicado depois do pruning por data, que
+já reduziu 15 vezes.
+
+Se a análise por mercado for dominante mesmo, a alternativa é ordenar o dado por
+`country` dentro de cada partição de data, para que a estatística de mínimo e
+máximo do Parquet permita pular blocos. Isso é pruning no nível de row group, da
+seção 5.4, e não cria partição nova nenhuma.
+
+**Interpretação**
+
+A resposta fraca aceita a proposta porque "mais pruning é melhor". A resposta boa
+multiplica 15 por 5 antes de responder. A excelente percebe que a pergunta certa
+não é "particionar por país?", é "quantas consultas filtram por país?", e que
+ninguém mediu isso.
+
+#### 16. Rubrica de validação da aprendizagem
+
+| Critério | Insuficiente | Suficiente | Excelente |
+|---|---|---|---|
+| Mecanismo | Descreve partição como pasta | Explica o papel do catálogo no pruning | Sabe que a coluna de partição não está no arquivo, e prova no plano |
+| Pruning | Acha que qualquer filtro poda | Sabe que só a coluna de partição poda | Lê o plano e diz quanto economizou |
+| Escolha de chave | Escolhe por hábito | Escolhe pelo padrão de acesso e cardinalidade | Calcula o volume por partição antes de decidir |
+| Modos de falha | Não distingue os três | Nomeia small files, skew e hot partition | Prevê qual deles a sua escolha vai produzir |
+| Custo | Trata como assunto financeiro | Faz a conta por dado escaneado | Ordena as decisões por impacto na fatura |
+| Limite de catálogo | Não sabe que existe | Sabe que muitas partições degradam | Reconhece a assinatura do travamento e sabe o teto do ambiente |
+| Honestidade técnica | Publica número que não mediu | Cita fonte e data | Declara o que não foi verificado |
+
+Checklist para a call:
+
+- [ ] Tabela silver particionada criada a partir do dado do MinIO.
+- [ ] Pruning demonstrado no `EXPLAIN ANALYZE`, com o número de splits.
+- [ ] Plano de particionamento das quatro tabelas do exercício 1.
+- [ ] Conta de custo feita para pelo menos uma tabela.
+- [ ] Explicou por que 75 partições é uma má ideia neste ambiente.
+
+#### 17. Erros comuns e como corrigir
+
+**A pilha trava e nenhum log diz nada**
+
+Sintoma: um `CREATE TABLE ... AS SELECT` particionado nunca termina. A query fica
+em `FINISHING`, e depois de um tempo o metastore para de responder até para um
+`SHOW SCHEMAS`, com `SocketTimeoutException`. CPU e memória ociosos nos quatro
+containers, e nenhum erro em nenhum log.
+
+Causa: a fase de commit de partições do metastore. A variável é a **contagem de
+partições**, não o volume de dado. Medido em 2026-07-31, mantendo as linhas fixas
+para isolar:
+
+| Partições | Linhas | Resultado |
+|---|---|---|
+| 5 | 1.000 | concluiu em 5 s |
+| 5 | 12.000 | concluiu em 11 s |
+| 15 | 12.000 | concluiu em 10 s |
+| 25 | 12.000 | travou |
+| 30 | 6.000 | travou |
+| 30 | 60.000 | travou |
+
+O volume de linhas variou 12 vezes sem efeito. Correção: ficar abaixo de cerca de
+20 partições por CTAS neste ambiente. É por isso que o gerador entrega 15 por
+padrão.
+
+Repare no que isso significa: a seção 10 desta apostila ensina que muitas
+partições sobrecarregam o catálogo. Este travamento é essa lição acontecendo no
+próprio laboratório, com número. É o material mais honesto do módulo.
+
+**O `IF NOT EXISTS` devolve dado de meses atrás**
+
+Sintoma: o `CREATE TABLE IF NOT EXISTS` responde `CREATE TABLE: 0 rows`, e a
+contagem depois não bate com a origem.
+
+Causa: os volumes do Docker persistem entre execuções. A tabela já estava
+registrada no metastore de uma sessão anterior, o comando não fez nada, e a
+consulta leu o dado antigo.
+
+Caso real: na verificação de 2026-07-31, o laboratório devolveu 2.000 linhas em 14
+partições quando a origem tinha 60.000 em 30. O dado era de 2026-03-18, e as 14 de
+30 partições eram justamente a assinatura do travamento acima, quatro meses antes.
+
+Correção: `docker compose down --volumes` ao terminar, como no Lab 6. Se
+desconfiar, conte as linhas e compare com o que o gerador reportou.
+
+**A partição existe no storage e a consulta não a encontra**
+
+Sintoma: os arquivos estão no bucket, e a consulta devolve vazio.
+
+Causa: a partição não foi registrada no catálogo. O storage não avisa o metastore.
+
+Correção: escrever pelo próprio engine, ou sincronizar com
+`CALL hive.system.sync_partition_metadata(..., mode => 'ADD')`. No Trino não existe
+`MSCK REPAIR TABLE`, que é o comando equivalente do Hive.
+
+**A consulta filtra e continua caríssima**
+
+Sintoma: você acrescentou `WHERE` e o custo não caiu.
+
+Causa: o filtro não é na coluna de partição. Ele é aplicado depois, no dado já
+lido.
+
+Correção: conferir o plano. Se o nó é `ScanFilterProject` com `filterPredicate` e a
+lista de `PARTITION_KEY` traz todas as partições, não houve pruning.
+
+**Muitos arquivos minúsculos**
+
+Sintoma: a consulta é lenta apesar do pruning funcionar.
+
+Causa: granularidade fina demais, ou muitos writers na mesma partição.
+
+Correção: compactar, e reavaliar a granularidade contra o volume diário real.
+
+**A coluna de partição na posição errada no CTAS**
+
+Sintoma: erro ao criar a tabela particionada.
+
+Causa: no Trino, num CTAS particionado, a coluna de partição precisa ser a última
+do `SELECT`.
+
+Correção: mover a coluna para o fim da lista, como está no Lab 2.
+
+#### 18. Plano de continuidade
+
+**Antes da próxima call**
+
+Faça os exercícios 1 e 3. O terceiro exige rodar o laboratório, e é o que fixa o
+plano de execução como instrumento.
+
+**O que estudar em seguida, dentro da trilha**
+
+O módulo de formatos e tipos de tabela é o par natural deste: formatos de tabela
+mais novos resolvem parte do que aqui é manual, da compactação ao catálogo. O
+módulo de cloud para dados retoma a conta de custo desta seção 10 com as classes
+de armazenamento.
+
+O módulo de transformação com dbt é onde essas decisões passam a viver em código
+versionado, com a materialização escolhida por custo e frequência.
+
+**O que aprofundar por conta**
+
+Rode o laboratório com 25 partições e veja o travamento com os seus olhos. Saber
+reconhecer a assinatura vale mais que evitar o caso.
+
+**O que não perseguir agora**
+
+Ajuste fino de configuração do metastore e bucketing no Hive. Os dois são
+trabalho de plataforma, e o retorno para você hoje é menor que dominar a escolha
+de chave.
+
+#### 19. Glossário
+
+| Termo | Significado |
+|---|---|
+| Bucketing | Distribuição do dado em N arquivos de tamanho parecido dentro da partição |
+| Cardinalidade | Número de valores distintos de uma coluna |
+| Catálogo | Serviço que guarda metadado de tabela e de partição |
+| Compactação | Processo que une arquivos pequenos de uma partição em arquivos maiores |
+| CTAS | `CREATE TABLE AS SELECT`, cria a tabela a partir do resultado de uma consulta |
+| Full scan | Varredura completa da tabela, sem eliminar partição |
+| Hot partition | Partição que recebe volume desproporcional de escritas simultâneas |
+| Partição | Subconjunto físico do dado, definido pelo valor de uma ou mais colunas |
+| Partition pruning | Eliminação de partições a partir dos filtros, antes de abrir arquivo |
+| Pushdown | Empurrar o filtro para o nível mais baixo possível de leitura |
+| Row group | Bloco interno de um arquivo Parquet, com estatística de mínimo e máximo |
+| Skew | Desequilíbrio de tamanho entre partições |
+| Small files | Excesso de arquivos minúsculos, que anula o ganho do particionamento |
+| Split | Unidade de trabalho de leitura que o engine distribui entre workers |
+| Straggler | Worker que termina muito depois dos outros e atrasa a consulta inteira |
 
 #### Referências
 
-- **Cap. 8, Data Storage Design Patterns**: padrão Partitioned Table, trade-offs de granularidade.
-- **Cap. 10, Data Observability Design Patterns**: métricas operacionais de partições (tamanho, número de arquivos).
-- Documentação do Trino: https://trino.io/docs/current/connector/hive.html
+Documentação oficial, consultada em 2026-07-31:
+
+- Conector Hive do Trino: https://trino.io/docs/current/connector/hive.html
 - Documentação do MinIO: https://min.io/docs/
-- **Arquivos desta sessão:**
-  - `data/generated/marketing/events.csv`
-  - `data/generated/marketing/events__cdc.csv`
-  - `docs/sessions/sessao-02-03-airflow-cdc-tabelas/checklist-execucao-ao-vivo.md`
-  - `docs/notes/relatorio-cdc-por-id.md`
-  - `infrastructure/sessao-04-particionamento/`
+- Preço do Amazon Athena, origem da taxa ilustrativa por terabyte: https://aws.amazon.com/athena/pricing/
+
+Leitura complementar, não conferida nesta revisão:
+
+- Data Storage Design Patterns, capítulo sobre tabela particionada e o trade-off
+  entre granularidade e overhead.
+- Data Observability Design Patterns, capítulo sobre métricas operacionais de
+  partição, como tamanho e número de arquivos.
+
+#### Fontes verificadas (2026-07-31)
+
+- Toda a pilha do laboratório foi executada de verdade em 2026-07-31, com Trino
+  479, Hive 4.0.0, PostgreSQL 16, MinIO RELEASE.2025-02-03T21-03-04Z e Docker
+  Compose v2.39.1. Os laboratórios 0 a 6 estão registrados no `lab.json` com o
+  comando que provou cada um e a saída observada.
+- O ganho do partition pruning foi medido com `EXPLAIN ANALYZE` na mesma tabela,
+  variando apenas o filtro: com pruning, 800 linhas e 50,92 kB em 1 split; sem
+  pruning, 12.000 linhas e 761,21 kB em 15 splits. O fator 15 corresponde à
+  contagem de partições da tabela.
+- O plano de execução do Trino 479 classifica `event_date` como `PARTITION_KEY` e
+  `event_id` como `REGULAR`, o que confirma que a coluna de partição é
+  reconstruída do caminho e não lida do arquivo Parquet.
+- O Trino 479 **não** imprime `Constraint` no `TableScan`, ao contrário do que
+  material mais antigo afirma. Ele imprime a lista de partições sob
+  `event_date:date:PARTITION_KEY`, e troca o nó por `ScanFilterProject` quando o
+  filtro é de coluna comum. As duas saídas estão transcritas na seção 5.5, como
+  observadas.
+- O teto de partições deste ambiente foi medido isolando a variável: 5 partições
+  com 1.000 e com 12.000 linhas concluíram em 5 e 11 segundos; 15 partições com
+  12.000 linhas concluíram em 10 segundos; 25 partições com 12.000 linhas, 30 com
+  6.000 e 30 com 60.000 travaram na fase de commit, com o metastore deixando de
+  responder. O volume de linhas variou 12 vezes sem efeito.
+- O caso do `IF NOT EXISTS` devolvendo dado antigo foi observado: os volumes
+  persistidos de 2026-03-18 fizeram o comando responder `CREATE TABLE: 0 rows` e a
+  consulta devolver 2.000 linhas em 14 partições, quando a origem tinha 60.000 em
+  30 partições.
+- A taxa de 5 dólares por terabyte escaneado usada nas contas da seção 10 e do
+  exercício 2 é a taxa ilustrativa que a própria página de preço do Athena usa no
+  exemplo dela. O preço por região não foi conferido nesta data e não é afirmado
+  aqui. https://aws.amazon.com/athena/pricing/
+- A faixa de 128 MB a 1 GB por arquivo e a faixa de cardinalidade entre 10 e
+  10.000 valores são heurísticas de mercado, não números de documentação, e estão
+  declaradas como tal no texto.
+- A documentação do conector Hive do Trino registra que o Hive exige que as colunas
+  de partição sejam as últimas colunas da tabela. O CTAS do Lab 2 respeita isso, e
+  foi executado com sucesso. O comportamento ao inverter a ordem **não** foi
+  testado, e por isso esta apostila não afirma qual erro aparece.
+  https://trino.io/docs/current/connector/hive.html
+- O Trino não tem `MSCK REPAIR TABLE`. O equivalente é o procedimento
+  `system.sync_partition_metadata`, com modos `ADD`, `DROP` e `FULL`, sendo o `ADD`
+  o que acrescenta partições presentes no storage e ausentes no catálogo. Conferido
+  na documentação e não executado.
+  https://trino.io/docs/current/connector/hive.html
+- O AWS Glue Data Catalog **não** é acessado pelo protocolo Thrift do Hive
+  Metastore. No Trino, os dois são tipos distintos de metastore:
+  `hive.metastore=thrift`, com `hive.metastore.uri`, contra
+  `hive.metastore=glue`, com `hive.metastore.glue.region`. A versão anterior desta
+  apostila afirmava que o Glue era compatível com o mesmo protocolo Thrift na
+  porta 9083, e isso está errado.
+  https://trino.io/docs/current/object-storage/metastores.html
+- O exercício 4, de aplicar CDC sobre dado particionado, **não** foi executado na
+  verificação, e por isso não é um laboratório desta apostila. O arquivo de CDC que
+  o gerador produz tem 15.566 linhas para 12.000 eventos, número que foi conferido
+  na geração.
 
 ---
 
@@ -2420,152 +2954,216 @@ Pendente. Nenhuma afirmacao deste modulo foi conferida contra doc oficial.
 
 Fonte: `modulos/fontes-arquitetura-contratos/apostila.md`
 
-### Apostila, Dados, fontes e arquitetura do projeto real
+### Apostila, fontes, arquitetura e contratos de dados
 
-#### Resumo executivo
+> Trilha de Engenharia de Dados. Conduzida por Iuri Zambotto e Paulo Shindi.
 
-Esta apostila é o material de referência completo da Sessão 05. O ponto de entrada não é tecnologia, é negócio. A arquitetura que será construída nas próximas sessões começa com perguntas reais de gestores e stakeholders. Só depois de entender o que precisa ser respondido é possível justificar cada decisão arquitetural.
+#### Sumário
 
-A sessão apresenta o domínio de dados de uma startup fictícia de marketing/e-commerce, as cinco entidades do projeto, a natureza de cada fonte de dados e as categorias de ferramentas disponíveis para cada tipo de ingestão. O resultado é um architecture canvas v0 com slots de ferramentas marcados e contratos de dados v0 definidos por fonte.
+- [0. Como usar esta apostila](#0-como-usar-esta-apostila)
+- [1. Objetivo pedagógico](#1-objetivo-pedagógico)
+- [2. Contexto de negócio](#2-contexto-de-negócio)
+- [3. As perguntas que a arquitetura precisa responder](#3-as-perguntas-que-a-arquitetura-precisa-responder)
+- [4. O modelo de dados, cinco entidades](#4-o-modelo-de-dados-cinco-entidades)
+- [5. A natureza de cada fonte](#5-a-natureza-de-cada-fonte)
+- [6. Categorias de ferramenta de ingestão](#6-categorias-de-ferramenta-de-ingestão)
+- [7. Construir ou comprar](#7-construir-ou-comprar)
+- [8. Contratos de dados](#8-contratos-de-dados)
+- [9. O architecture canvas](#9-o-architecture-canvas)
+- [10. Exercícios e entregáveis](#10-exercícios-e-entregáveis)
+- [11. Mini-desafio com solução](#11-mini-desafio-com-solução)
+- [12. Rubrica de validação da aprendizagem](#12-rubrica-de-validação-da-aprendizagem)
+- [13. Erros comuns e como corrigir](#13-erros-comuns-e-como-corrigir)
+- [14. Plano de continuidade](#14-plano-de-continuidade)
+- [15. Glossário](#15-glossário)
+- [Referências](#referências)
+- [Fontes verificadas (2026-07-31)](#fontes-verificadas-2026-07-31)
 
-Nenhum comando é executado nesta sessão.
+#### 0. Como usar esta apostila
 
----
+**Leitura linear.** A seção 3 é o ponto de partida de verdade, e ela é uma lista de
+perguntas, não de tecnologia. Da 4 à 8 cada seção acrescenta uma camada de decisão.
+A 9 junta tudo num desenho.
+
+**Revisão pontual.** Natureza das fontes na 5, mapa de ferramentas na 6, contratos
+na 8, diagnóstico na 13.
+
+**Pré-requisitos.** O módulo de SQL com JOINs e o de object storage. Você precisa
+saber ler um relacionamento entre tabelas e saber o que é uma camada de dado bruto.
+
+**Este módulo não executa nada, e isso é deliberado.** Não há laboratório, não há
+comando, não há arquivo criado. Ele declara `lab: false` no `trilha.yml`. O
+entregável é decisão registrada: um canvas de arquitetura e contratos de dados.
+
+Isso não isenta o material de verificação. Toda afirmação sobre ferramenta aqui foi
+conferida em documentação oficial, e a seção de fontes verificadas registra o que
+foi conferido e o que não foi.
+
+**A parte mais fácil de pular, e a que mais importa.** As tabelas de contrato da
+seção 8 vêm em branco de propósito, para você preencher. Há um exemplo preenchido
+ao lado de cada uma, como referência. Preencher é o exercício; copiar o exemplo não
+é.
 
 #### 1. Objetivo pedagógico
 
-Ao final desta sessão, o mentorado deve ser capaz de:
+Ao terminar este módulo, você consegue:
 
-1. Partir de perguntas de negócio para justificar decisões arquiteturais.
-2. Identificar as fontes necessárias para responder qualquer pergunta do projeto.
-3. Justificar por que cada fonte exige uma abordagem de ingestão diferente (CDC, batch, streaming).
-4. Conhecer as categorias de ferramentas disponíveis para cada tipo de ingestão.
-5. Desenhar um architecture canvas v0 com camadas Bronze/Silver/Gold e slots de ferramentas marcados.
-6. Definir contratos de dados v0 por fonte: schema, formato, partição e SLA.
+1. **Partir** de uma pergunta de negócio e chegar às fontes necessárias para
+   respondê-la, sem começar pelo diagrama.
+2. **Justificar** por que cada fonte exige uma abordagem de ingestão diferente,
+   com critério técnico e não por preferência.
+3. **Situar** as categorias de ferramenta de ingestão, e saber o que cada categoria
+   resolve.
+4. **Decidir** entre ferramenta pronta e código próprio a partir do tamanho e da
+   capacidade do time.
+5. **Escrever** um contrato de dados com schema, formato, partição, SLA e política
+   de histórico.
+6. **Desenhar** um canvas de arquitetura em camadas, com os pontos de decisão ainda
+   abertos marcados como abertos.
 
----
+#### 2. Contexto de negócio
 
-#### 2. Contexto do projeto (startup fictícia de marketing/e-commerce)
+A startup fictícia de marketing e e-commerce da trilha gerencia campanhas pagas em
+múltiplos canais, tem base de usuários crescendo, e precisa responder perguntas
+semanais e diárias sobre retorno, conversão e risco de perda de cliente.
 
-##### 2.1 Cenário
+Dois fatos restringem tudo que vem depois:
 
-Uma startup de marketing/e-commerce gerencia campanhas pagas em múltiplos canais (Google Ads, Meta, TikTok), tem uma base de usuários em crescimento e precisa responder, semanal e diariamente, perguntas como:
+**O time de dados é pequeno.** Toda decisão de arquitetura precisa ser sustentável
+com poucos engenheiros e sem orçamento de empresa grande. Isso elimina soluções que
+funcionam e ninguém consegue manter.
 
-- Quais canais trazem melhor ROI?
-- Quais campanhas convertem mais por segmento?
-- Onde há queda de conversão no funil?
-- Quais usuários estão em risco de churn esta semana?
+**As fontes são heterogêneas por natureza, não por acidente.** O cadastro está num
+banco relacional, o custo de mídia está atrás de uma API de terceiro, e o
+comportamento do usuário chega como fluxo de eventos. Nenhuma das três vai virar as
+outras duas.
 
-O time de dados é pequeno. As decisões de arquitetura precisam ser sustentáveis com poucos engenheiros e sem orçamento de enterprise.
+A pergunta deste módulo é: **como integrar fontes que se comportam de formas
+diferentes, com contrato claro, de um jeito que um time pequeno mantém.**
 
-##### 2.2 Por que OSS
+**Sobre a escolha de stack aberta**
 
-O projeto usa stack OSS (Airflow, MinIO, Trino) como escolha deliberada por portabilidade e ausência de vendor lock-in. A lógica é a mesma que qualquer stack de dados maduro, camadas, contratos, qualidade. A ferramenta é diferente; os princípios são os mesmos.
+O projeto usa ferramentas de código aberto por portabilidade e para não ficar preso
+a um fornecedor. A lógica é a mesma de qualquer arquitetura de dados madura:
+camadas, contratos, qualidade. A ferramenta muda, os princípios não. O módulo de
+cloud para dados mostra as equivalências gerenciadas de cada peça.
 
----
-
-#### 3. Perguntas de negócio por stakeholder
+#### 3. As perguntas que a arquitetura precisa responder
 
 A arquitetura não começa pelo diagrama. Começa aqui.
 
-##### CEO / Diretoria
+**Diretoria**
 
-- "Qual campanha está gerando mais receita este mês?"
-- "Quanto estamos gastando por real faturado em cada canal?"
-- "Quantos novos clientes adquirimos esta semana versus a semana passada?"
+- Qual campanha está gerando mais receita este mês?
+- Quanto estamos gastando por real faturado em cada canal?
+- Quantos clientes novos adquirimos esta semana, contra a semana passada?
 
-##### Time de Growth / Marketing
+**Crescimento e marketing**
 
-- "Qual é a taxa de conversão do funil por campanha e por canal?"
-- "Em qual etapa estamos perdendo mais usuários?"
-- "Qual canal tem menor CAC (custo de aquisição de cliente)?"
+- Qual a taxa de conversão do funil por campanha e por canal?
+- Em qual etapa estamos perdendo mais usuários?
+- Qual canal tem o menor custo de aquisição de cliente?
 
-##### Time de Operações
+**Operações**
 
-- "Há alguma queda anômala no volume de checkouts hoje?"
-- "Quais usuários estão em risco de churn esta semana?"
+- Há queda anômala no volume de checkouts hoje?
+- Quais usuários estão em risco de sair esta semana?
 
-##### Time de Analytics / BI
+**Analytics**
 
-- "Como está a evolução do ROI mês a mês por canal?"
-- "Qual é o perfil dos usuários que chegam ao purchase por campanha?"
+- Como evolui o retorno mês a mês por canal?
+- Qual o perfil dos usuários que chegam à compra, por campanha?
 
-##### Tabela: pergunta → fontes necessárias
+##### 3.1 De cada pergunta para as fontes
 
-| Pergunta | Stakeholder | Fontes necessárias |
-| --- | --- | --- |
-| ROI por campanha | CEO / Analytics | `costs` (API) + `events` (Kafka) + `campaigns` (CDC) |
-| Taxa de conversão do funil | Growth | `events` (Kafka) |
-| Novos clientes por semana | CEO | `users` (CDC) |
-| Risco de churn | Operações | `crm` (CDC) + `events` (Kafka) |
-| CAC por canal | Growth | `costs` (API) + `users` (CDC) + `events` (Kafka) |
-| Queda de checkouts hoje | Operações | `events` (Kafka), requer baixa latência |
-| Perfil de usuários que convertem | Analytics | `users` (CDC) + `events` (Kafka) + `campaigns` (CDC) |
+| Pergunta | Quem pergunta | Fontes necessárias |
+|---|---|---|
+| Retorno por campanha | Diretoria e analytics | `costs` (API) + `events` (streaming) + `campaigns` (CDC) |
+| Taxa de conversão do funil | Crescimento | `events` (streaming) |
+| Clientes novos por semana | Diretoria | `users` (CDC) |
+| Risco de perda de cliente | Operações | `crm` (CDC) + `events` (streaming) |
+| Custo de aquisição por canal | Crescimento | `costs` (API) + `users` (CDC) + `events` (streaming) |
+| Queda de checkouts hoje | Operações | `events` (streaming), exige baixa latência |
+| Perfil de quem converte | Analytics | `users` (CDC) + `events` (streaming) + `campaigns` (CDC) |
 
-**Ponto central:** nenhuma dessas perguntas é respondível com uma fonte só. A motivação da arquitetura é exatamente essa: integrar fontes heterogêneas com contratos claros.
+**O ponto central**
 
----
+Nenhuma dessas perguntas é respondível com uma fonte só. A arquitetura existe por
+causa disso, e não por elegância: integrar fontes heterogêneas com contrato claro é
+o trabalho.
 
-#### 4. Modelo de dados, as cinco entidades
+**O equívoco comum**
 
-##### 4.1 Entidades e campos principais
+Começar pelo desenho das camadas. O desenho é consequência. Quem desenha antes de
+listar as perguntas produz uma arquitetura que responde perguntas que ninguém fez.
 
-**users**, Fonte: PostgreSQL (CDC)
+#### 4. O modelo de dados, cinco entidades
+
+##### 4.1 As entidades e os campos que importam
+
+**`users`**, de banco relacional por CDC
 
 | Campo | Tipo | Descrição |
-| --- | --- | --- |
+|---|---|---|
 | `user_id` | UUID | Chave primária |
-| `name` | VARCHAR | Nome do usuário |
-| `email` | VARCHAR | E-mail |
-| `segment` | VARCHAR | Segmento (ex.: premium, free) |
-| `created_at` | TIMESTAMP | Data de criação |
-| `updated_at` | TIMESTAMP | Última atualização |
+| `name` | VARCHAR | Nome |
+| `email` | VARCHAR | E-mail, dado pessoal |
+| `segment` | VARCHAR | Segmento comercial |
+| `created_at` | TIMESTAMP | Criação |
+| `updated_at` | TIMESTAMP | Última alteração |
 
-**campaigns**, Fonte: PostgreSQL (CDC)
+**`campaigns`**, de banco relacional por CDC
 
 | Campo | Tipo | Descrição |
-| --- | --- | --- |
+|---|---|---|
 | `campaign_id` | UUID | Chave primária |
-| `name` | VARCHAR | Nome da campanha |
-| `channel` | VARCHAR | Canal (google, meta, tiktok) |
-| `start_date` | DATE | Data de início |
-| `end_date` | DATE | Data de término |
-| `status` | VARCHAR | Status (active, paused, ended) |
-| `updated_at` | TIMESTAMP | Última atualização |
-
-**events**, Fonte: Kafka (streaming)
-
-| Campo | Tipo | Descrição |
-| --- | --- | --- |
-| `event_id` | UUID | Chave primária |
-| `user_id` | UUID | Chave estrangeira → users |
-| `campaign_id` | UUID | Chave estrangeira → campaigns |
-| `event_type` | VARCHAR | Tipo: visit, signup, checkout, purchase |
-| `occurred_at` | TIMESTAMP | Momento do evento |
-
-**costs**, Fonte: API externa de mídia (batch)
-
-| Campo | Tipo | Descrição |
-| --- | --- | --- |
-| `cost_id` | UUID | Chave primária |
-| `campaign_id` | UUID | Chave estrangeira → campaigns |
-| `date` | DATE | Data de referência do custo |
+| `name` | VARCHAR | Nome |
 | `channel` | VARCHAR | Canal de mídia |
-| `amount` | DECIMAL | Valor investido |
-| `currency` | VARCHAR | Moeda (BRL, USD) |
+| `start_date` | DATE | Início |
+| `end_date` | DATE | Término |
+| `status` | VARCHAR | Situação |
+| `updated_at` | TIMESTAMP | Última alteração |
 
-**crm**, Fonte: PostgreSQL (CDC)
+**`events`**, de fluxo de eventos
 
 | Campo | Tipo | Descrição |
-| --- | --- | --- |
-| `crm_id` | UUID | Chave primária |
-| `user_id` | UUID | Chave estrangeira → users |
-| `lifecycle_stage` | VARCHAR | Estágio: lead, active, at_risk, churned |
-| `churn_risk_score` | FLOAT | Score de risco de churn (0 a 1) |
-| `last_contact_at` | TIMESTAMP | Último contato registrado |
-| `updated_at` | TIMESTAMP | Última atualização |
+|---|---|---|
+| `event_id` | UUID | Chave primária |
+| `user_id` | UUID | Referência a `users` |
+| `campaign_id` | UUID | Referência a `campaigns` |
+| `event_type` | VARCHAR | Etapa do funil |
+| `occurred_at` | TIMESTAMP | Quando ocorreu |
 
-##### 4.2 Diagrama de relações
+**`costs`**, de API externa de mídia por lote
+
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `cost_id` | UUID | Chave primária |
+| `campaign_id` | UUID | Referência a `campaigns` |
+| `date` | DATE | Data de referência |
+| `channel` | VARCHAR | Canal |
+| `amount` | DECIMAL | Valor investido |
+| `currency` | VARCHAR | Moeda |
+
+**`crm`**, de banco relacional por CDC
+
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `crm_id` | UUID | Chave primária |
+| `user_id` | UUID | Referência a `users` |
+| `lifecycle_stage` | VARCHAR | Estágio do ciclo de vida |
+| `churn_risk_score` | FLOAT | Score de risco, de 0 a 1 |
+| `last_contact_at` | TIMESTAMP | Último contato |
+| `updated_at` | TIMESTAMP | Última alteração |
+
+**Um aviso que precisa ser dado aqui, não depois**
+
+`email` é dado pessoal. A decisão sobre mascarar, restringir acesso ou não promover
+essa coluna para as camadas de consumo é tomada **no contrato**, na seção 8, e não
+quando alguém reclamar. O módulo de governança trata do assunto em profundidade; o
+que este módulo cobra é que a coluna esteja marcada.
+
+##### 4.2 O tecido que conecta
 
 ```
 users (user_id)
@@ -2579,154 +3177,242 @@ campaigns (campaign_id)
     |--- costs (campaign_id)
 ```
 
-**Tecido conectivo:**
-- `user_id` une: `users` ↔ `events` ↔ `crm`
-- `campaign_id` une: `campaigns` ↔ `costs` ↔ `events`
+Duas chaves sustentam o modelo inteiro. `user_id` une `users`, `events` e `crm`.
+`campaign_id` une `campaigns`, `costs` e `events`.
 
-`events` é a entidade central: conecta usuários, campanhas e o funil de conversão em um único lugar.
+`events` é a entidade central: é a única que conecta usuário, campanha e funil no
+mesmo lugar. Isso a torna a mais valiosa e a mais volumosa, e as duas coisas juntas
+explicam por que ela é a que exige mais cuidado de particionamento, que é o assunto
+do módulo anterior.
 
----
+#### 5. A natureza de cada fonte
 
-#### 5. Natureza das fontes, por que cada uma exige uma abordagem diferente
+##### 5.1 Banco relacional, por CDC
 
-##### 5.1 PostgreSQL → CDC
+**Entidades:** `users`, `campaigns`, `crm`.
 
-**Tabelas:** `users`, `campaigns`, `crm`
+**Por que CDC e não lote diário**
 
-**Por que CDC e não batch diário?**
+Essas entidades são dado mestre que muda ao longo do dia. Um usuário troca de
+segmento, uma campanha muda de situação, um score de risco é recalculado várias
+vezes.
 
-Essas entidades são master data que mudam ao longo do dia. Um usuário pode mudar de segmento, uma campanha pode mudar de status, um score de churn pode ser atualizado múltiplas vezes em um dia.
+Com lote diário você captura o estado final do dia e **perde o caminho**. Com CDC
+você captura cada alteração, com momento e tipo de operação. Isso permite três
+coisas que o lote não permite:
 
-Com batch diário, você captura apenas o estado final do dia, perde o histórico de alterações. Com CDC, você captura cada alteração com timestamp e tipo de operação (INSERT, UPDATE, DELETE). Isso permite:
-
-- Reconstruir o estado de um registro em qualquer ponto do tempo.
-- Detectar anomalias (ex.: campanha que mudou de status três vezes em uma hora).
-- Alimentar pipelines downstream com dados frescos sem esperar o batch noturno.
-
-**Frequência esperada:** alterações contínuas ao longo do dia.
-
-**SLA no Bronze:** dados disponíveis em até 30 minutos após alteração.
-
-##### 5.2 API externa de mídia → Batch
-
-**Tabela:** `costs`
-
-**Por que batch e não CDC ou streaming?**
-
-Os custos de campanha em APIs de mídia são imutáveis por data, ou seja, o custo do dia 10 é um snapshot do que foi gasto naquele dia. Não há alterações de registro a rastrear. A API expõe um endpoint por data e você extrai o que aconteceu.
-
-Além disso, APIs de mídia têm rate limits e custos de chamada. Uma extração contínua seria ineficiente e cara sem ganho real, o dado muda uma vez por dia, no máximo.
-
-Batch diário por data é a abordagem natural: extrai os custos do dia anterior até às 8h e disponibiliza para análise.
-
-**Frequência esperada:** uma extração por dia.
-
-**SLA no Bronze:** dados do dia anterior disponíveis até às 8h.
-
-##### 5.3 Kafka → Streaming
-
-**Tabela:** `events`
-
-**Por que streaming e não batch?**
-
-Eventos de funil têm valor na latência. Detectar uma queda no volume de checkouts às 14h, em tempo quase real, é uma informação acionável, você pode investigar e corrigir o problema antes que o impacto seja maior. Ver isso no relatório de ontem não tem o mesmo valor.
-
-Além disso, eventos têm natureza append-only: cada evento é imutável após ocorrer. Não há UPDATE nem DELETE, só INSERT. Isso torna o streaming uma abordagem natural: cada evento publicado no Kafka é consumido e gravado no Bronze sem complexidade de merge.
-
-**Importante:** Kafka será implementado em sessão futura. Nesta sessão, o contrato é projetado e o slot na arquitetura é reservado. A implementação não existe ainda.
-
-**Frequência esperada:** contínua, por evento.
-
-**SLA no Bronze:** latência máxima de 5 minutos do evento ao Bronze.
-
----
-
-#### 6. Ferramentas de ingestão, categorias e exemplos
-
-O objetivo desta seção não é escolher a ferramenta, é abrir o mapa de opções. A escolha acontece na Sessão 06, depois da tarefa de casa.
-
-##### 6.1 CDC
-
-| Ferramenta | Tipo | Observação |
-| --- | --- | --- |
-| Debezium | OSS, connector Kafka | Padrão de mercado para CDC em PostgreSQL/MySQL. Requer Kafka. |
-| Airbyte | OSS/Cloud, plataforma | Tem conector CDC via log replication. Mais fácil de operar. |
-| Fivetran | SaaS | Gerenciado, fácil de configurar, mas tem custo por linha sincronizada. |
-| AWS DMS | Cloud (AWS) | Gerenciado pela AWS, bom para ambientes já na AWS. |
-| Kafka Connect (JDBC) | OSS | Polling via JDBC, não é CDC puro, não captura DELETEs. |
-
-##### 6.2 API batch
-
-| Ferramenta | Tipo | Observação |
-| --- | --- | --- |
-| Airbyte | OSS/Cloud, plataforma | Tem conectores prontos para Google Ads, Meta Ads, etc. |
-| Fivetran | SaaS | Conectores prontos e gerenciados. Custo por linha. |
-| Meltano | OSS | Baseado em Singer. Flexível, mas exige mais configuração. |
-| Singer | OSS, protocolo | Base do Meltano/Airbyte. Taps e targets customizáveis. |
-| Script Python custom | Custom | Máximo controle, máximo custo de manutenção. |
-
-##### 6.3 Streaming / Kafka
-
-| Ferramenta | Tipo | Observação |
-| --- | --- | --- |
-| Kafka Connect | OSS | Conectores para sources e sinks. Ecosistema amplo. |
-| Confluent Platform | Cloud/Enterprise | Kafka gerenciado com operações simplificadas. |
-| Flink | OSS | Processamento stateful, janelas, joins em streaming. |
-| Spark Structured Streaming | OSS | Bom para times com histórico em Spark. |
-
----
-
-#### 7. Make vs buy, critérios para um time pequeno
-
-Para cada fonte, a decisão não é "qual é a ferramenta mais poderosa?", é "qual é a ferramenta que sustentamos com o time que temos?"
-
-##### Critérios de avaliação
-
-| Critério | Favorece ferramenta pronta | Favorece script custom |
-| --- | --- | --- |
-| Número de fontes | Muitas fontes | Poucas fontes muito específicas |
-| Frequência de mudança do contrato da fonte | Alta (API instável) | Baixa (contrato estável) |
-| Disponibilidade de manutenção | Time pequeno, sem plantão | Time com capacidade de manter |
-| Custo de licença aceitável | Sim | Não, budget restrito |
-| Conector pronto disponível | Sim | Não existe conector adequado |
-| Complexidade de lógica custom | Baixa | Alta, regras de negócio embutidas |
-
-##### Ponto de atenção
-
-Ferramentas prontas reduzem custo de engenharia inicial, mas introduzem dependência de vendor e custo de licença recorrente. Scripts custom têm custo de manutenção invisível, quem mantém quando o engenheiro que escreveu sai da empresa?
-
-Para um time em fase de crescimento, a pergunta mais honesta é: "quem vai manter isso às 2h da manhã quando quebrar?"
-
----
-
-#### 8. Contratos de dados v0
-
-Para cada fonte, preencha os atributos do contrato com base na discussão da sessão.
-
-##### PostgreSQL CDC, `users`, `campaigns`, `crm`
+- reconstruir o estado de um registro em qualquer ponto do tempo;
+- detectar anomalia de comportamento, como uma campanha que mudou de situação três
+  vezes em uma hora;
+- alimentar o que vem depois sem esperar a virada do dia.
 
 | Atributo | Valor |
-| --- | --- |
+|---|---|
+| Frequência | Contínua, ao longo do dia |
+| SLA proposto no bruto | Disponível em até 30 minutos após a alteração |
+
+##### 5.2 API externa, por lote
+
+**Entidade:** `costs`.
+
+**Por que lote e não CDC nem streaming**
+
+Custo de campanha em API de mídia é imutável por data: o custo do dia 10 é uma foto
+do que foi gasto naquele dia. Não há alteração de registro para rastrear.
+
+Somado a isso, API de terceiro tem limite de chamadas e, às vezes, custo por
+chamada. Extração contínua seria mais caro sem ganho nenhum, porque o dado muda uma
+vez por dia.
+
+| Atributo | Valor |
+|---|---|
+| Frequência | Uma extração por dia |
+| SLA proposto no bruto | Dado do dia anterior disponível até as 8h |
+
+**O equívoco comum**
+
+Tratar dado imutável com a mesma máquina do dado mutável. Aqui a simplicidade é a
+decisão certa, e escolher a ferramenta mais poderosa é escolher errado.
+
+##### 5.3 Fluxo de eventos, por streaming
+
+**Entidade:** `events`.
+
+**Por que streaming e não lote**
+
+Evento de funil tem valor na latência. Detectar às 14h que os checkouts caíram é
+acionável: dá tempo de investigar. Ver no relatório de amanhã não é a mesma coisa.
+
+Além disso, evento é append-only: cada um é imutável depois de ocorrer. Não há
+atualização nem exclusão, só inserção. Isso torna o streaming natural, porque não
+existe a complexidade de mesclar versões.
+
+| Atributo | Valor |
+|---|---|
+| Frequência | Contínua, por evento |
+| SLA proposto no bruto | Latência máxima de 5 minutos do evento ao bruto |
+
+**O que este módulo deixa claro sobre escopo**
+
+O fluxo de eventos é **projetado** aqui, com contrato e lugar reservado na
+arquitetura. A implementação é do módulo de streaming com Kafka. Reservar o lugar
+sem implementar é decisão, não pendência esquecida.
+
+#### 6. Categorias de ferramenta de ingestão
+
+O objetivo desta seção não é escolher, é abrir o mapa. A escolha é o entregável do
+exercício 3.
+
+**Uma advertência que vale mais que as tabelas.** Informação sobre ferramenta
+envelhece rápido, e modelo de cobrança de fornecedor muda sem aviso. As tabelas
+abaixo foram conferidas em 2026-07-31, e a seção de fontes verificadas diz o que
+foi conferido em documentação e o que não foi. Antes de decidir, confira na data da
+sua decisão.
+
+##### 6.1 Para CDC
+
+| Ferramenta | Natureza | Observação |
+|---|---|---|
+| Debezium | Aberta | Padrão de mercado para CDC em bancos relacionais |
+| Airbyte | Aberta e gerenciada | Tem CDC por leitura de log, e é mais simples de operar |
+| Fivetran | Gerenciada | Configuração fácil, cobrança por volume |
+| AWS DMS | Gerenciada | Boa opção se o ambiente já está na AWS |
+| Kafka Connect JDBC | Aberta | Consulta periódica, não é CDC de log |
+
+**Duas correções que material antigo repete**
+
+A primeira: **Debezium não exige Kafka.** É comum ler que ele "requer Kafka", e
+isso descreve apenas um dos três modos de execução. O Debezium Server transmite as
+mudanças direto para um destino sem Kafka Connect, e o engine embutido roda dentro
+da sua aplicação, sem Kafka nenhum. Isso muda a conta de complexidade de forma
+relevante para um time pequeno.
+
+A segunda: **o Kafka Connect JDBC não detecta exclusão.** Os modos incrementais dele
+detectam linha nova ou modificada, e exclusão não está entre as capacidades
+documentadas. Se a sua entidade sofre `DELETE` e você precisa saber, essa
+ferramenta não resolve, e o sintoma é um registro que existe no destino para sempre.
+
+##### 6.2 Para API em lote
+
+| Ferramenta | Natureza | Observação |
+|---|---|---|
+| Airbyte | Aberta e gerenciada | Tem conectores prontos para plataformas de mídia |
+| Fivetran | Gerenciada | Conectores prontos, cobrança por volume |
+| Meltano | Aberta | Construída sobre a especificação Singer |
+| Singer | Especificação aberta | Define extratores e carregadores como programas separados |
+| Código próprio | Sua | Controle máximo, e custo de manutenção máximo |
+
+**Outra correção.** É comum ler que o Singer é "a base do Meltano e do Airbyte". Só
+metade está certa. O Meltano é construído sobre o Singer. O **Airbyte não é**: ele
+tem protocolo próprio, e a própria documentação da empresa explica que a decisão
+foi deliberada. O Airbyte é compatível com extratores Singer selecionados, o que é
+diferente de ser construído sobre eles.
+
+##### 6.3 Para fluxo de eventos
+
+| Ferramenta | Natureza | Observação |
+|---|---|---|
+| Kafka Connect | Aberta | Conectores de entrada e de saída, ecossistema amplo |
+| Confluent Platform | Gerenciada | Kafka com operação simplificada |
+| Flink | Aberta | Processamento com estado, janelas e junções em fluxo |
+| Spark Structured Streaming | Aberta | Boa opção para time com histórico em Spark |
+
+#### 7. Construir ou comprar
+
+Para cada fonte, a pergunta não é qual ferramenta é mais poderosa. É qual ferramenta
+o seu time sustenta.
+
+##### 7.1 Os critérios
+
+| Critério | Favorece ferramenta pronta | Favorece código próprio |
+|---|---|---|
+| Número de fontes | Muitas | Poucas e muito específicas |
+| Estabilidade do contrato da fonte | Instável, muda com frequência | Estável |
+| Capacidade de manutenção do time | Pequeno, sem plantão | Com folga para manter |
+| Restrição de orçamento | Licença é aceitável | Sem verba para licença |
+| Existe conector pronto | Sim | Não existe adequado |
+| Complexidade da regra de negócio | Baixa | Alta, com regra embutida |
+
+##### 7.2 O critério que decide de verdade
+
+Ferramenta pronta reduz o custo inicial de engenharia e cria dependência de
+fornecedor mais licença recorrente. Código próprio tem custo de manutenção
+invisível.
+
+A pergunta mais honesta que existe para essa decisão: **quem mantém isso às duas da
+manhã, quando quebrar?** Se a resposta é uma pessoa específica, e ela é a mesma que
+escreveu, você não tem uma solução, tem um risco com data de validade.
+
+#### 8. Contratos de dados
+
+Um contrato de dados registra o que quem produz promete a quem consome. Sem ele, a
+mudança de schema na origem chega como incidente.
+
+Cinco atributos cobrem o essencial:
+
+| Atributo | Pergunta que responde |
+|---|---|
+| Schema | Quais colunas e tipos, e o que acontece quando mudam |
+| Formato de destino | Como o dado é gravado na camada bruta |
+| Partição | Como o dado é organizado fisicamente |
+| SLA | Em quanto tempo o dado precisa estar disponível |
+| Histórico | O que é guardado, por quanto tempo, e o que é descartado |
+
+##### 8.1 CDC de banco relacional: `users`, `campaigns`, `crm`
+
+Preencha:
+
+| Atributo | Valor |
+|---|---|
 | Schema | |
 | Formato de destino | |
 | Partição | |
 | SLA | |
 | Histórico | |
 
-##### API de mídia, `costs`
+Exemplo de referência, para você comparar depois de preencher:
+
+| Atributo | Exemplo |
+|---|---|
+| Schema | Colunas da seção 4.1 mais as de controle de CDC: operação e momento da mudança. `email` marcado como dado pessoal, não promovido para consumo |
+| Formato de destino | Parquet na camada bruta |
+| Partição | Data de ingestão, não data de negócio, porque a mesma linha pode chegar várias vezes |
+| SLA | 30 minutos entre a alteração na origem e a disponibilidade no bruto |
+| Histórico | Todas as versões preservadas no bruto; a camada curada mantém a última versão por chave |
+
+A escolha de particionar por data de **ingestão** e não de negócio é a mais sutil
+das cinco, e é a que mais gera retrabalho quando errada. Em CDC, a mesma entidade
+volta com alterações; agrupar por data de ingestão mantém o carregamento
+idempotente e permite reprocessar um dia sem tocar os outros.
+
+##### 8.2 API de mídia: `costs`
+
+Preencha:
 
 | Atributo | Valor |
-| --- | --- |
+|---|---|
 | Schema | |
 | Formato de destino | |
 | Partição | |
 | SLA | |
 | Histórico | |
 
-##### Kafka, `events` (contrato projetado, implementação futura)
+Exemplo de referência:
+
+| Atributo | Exemplo |
+|---|---|
+| Schema | Colunas da seção 4.1. Moeda obrigatória, porque valor sem moeda não é valor |
+| Formato de destino | Parquet na camada bruta |
+| Partição | Data de referência do custo, que aqui coincide com a extração |
+| SLA | Dado do dia anterior disponível até as 8h |
+| Histórico | Reextração do mesmo dia sobrescreve a partição, porque a origem é imutável por data |
+
+##### 8.3 Fluxo de eventos: `events`, contrato projetado
+
+Preencha:
 
 | Atributo | Valor |
-| --- | --- |
+|---|---|
 | Schema | |
 | Tópico | |
 | Formato de destino | |
@@ -2734,99 +3420,334 @@ Para cada fonte, preencha os atributos do contrato com base na discussão da ses
 | SLA | |
 | Histórico | |
 
----
+Exemplo de referência:
 
-#### 9. Exercício 2, Architecture canvas v0
+| Atributo | Exemplo |
+|---|---|
+| Schema | Colunas da seção 4.1, com schema registrado e evolução compatível para trás |
+| Tópico | Um por domínio de evento, com chave por `user_id` para preservar ordem por usuário |
+| Formato de destino | Parquet na camada bruta, com compactação periódica |
+| Partição | Data do evento, com atenção à partição do dia corrente recebendo escrita concorrente |
+| SLA | 5 minutos do evento ao bruto |
+| Histórico | Append-only, sem atualização nem exclusão |
 
-Guia para desenhar o canvas em conjunto durante o Bloco 4.
+A escolha de chave do tópico não é detalhe: ela decide a ordem. Eventos do mesmo
+usuário na mesma partição chegam em ordem; espalhados, não. O módulo de streaming
+com Kafka trata disso, e a decisão precisa ser tomada aqui, no contrato.
 
-**Passo 1, Fontes (canto esquerdo):**
-Listar as três fontes: PostgreSQL, API de mídia, Kafka. Anotar a natureza de cada uma (CDC, batch, streaming).
+#### 9. O architecture canvas
 
-**Passo 2, Camada de ingestão:**
-Para cada fonte, marcar o slot da ferramenta com `[?]`. A escolha da ferramenta fica aberta, é a tarefa de casa.
+Um roteiro para desenhar, e a validação que diz se o desenho está certo.
 
-**Passo 3, Camadas de armazenamento:**
-Desenhar Bronze → Silver → Gold. Para cada camada, anotar:
-- Bronze: raw, imutável, particionado por data de ingestão
-- Silver: deduplicado, joins aplicados, schema confiável
-- Gold: datasets de negócio, prontos para responder as perguntas da seção 3
+**Passo 1, as fontes.** No canto esquerdo, as três fontes, cada uma com a sua
+natureza anotada: CDC, lote, fluxo.
 
-**Passo 4, Consumo (canto direito):**
-Listar os consumidores: BI/dashboards, analytics ad-hoc, ativações. Conectar ao Gold.
+**Passo 2, a camada de ingestão.** Para cada fonte, um espaço para a ferramenta,
+marcado como aberto. A escolha é o exercício 3, e marcar como aberto é melhor que
+escolher errado agora.
 
-**Passo 5, Validação:**
-Percorrer o canvas de trás para frente: pegar uma pergunta da seção 3 e traçar o caminho até a fonte. Se o caminho existir e estiver completo, o canvas está correto para essa pergunta.
+**Passo 3, as camadas de armazenamento.** Bruto, curado e consumo, com o que cada
+uma garante:
 
----
+| Camada | O que garante |
+|---|---|
+| Bruto | Fidelidade à origem, imutável, particionado por data de ingestão |
+| Curado | Deduplicado, junções aplicadas, schema confiável |
+| Consumo | Conjuntos que respondem as perguntas da seção 3 |
 
-#### 10. Exercício 1, Mapeamento de perguntas para fontes
+**Passo 4, o consumo.** No canto direito, quem lê: painéis, análise pontual,
+ativação de campanha.
 
-**Objetivo:** praticar o raciocínio de tracing reverso, partir de uma pergunta de negócio e identificar quais entidades e fontes são necessárias para respondê-la.
+**Passo 5, a validação, e é ela que importa.** Percorra o canvas **de trás para
+frente**: pegue uma pergunta da seção 3 e trace o caminho até a fonte. Se o caminho
+existe e não tem lacuna, o canvas atende aquela pergunta. Repita com três
+perguntas de stakeholders diferentes.
 
-**Referência:** use a lista de perguntas da seção 3 e o modelo de dados da seção 4.
+Canvas que não passa nesse teste é bonito e inútil.
 
-**Instrução:**
+#### 10. Exercícios e entregáveis
 
-Escolha três perguntas da seção 3 (uma de stakeholders diferentes, se possível). Para cada pergunta, preencha uma linha da tabela abaixo:
+**Exercício 1: de pergunta para fonte**
 
-- **Pergunta**: copie a pergunta exatamente como está na seção 3.
-- **Entidades necessárias**: liste as tabelas do domínio (seção 4.1) cujos campos são necessários para responder.
-- **Fontes de ingestão**: identifique de onde cada entidade vem, CDC, API batch ou Kafka (seção 5).
-- **Chave de conexão utilizada**: indique qual chave (`user_id`, `campaign_id` ou nenhuma) conecta as entidades listadas.
+Objetivo: praticar o rastreio reverso, da pergunta até a origem do dado.
 
-| Pergunta (seção 3) | Entidades necessárias | Fontes de ingestão | Chave de conexão utilizada |
-| --- | --- | --- | --- |
-| | | | |
-| | | | |
-| | | | |
+Contexto: as perguntas da seção 3 e o modelo da seção 4.
 
-**Exemplo resolvido** (não usar como resposta, é apenas para entender o formato):
+Entregável: três perguntas, de stakeholders diferentes, cada uma com as entidades
+necessárias, as fontes de ingestão de cada entidade, e a chave que conecta as
+entidades.
 
-| Pergunta | Entidades necessárias | Fontes de ingestão | Chave de conexão |
-| --- | --- | --- | --- |
-| "Qual canal tem menor CAC?" | `costs`, `users`, `events` | API batch + CDC + Kafka | `campaign_id` (costs↔events) e `user_id` (users↔events) |
+Exemplo do formato, não use como resposta:
 
-**Critério de aceite:** para cada linha, o caminho fonte → entidade → pergunta deve ser traçável sem gaps.
+| Pergunta | Entidades | Fontes | Chave de conexão |
+|---|---|---|---|
+| Qual canal tem o menor custo de aquisição? | `costs`, `users`, `events` | Lote, CDC, fluxo | `campaign_id` entre custo e evento, `user_id` entre usuário e evento |
 
----
+Critério: o caminho fonte, entidade, pergunta precisa ser traçável sem lacuna.
 
-#### 11. Template, Tarefa de casa
+**Exercício 2: contratos preenchidos**
 
-A ser apresentada no início da Sessão 06.
+Objetivo: transformar decisão em documento que outra pessoa lê.
 
-| Ingestão | Ferramenta proposta | Justificativa (custo, complexidade, manutenção) |
-| --- | --- | --- |
-| CDC (PostgreSQL) | | |
-| API de mídia (batch) | | |
-| Streaming (Kafka) | | |
+Contexto: as três tabelas da seção 8.
 
----
+Entregável: os três contratos preenchidos com as suas escolhas, **antes** de olhar
+os exemplos de referência. Depois compare, e escreva uma frase para cada divergência
+explicando por que a sua escolha é melhor ou pior. Divergir é aceitável; não
+perceber a divergência não é.
 
-#### 12. Critérios de aceite da sessão
+**Exercício 3: a proposta de ferramenta**
 
-- Perguntas dos gestores mapeadas para fontes necessárias.
-- Entidades do domínio e relações via `user_id` e `campaign_id` desenhadas.
-- Natureza de cada fonte justificada com critério técnico.
-- Categorias de ferramentas apresentadas para CDC, API e streaming.
-- Architecture canvas v0 desenhado com slots de ferramentas marcados.
-- Contratos de dados v0 definidos para as três fontes.
-- Contrato do Kafka projetado, schema, tópico, partição, sem implementação.
-- Tarefa de casa comunicada: proposta de ferramenta por tipo de ingestão para a S06.
-- Backlog claro e priorizado para a Sessão 06.
+Objetivo: decidir com critério explícito.
 
----
+Contexto: o mapa da seção 6 e os critérios da seção 7.
 
-#### 13. O que deliberadamente não decidir agora
+Entregável: uma ferramenta proposta por tipo de ingestão, com justificativa em
+custo, complexidade e manutenção.
 
-Para evitar paralisia por análise:
+| Ingestão | Ferramenta proposta | Justificativa |
+|---|---|---|
+| CDC | | |
+| API em lote | | |
+| Fluxo de eventos | | |
 
-- Não fechar a escolha de ferramenta de ingestão para nenhuma das fontes, essa é a tarefa de casa.
-- Não detalhar os jobs individuais de cada pipeline.
-- Não discutir sizing de infraestrutura, tuning ou benchmarks.
-- Não modelar as tabelas Silver e Gold em detalhes, isso é Sessão 06 em diante.
-- Não buscar perfeição no canvas v0, ele vai evoluir. O objetivo é ter um ponto de partida validado.
-- Não implementar nada. Nenhum arquivo é criado, nenhum comando é executado.
+Para cada uma, responda também: quem mantém às duas da manhã?
+
+**Exercício 4: o canvas**
+
+Objetivo: desenhar e validar.
+
+Entregável: o canvas da seção 9 desenhado, mais o resultado do passo 5 para três
+perguntas. Se alguma não fechou, isso é o achado mais valioso do exercício.
+Registre a lacuna em vez de escondê-la.
+
+#### 11. Mini-desafio com solução
+
+**Enunciado**
+
+A diretoria pede um painel de retorno por campanha, com atualização diária. Um
+engenheiro propõe: uma extração noturna em lote das três tabelas do banco, uma
+extração da API de custos, e nada de streaming, porque "o painel é diário mesmo".
+
+Avalie a proposta.
+
+**Dicas**
+
+- A proposta atende o pedido literal. A pergunta é o que ela custa depois.
+- Duas perguntas da seção 3 morrem nessa arquitetura. Quais?
+- "Diário mesmo" é uma afirmação sobre hoje.
+
+**Gabarito comentado**
+
+Aceito em parte, e a parte que recuso é a que vai doer.
+
+O que está certo: para um painel diário de retorno, lote noturno das três tabelas
+mais a API de custos **responde a pergunta**. Streaming não é requisito para retorno
+mensal ou diário, e montar Kafka para isso é complexidade sem retorno. Quem propôs
+acertou o recorte do pedido.
+
+O que está errado é o efeito colateral, e ele tem duas faces.
+
+A primeira: lote noturno em `crm` e `users` **destrói o histórico de alterações**. O
+score de risco é recalculado várias vezes ao dia; o lote captura o último valor.
+A pergunta "quais usuários estão em risco esta semana" ainda funciona, mas "por que
+esse usuário entrou em risco" deixa de ter resposta, para sempre, porque o caminho
+não foi gravado. Dado histórico não é recuperável depois.
+
+A segunda: "queda anômala no volume de checkouts hoje" fica impossível por
+construção. Não é lentidão, é ausência: o dado do dia só existe amanhã.
+
+O que eu proporia: lote para `costs`, porque a fonte é imutável por data e lote é a
+escolha certa, não a preguiçosa. CDC para `crm` e `users`, porque o custo de
+capturar a alteração é baixo hoje e o custo de não ter capturado é infinito depois.
+E o lugar do fluxo de eventos reservado no canvas, com contrato escrito e
+implementação adiada, exatamente como a seção 5.3 faz.
+
+**Interpretação**
+
+A resposta fraca recusa a proposta inteira e manda montar streaming. A resposta boa
+separa as três fontes e decide cada uma pelo seu comportamento. A excelente percebe
+que a decisão de lote em CDC é a única das três que **não tem volta**, e usa isso
+como critério de prioridade.
+
+#### 12. Rubrica de validação da aprendizagem
+
+| Critério | Insuficiente | Suficiente | Excelente |
+|---|---|---|---|
+| Ponto de partida | Começa pelo diagrama | Começa pelas perguntas de negócio | Recusa desenhar antes de saber quem pergunta o quê |
+| Natureza da fonte | Trata as três igual | Justifica CDC, lote e fluxo por comportamento do dado | Identifica qual decisão é irreversível |
+| Modelo de dados | Lista tabelas | Explica as chaves que conectam | Aponta a entidade central e o que isso implica |
+| Contratos | Deixa em branco | Preenche os cinco atributos | Justifica partição por data de ingestão em CDC |
+| Ferramentas | Escolhe a mais conhecida | Usa os critérios da seção 7 | Responde quem mantém às duas da manhã |
+| Dado pessoal | Não menciona | Marca a coluna sensível | Decide o tratamento já no contrato |
+| Canvas | Desenha e entrega | Valida de trás para frente | Registra a lacuna que a validação achou |
+| Honestidade técnica | Repete o que leu | Cita fonte e data | Sabe que informação de ferramenta envelhece |
+
+Checklist para a call:
+
+- [ ] Perguntas mapeadas para fontes, com caminho traçável.
+- [ ] Natureza de cada fonte justificada por comportamento do dado.
+- [ ] Os três contratos preenchidos, com partição justificada.
+- [ ] Proposta de ferramenta por tipo, com o critério de manutenção respondido.
+- [ ] Canvas desenhado e validado de trás para frente.
+- [ ] Coluna de dado pessoal marcada e com tratamento decidido.
+
+#### 13. Erros comuns e como corrigir
+
+**Começar pelo diagrama**
+
+Sintoma: uma arquitetura bonita que ninguém usa, ou que não responde o que foi
+pedido.
+
+Causa: o desenho veio antes das perguntas.
+
+Correção: listar as perguntas por stakeholder, e só então desenhar. A validação de
+trás para frente da seção 9 existe para pegar isso.
+
+**Lote em dado que muda ao longo do dia**
+
+Sintoma: dá para saber o estado atual e não dá para saber como ele chegou lá.
+
+Causa: lote captura estado, CDC captura mudança.
+
+Correção: CDC nas entidades de dado mestre. Este erro é o mais caro do módulo,
+porque o histórico não capturado não é recuperável depois.
+
+**Ferramenta escolhida pela capacidade e não pela manutenção**
+
+Sintoma: pipeline que funciona e que ninguém entende quando quebra.
+
+Causa: a decisão avaliou poder e não sustentação.
+
+Correção: os critérios da seção 7, e a pergunta das duas da manhã.
+
+**Contrato sem política de histórico**
+
+Sintoma: ninguém sabe se pode reprocessar um dia, nem o que acontece se
+reprocessar.
+
+Causa: os quatro primeiros atributos do contrato foram preenchidos e o quinto foi
+esquecido.
+
+Correção: definir o que é sobrescrito e o que é acrescentado, por fonte. Origem
+imutável por data pode sobrescrever a partição; CDC não pode.
+
+**Particionar CDC por data de negócio**
+
+Sintoma: reprocessar um dia mexe em partições de outros dias, e o carregamento
+deixa de ser idempotente.
+
+Causa: em CDC a mesma entidade volta com alterações, e a data de negócio dela não
+muda.
+
+Correção: particionar o bruto por data de ingestão. A data de negócio é coluna, e a
+camada curada usa ela.
+
+**Dado pessoal descoberto na camada de consumo**
+
+Sintoma: alguém encontra e-mail num painel.
+
+Causa: a coluna atravessou as camadas porque ninguém decidiu o contrário.
+
+Correção: marcar no contrato, na seção 8, e decidir ali se ela é mascarada ou não
+promovida.
+
+**Achar que informação de ferramenta é estável**
+
+Sintoma: uma decisão baseada em texto de dois anos atrás.
+
+Causa: material sobre ferramenta envelhece mais rápido que material sobre conceito.
+
+Correção: conferir na documentação oficial na data da decisão. Esta apostila mesmo
+corrigiu duas afirmações desse tipo, sobre o Debezium e sobre o Airbyte, e as duas
+estavam em material anterior.
+
+#### 14. Plano de continuidade
+
+**Antes da próxima call**
+
+Faça os exercícios 2 e 3. O contrato preenchido é o entregável que mais se parece
+com trabalho real.
+
+**O que estudar em seguida, dentro da trilha**
+
+O módulo de CDC implementa o que aqui é contrato. O de orquestração com Airflow
+coloca a sequência de pé. O de streaming com Kafka ocupa o lugar que este módulo
+reservou.
+
+Vale reler o módulo de particionamento com a seção 8 desta apostila em mão: a
+decisão de particionar por data de ingestão em CDC é exatamente uma decisão de
+partição, e o custo dela é o daquele módulo.
+
+**O que aprofundar por conta**
+
+Escreva o contrato de uma fonte do seu trabalho, ou de uma API pública qualquer.
+Cinco atributos, uma página. O exercício ensina mais que ler sobre contratos.
+
+**O que não perseguir agora**
+
+Catálogo de dados, linhagem automatizada e ferramenta de contrato como código. Os
+três são úteis e chegam depois de existir contrato escrito à mão. Ferramenta de
+governança sobre processo inexistente não governa nada.
+
+#### 15. Glossário
+
+| Termo | Significado |
+|---|---|
+| Append-only | Dado que só recebe inserção, sem atualização nem exclusão |
+| Camada bruta | Primeira camada, fiel à origem e imutável |
+| Camada curada | Camada deduplicada, com junções e schema confiável |
+| Camada de consumo | Conjuntos prontos para responder perguntas de negócio |
+| Canvas de arquitetura | Desenho das fontes, camadas e consumidores, com decisões abertas marcadas |
+| CDC | Captura de mudança de dado, registra cada alteração com momento e operação |
+| Contrato de dados | Acordo entre quem produz e quem consome sobre schema, formato, partição, SLA e histórico |
+| Dado mestre | Entidade de cadastro que muda ao longo do tempo, como usuário ou campanha |
+| Extração em lote | Coleta periódica de um recorte do dado, tipicamente por data |
+| Idempotente | Operação que, repetida, produz o mesmo resultado |
+| SLA | Prazo acordado entre o dado existir na origem e estar disponível |
+| Streaming | Processamento contínuo, evento por evento |
+| Tópico | Canal nomeado de um sistema de fluxo de eventos |
+
+#### Referências
+
+Documentação oficial, consultada em 2026-07-31:
+
+- Arquitetura e modos de execução do Debezium: https://debezium.io/documentation/reference/stable/architecture.html
+- Engine embutido do Debezium: https://debezium.io/documentation/reference/stable/development/engine.html
+- Conector JDBC de origem, visão geral e limitações: https://docs.confluent.io/kafka-connectors/jdbc/current/source-connector/overview.html
+- Especificação Singer: https://www.singer.io/
+- Por que o Airbyte não é construído sobre o Singer, pela própria empresa: https://airbyte.com/blog/airbyte-vs-singer-why-airbyte-is-not-built-on-top-of-singer
+
+#### Fontes verificadas (2026-07-31)
+
+- O Debezium **não** exige Apache Kafka. Além do modo baseado em Kafka Connect,
+  existem o Debezium Server, que transmite as mudanças direto para um destino sem
+  Kafka Connect, e o engine embutido, que roda dentro da aplicação sem cluster
+  Kafka. A versão anterior desta apostila afirmava que o Debezium "requer Kafka", e
+  isso descreve apenas um dos modos.
+  https://debezium.io/documentation/reference/stable/development/engine.html
+- O conector JDBC de origem detecta linha nova ou modificada pelos modos
+  incrementais, e a detecção de exclusão não aparece entre as capacidades
+  documentadas. A afirmação de que ele não é CDC de log e não captura exclusão se
+  sustenta.
+  https://docs.confluent.io/kafka-connectors/jdbc/current/source-connector/overview.html
+- O Airbyte **não** é construído sobre o protocolo Singer. A própria empresa
+  publicou que a decisão foi deliberada, e que a compatibilidade com extratores
+  Singer selecionados é diferente de ser construída sobre eles. O Meltano, sim, é
+  construído sobre o Singer. A versão anterior desta apostila tratava o Singer como
+  base dos dois.
+  https://airbyte.com/blog/airbyte-vs-singer-why-airbyte-is-not-built-on-top-of-singer
+- Os modelos de cobrança citados na seção 6, como cobrança por volume em
+  ferramentas gerenciadas, **não** foram conferidos em página de preço nesta data.
+  Eles estão descritos de forma genérica de propósito, e o texto pede que você
+  confira na data da sua decisão. Preço de fornecedor muda sem aviso.
+- Os SLA propostos na seção 5, de 30 minutos para CDC, 8h para o lote diário e 5
+  minutos para o fluxo de eventos, são **propostas de projeto** deste material, não
+  números medidos nem garantia de ferramenta. Eles existem para serem discutidos e
+  ajustados ao caso real.
+- Este módulo não tem laboratório e não executa comando, por decisão registrada no
+  `trilha.yml` com `lab: false`. Nenhum bloco de código desta apostila é executável,
+  e nenhum declara nível acima de 1.
 
 ---
 
