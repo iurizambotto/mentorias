@@ -2,7 +2,7 @@
   "modulo": "streaming-kafka",
   "verificado_em": "2026-07-30",
   "nivel_maximo_atingido": 3,
-  "observacao": "Nivel 3 executado em 2026-07-30: stack subiu, topico criado, mensagens produzidas e consumidas, grupo de consumo com offset commitado. Saidas capturadas em labs[].",
+  "observacao": "Nivel 3 executado em 2026-07-30: stack subiu, topico criado, mensagens produzidas e consumidas, grupo de consumo com offset commitado. Saidas capturadas em labs[]. Os comandos rodam a partir de engenharia_de_dados/modulos/streaming-kafka, com o diretorio do modulo como ponto de partida.",
   "versoes": {
     "apache/kafka": "3.9.0",
     "provectuslabs/kafka-ui": "v0.7.2"
@@ -11,49 +11,49 @@
     {
       "arquivo": "infrastructure/docker-compose.yml",
       "nivel": 2,
-      "comando": "docker compose -f /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/infrastructure/docker-compose.yml config -q",
+      "comando": "docker compose -f infrastructure/docker-compose.yml config -q",
       "verificado_em": "2026-07-30",
       "saida": "sem erro"
     },
     {
       "arquivo": "scripts/consumers/01_consumer_basico.py",
       "nivel": 2,
-      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/consumers/01_consumer_basico.py",
+      "comando": "ruff check scripts/consumers/01_consumer_basico.py",
       "verificado_em": "2026-07-30",
       "saida": "sem erro"
     },
     {
       "arquivo": "scripts/consumers/02_consumer_grupo.py",
       "nivel": 2,
-      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/consumers/02_consumer_grupo.py",
+      "comando": "ruff check scripts/consumers/02_consumer_grupo.py",
       "verificado_em": "2026-07-30",
       "saida": "sem erro"
     },
     {
       "arquivo": "scripts/consumers/03_consumer_seek.py",
       "nivel": 2,
-      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/consumers/03_consumer_seek.py",
+      "comando": "ruff check scripts/consumers/03_consumer_seek.py",
       "verificado_em": "2026-07-30",
       "saida": "sem erro"
     },
     {
       "arquivo": "scripts/consumers/04_consumer_commit_manual.py",
       "nivel": 2,
-      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/consumers/04_consumer_commit_manual.py",
+      "comando": "ruff check scripts/consumers/04_consumer_commit_manual.py",
       "verificado_em": "2026-07-30",
       "saida": "sem erro"
     },
     {
       "arquivo": "scripts/producers/01_producer_basico.py",
       "nivel": 2,
-      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/producers/01_producer_basico.py",
+      "comando": "ruff check scripts/producers/01_producer_basico.py",
       "verificado_em": "2026-07-30",
       "saida": "sem erro"
     },
     {
       "arquivo": "scripts/producers/02_producer_eventos_mkt.py",
       "nivel": 2,
-      "comando": "ruff check /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/streaming-kafka/scripts/producers/02_producer_eventos_mkt.py",
+      "comando": "ruff check scripts/producers/02_producer_eventos_mkt.py",
       "verificado_em": "2026-07-30",
       "saida": "sem erro"
     }
