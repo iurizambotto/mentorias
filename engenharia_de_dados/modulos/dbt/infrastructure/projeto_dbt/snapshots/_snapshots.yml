@@ -1,0 +1,12 @@
+version: 2
+
+snapshots:
+  - name: snap_campanhas
+    description: >
+      Historico de mudanca de orcamento por campanha. A estrategia check compara
+      a coluna a cada execucao, porque o cadastro nao traz data de alteracao.
+    relation: ref('stg_campanhas')
+    config:
+      unique_key: campanha_id
+      strategy: check
+      check_cols: ["orcamento_diario"]

@@ -1,0 +1,146 @@
+{
+  "modulo": "dbt",
+  "verificado_em": "2026-07-31",
+  "nivel_maximo_atingido": 3,
+  "observacao": "Todos os comandos rodam a partir de engenharia_de_dados/modulos/dbt/infrastructure, com DBT_UID e DBT_GID exportados. A execucao de nivel 3 foi feita dentro do container, nao com dbt instalado no host.",
+  "versoes": {
+    "dbt-core": "1.12.0",
+    "dbt-duckdb": "1.10.1",
+    "duckdb": "1.5.5",
+    "python": "3.11.15",
+    "docker": "28.3.3",
+    "docker-compose": "v2.39.1"
+  },
+  "artefatos": [
+    {
+      "arquivo": "infrastructure/docker-compose.yml",
+      "nivel": 2,
+      "comando": "docker compose config -q",
+      "verificado_em": "2026-07-31",
+      "saida": "sem erro, codigo 0"
+    },
+    {
+      "arquivo": "infrastructure/Dockerfile",
+      "nivel": 3,
+      "comando": "docker compose build",
+      "verificado_em": "2026-07-31",
+      "saida": "mentoria-dbt:1.12.0  Built"
+    },
+    {
+      "arquivo": "infrastructure/projeto_dbt/dbt_project.yml",
+      "nivel": 3,
+      "comando": "docker compose run --rm dbt parse",
+      "verificado_em": "2026-07-31",
+      "saida": "parse sem erro, manifesto escrito em target/"
+    },
+    {
+      "arquivo": "infrastructure/projeto_dbt/models",
+      "nivel": 3,
+      "comando": "docker compose run --rm dbt build",
+      "verificado_em": "2026-07-31",
+      "saida": "Done. PASS=22 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=22"
+    },
+    {
+      "arquivo": "infrastructure/projeto_dbt/macros/razao_segura.sql",
+      "nivel": 3,
+      "comando": "docker compose run --rm dbt build --select fct_desempenho_campanha",
+      "verificado_em": "2026-07-31",
+      "saida": "macro expandida no SQL compilado, model criado sem erro"
+    },
+    {
+      "arquivo": "infrastructure/projeto_dbt/snapshots/_snapshots.yml",
+      "nivel": 3,
+      "comando": "docker compose run --rm dbt snapshot",
+      "verificado_em": "2026-07-31",
+      "saida": "Done. PASS=1 WARN=0 ERROR=0"
+    }
+  ],
+  "labs": [
+    {
+      "id": "Lab 0",
+      "titulo": "Construir a imagem do laboratorio",
+      "comandos": [
+        "cd engenharia_de_dados/modulos/dbt/infrastructure",
+        "export DBT_UID=$(id -u)",
+        "export DBT_GID=$(id -g)",
+        "docker compose build"
+      ],
+      "saida_esperada": " mentoria-dbt:1.12.0  Built",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 1",
+      "titulo": "Conferir a conexao com o banco",
+      "comandos": ["docker compose run --rm dbt debug"],
+      "saida_esperada": "Connection test: [OK connection ok] seguido de All checks passed!",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 2",
+      "titulo": "Rodar o projeto inteiro com dbt build",
+      "comandos": ["docker compose run --rm dbt build"],
+      "saida_esperada": "Done. PASS=22 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=22",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 3",
+      "titulo": "Ler o custo por conversao por grupo de canal",
+      "comandos": [
+        "docker compose run --rm dbt show --inline \"select grupo_de_canal, sum(custo) as custo, sum(conversoes) as conversoes, round(sum(custo) / nullif(sum(conversoes), 0), 2) as custo_por_conversao from {{ ref('fct_desempenho_campanha') }} group by grupo_de_canal order by custo_por_conversao\""
+      ],
+      "saida_esperada": "Social com custo_por_conversao 678.27 e Search com 825.36",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 4",
+      "titulo": "Ver o filtro incremental aparecer na segunda execucao",
+      "comandos": [
+        "docker compose run --rm dbt run --select fct_custo_diario",
+        "sed -n '1,20p' projeto_dbt/target/compiled/campanhas/models/marts/fct_custo_diario.sql"
+      ],
+      "saida_esperada": "o SQL compilado da segunda execucao traz a clausula where data_evento > (select coalesce(max(data_evento), ...) from \"campanhas\".\"main\".\"fct_custo_diario\"), ausente na primeira",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 5",
+      "titulo": "Ver o snapshot registrar uma mudanca de orcamento",
+      "comandos": [
+        "sed -i 's/^3,Remarketing Carrinho,meta_ads,2026-06-03,450.00$/3,Remarketing Carrinho,meta_ads,2026-06-03,500.00/' projeto_dbt/dados_brutos/campanhas.csv",
+        "docker compose run --rm dbt snapshot",
+        "docker compose run --rm dbt show --inline \"select campanha_id, orcamento_diario, dbt_valid_from, dbt_valid_to from {{ ref('snap_campanhas') }} where campanha_id = 3 order by dbt_valid_from\"",
+        "sed -i 's/^3,Remarketing Carrinho,meta_ads,2026-06-03,500.00$/3,Remarketing Carrinho,meta_ads,2026-06-03,450.00/' projeto_dbt/dados_brutos/campanhas.csv"
+      ],
+      "saida_esperada": "duas linhas para campanha_id 3, a de orcamento 450 com dbt_valid_to preenchido e a de 500 com dbt_valid_to vazio",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 6",
+      "titulo": "Quebrar um teste de proposito e ver o build parar",
+      "comandos": [
+        "printf '6,Teste Linkedin,linkedin_ads,2026-06-07,200.00\\n' >> projeto_dbt/dados_brutos/campanhas.csv",
+        "docker compose run --rm dbt build --select stg_campanhas",
+        "sed -i '$d' projeto_dbt/dados_brutos/campanhas.csv"
+      ],
+      "saida_esperada": "ERROR em accepted_values_stg_campanhas_canal__google_ads__meta_ads__tiktok_ads, Got 1 result, configured to fail if != 0, e Done. PASS=6 WARN=0 ERROR=1 SKIP=0 NO-OP=0 REUSED=0 TOTAL=7",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    },
+    {
+      "id": "Lab 7",
+      "titulo": "Derrubar o ambiente",
+      "comandos": [
+        "docker compose run --rm dbt clean",
+        "docker compose down --rmi local"
+      ],
+      "saida_esperada": "Cleaned /projeto/target/* e a imagem mentoria-dbt:1.12.0 removida",
+      "nivel": 3,
+      "verificado_em": "2026-07-31"
+    }
+  ]
+}

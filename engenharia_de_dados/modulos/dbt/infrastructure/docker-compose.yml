@@ -1,0 +1,14 @@
+services:
+  dbt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mentoria-dbt:1.12.0
+    # Without this, target/ and logs/ are written back as root on the host.
+    # Override with DBT_UID and DBT_GID when your user is not 1000.
+    user: "${DBT_UID:-1000}:${DBT_GID:-1000}"
+    working_dir: /projeto
+    volumes:
+      - ./projeto_dbt:/projeto
+    environment:
+      DBT_PROFILES_DIR: /projeto
