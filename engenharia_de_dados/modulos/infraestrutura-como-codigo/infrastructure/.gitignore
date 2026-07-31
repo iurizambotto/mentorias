@@ -1,0 +1,21 @@
+# Providers baixados pelo init. Sao grandes e reproduziveis.
+.terraform/
+
+# State local nunca entra no Git. Ele guarda valor sensivel em texto claro.
+*.tfstate
+*.tfstate.*
+
+# Arquivo de variaveis com valor real, que costuma carregar segredo.
+*.auto.tfvars
+terraform.tfvars
+
+# O arquivo de trava esta ignorado APENAS neste laboratorio, e essa nao e a
+# pratica de um projeto real. Num projeto real ele e versionado, porque e ele
+# que garante que todo mundo usa a mesma versao de provider.
+#
+# O motivo da excecao aqui: o arquivo guarda o hash por sistema operacional, e o
+# que foi gerado numa maquina Linux faz o init falhar em macOS. Registrar as
+# duas plataformas exige `terraform providers lock -platform=...`, que baixa
+# provider para plataforma que voce nao usa. Para um laboratorio de estudo, o
+# custo nao paga.
+.terraform.lock.hcl
