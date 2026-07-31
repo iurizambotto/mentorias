@@ -2,7 +2,7 @@
 title: "Infraestrutura como codigo"
 date: 2026-07-31
 type: modulo
-status: rascunho
+status: publicado
 tags: [terraform, mentoria]
 ---
 
@@ -13,7 +13,7 @@ cliques que ninguém sabe repetir.
 
 ## Estado
 
-Status na trilha: **rascunho**. A ordem recomendada vive em `trilha.yml`, na
+Status na trilha: **publicado**. A ordem recomendada vive em `trilha.yml`, na
 raiz da trilha. Seu roteiro pode cursar este módulo em outra posição.
 
 ## O que tem aqui

@@ -132,13 +132,13 @@ modulos:
   dbt:
     titulo: "Transformacao com dbt"
     tipo: conteudo
-    status: rascunho
+    status: publicado
     lab: true
 
   cloud-para-dados:
     titulo: "Cloud para dados"
     tipo: conteudo
-    status: rascunho
+    status: publicado
     lab: false
     relacionado:
       - object-storage-minio
@@ -147,7 +147,7 @@ modulos:
   infraestrutura-como-codigo:
     titulo: "Infraestrutura como codigo"
     tipo: conteudo
-    status: rascunho
+    status: publicado
     lab: true
     relacionado:
       - cloud-para-dados
@@ -169,7 +169,7 @@ modulos:
   kubernetes:
     titulo: "Kubernetes para engenharia de dados"
     tipo: conteudo
-    status: rascunho
+    status: publicado
     lab: true
 
   governanca-qualidade-lgpd:

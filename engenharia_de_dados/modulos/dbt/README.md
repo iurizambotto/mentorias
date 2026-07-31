@@ -2,7 +2,7 @@
 title: "Transformacao com dbt"
 date: 2026-07-31
 type: modulo
-status: rascunho
+status: publicado
 tags: [dbt, mentoria]
 ---
 
@@ -13,7 +13,7 @@ teste e documentação no mesmo lugar.
 
 ## Estado
 
-Status na trilha: **rascunho**. A ordem recomendada vive em `trilha.yml`, na
+Status na trilha: **publicado**. A ordem recomendada vive em `trilha.yml`, na
 raiz da trilha. Seu roteiro pode cursar este módulo em outra posição.
 
 ## O que tem aqui
