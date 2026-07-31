@@ -1,144 +1,182 @@
+---
+title: "Apostila, SQL com foco em JOINs"
+date: 2026-07-31
+type: apostila
+status: draft
+project: zambotto-mentoria
+tags: [engenharia_de_dados, sql]
+---
+
 # Apostila, SQL com foco em JOINs
 
-> Base de leitura da sessão única de 60 minutos.
-> Domínio de referência: CRM e marketing (clientes e pedidos).
-
----
+> Trilha de Engenharia de Dados. Conduzida por Iuri Zambotto e Paulo Shindi.
 
 ## Sumário
 
-0. Como usar esta apostila
-1. Objetivo pedagógico da sessão
-2. Contexto de negócio: por que JOIN importa
-3. Fundamentos relacionais que sustentam os JOINs
-4. JOINs com leitura conceitual e diagrama de Venn
-5. `ON` vs `WHERE` (ponto mais importante da sessão)
-6. Setup e base de dados da prática
-7. Roteiro de condução (60 minutos)
-8. Exercícios guiados com gabarito comentado
-9. Mini-desafio final com solução e interpretação
-10. Rubrica de validação da aprendizagem
-11. Erros comuns e como corrigir
-12. Plano de continuidade pós-sessão
-13. Glossário rápido
-14. Referências
-
----
+- [0. Como usar esta apostila](#0-como-usar-esta-apostila)
+- [1. Objetivo pedagógico](#1-objetivo-pedagógico)
+- [2. Contexto de negócio](#2-contexto-de-negócio)
+- [3. Fundamentos relacionais que sustentam os JOINs](#3-fundamentos-relacionais-que-sustentam-os-joins)
+- [4. Os tipos de JOIN](#4-os-tipos-de-join)
+- [5. ON contra WHERE, o ponto que decide tudo](#5-on-contra-where-o-ponto-que-decide-tudo)
+- [6. A base da prática](#6-a-base-da-prática)
+- [7. Exercícios e entregáveis](#7-exercícios-e-entregáveis)
+- [8. Mini-desafio com solução](#8-mini-desafio-com-solução)
+- [9. Rubrica de validação da aprendizagem](#9-rubrica-de-validação-da-aprendizagem)
+- [10. Erros comuns e como corrigir](#10-erros-comuns-e-como-corrigir)
+- [11. Plano de continuidade](#11-plano-de-continuidade)
+- [12. Glossário](#12-glossário)
+- [Referências](#referências)
+- [Fontes verificadas (2026-07-31)](#fontes-verificadas-2026-07-31)
 
 ## 0. Como usar esta apostila
 
-Esta apostila foi escrita para servir como material principal de leitura da sessão.
+**Leitura linear.** As seções 1 a 5 constroem o modelo mental e devem ser lidas
+antes da prática. A seção 5 é o coração do módulo, e é a que resolve o erro que
+mais aparece em análise real.
 
-Uso recomendado:
+**Revisão pontual.** Se você já escreve JOIN e veio atrás de um assunto: tipos de
+JOIN na 4, `ON` contra `WHERE` na 5, diagnóstico na 10.
 
-1. Ler as seções 1 a 5 antes da prática.
-2. Executar as queries da seção 8 no editor SQL.
-3. Tentar resolver o mini-desafio (seção 9) sem olhar a solução.
-4. Voltar à seção 11 para revisar erros e anti-padrões.
+**Como praticar.** Execute o script da seção 6 num editor SQL, resolva os
+exercícios da seção 7, e tente o mini-desafio da seção 8 antes de olhar o
+gabarito. Depois volte à seção 10 para reconhecer os erros com nome.
 
-Objetivo desta abordagem: transformar o conteúdo em repertório aplicável em cenário real, e não apenas em memorização de sintaxe.
+**Pré-requisitos.** `SELECT`, `WHERE` e `GROUP BY`. Nada além disso.
 
----
+**Este módulo não tem laboratório em container.** Ele declara `lab: false` no
+`trilha.yml`, porque uma tabela de quatro linhas roda em qualquer editor SQL de
+navegador, e montar Docker para isso seria atrito sem ganho.
 
-## 1. Objetivo pedagógico da sessão
+Isso não significa que o SQL daqui não foi executado. Todas as consultas e todas
+as tabelas de resultado desta apostila foram rodadas em PostgreSQL 16.13, e a
+seção de fontes verificadas registra o quê, quando e com qual versão.
 
-Ao final da sessão, a mentorada deve conseguir:
+**Versões.** Verificado com PostgreSQL 16.13 em 2026-07-31.
 
-1. diferenciar quando usar `INNER JOIN`, `LEFT JOIN` e `FULL OUTER JOIN`;
-2. explicar por que a posição do filtro (`ON` ou `WHERE`) muda o resultado;
-3. montar e interpretar consultas com `JOIN + filtro + agregação`;
-4. justificar a escolha da query com base em pergunta de negócio.
+## 1. Objetivo pedagógico
 
-Resultado esperado da sessão:
+Ao terminar este módulo, você consegue:
 
-- segurança conceitual para leitura de bases relacionais;
-- autonomia para resolver problemas iniciais de análise com SQL.
+1. **Diferenciar** quando usar `INNER JOIN`, `LEFT JOIN` e `FULL OUTER JOIN`, e
+   justificar a escolha pela pergunta de negócio.
+2. **Explicar** por que a posição do filtro, no `ON` ou no `WHERE`, muda o
+   resultado de um JOIN externo.
+3. **Montar** consultas que combinam JOIN, filtro e agregação, e interpretar a
+   saída.
+4. **Identificar** por que linhas desapareceram de um resultado, a partir do que
+   a query diz.
+5. **Reconhecer** quando linhas repetidas são erro e quando são consequência
+   esperada da cardinalidade.
 
----
+O verbo de cada item é o que será cobrado. "Explicar" é oral, na call. "Montar" é
+query que roda.
 
-## 2. Contexto de negócio: por que JOIN importa
+## 2. Contexto de negócio
 
-No domínio de CRM e marketing, os dados quase nunca ficam em uma única tabela.
+A startup fictícia de marketing e e-commerce da trilha tem os dados espalhados,
+como toda empresa tem. Quem são os clientes está num lugar, o que eles compraram
+está em outro.
 
-Exemplo realista:
+| Tabela | Grão |
+|---|---|
+| `clientes` | uma linha por cliente |
+| `pedidos` | uma linha por pedido |
 
-- tabela `clientes`: quem são os clientes;
-- tabela `pedidos`: histórico de compras.
+As perguntas que o negócio faz atravessam as duas:
 
-Perguntas típicas:
+- Quais clientes compraram no período?
+- Quais clientes **não** compraram?
+- Qual o valor total de compras por cliente?
 
-- quais clientes compraram no período?
-- quais clientes ainda não compraram?
-- qual é o valor total de compras por cliente?
+A segunda pergunta é a mais interessante das três, e é a que separa quem sabe
+JOIN de quem decora sintaxe. Ela pede o que **não** existe no cruzamento, e
+responder errado nela é o erro mais caro deste módulo: você entrega uma lista de
+clientes inativos sem os clientes que nunca compraram.
 
-Sem JOIN, essas perguntas ficam incompletas ou exigem processamento manual.
-
-Com JOIN bem aplicado, conseguimos combinar contexto de negócio com fatos transacionais em uma única leitura analítica.
-
----
+Este módulo é o primeiro degrau da trilha em SQL. Os módulos seguintes assumem
+que ler um JOIN é automático para você.
 
 ## 3. Fundamentos relacionais que sustentam os JOINs
 
-## 3.1 Grão da tabela (granularidade)
+### 3.1 Grão da tabela
 
-Grão = o que cada linha representa.
+**O que é**
 
-- `clientes`: 1 linha = 1 cliente.
-- `pedidos`: 1 linha = 1 pedido.
+Grão é o que cada linha representa. Em `clientes`, uma linha é um cliente. Em
+`pedidos`, uma linha é um pedido.
 
-Se o grão não estiver claro, a leitura de JOIN fica confusa e surgem erros de interpretação.
+**O equívoco comum**
 
-## 3.2 Chave primária e chave estrangeira
+Começar a escrever o JOIN antes de saber o grão dos dois lados. Sem isso, você
+não tem como prever quantas linhas o resultado deve ter, e portanto não tem como
+perceber que ele veio errado.
 
-- **Chave primária (PK)**: identifica unicamente uma linha.
-  - Ex.: `clientes.cliente_id`.
-- **Chave estrangeira (FK lógica)**: aponta para a PK de outra tabela.
-  - Ex.: `pedidos.cliente_id` referencia `clientes.cliente_id`.
+### 3.2 Chave primária e chave estrangeira
+
+**O que é**
+
+A chave primária identifica unicamente uma linha, como `clientes.cliente_id`. A
+chave estrangeira aponta para a primária de outra tabela, como
+`pedidos.cliente_id`.
 
 JOIN, na prática, é o vínculo entre essas chaves.
 
-## 3.3 Cardinalidade
+**O equívoco comum**
 
-Cardinalidade descreve como uma entidade se relaciona com outra:
+Assumir que a chave estrangeira existe como restrição no banco. Em data
+warehouse, frequentemente ela é apenas uma convenção: o relacionamento existe na
+cabeça de quem modelou e não é garantido pelo banco. Isso significa que
+`pedidos.cliente_id` pode conter um valor que não existe em `clientes`, e o
+`INNER JOIN` vai silenciosamente descartar aquele pedido.
 
-- `1:1`, um para um;
-- `1:N`, um para muitos;
-- `N:N`, muitos para muitos (geralmente exige tabela ponte).
+### 3.3 Cardinalidade
 
-No nosso caso:
+**O que é**
 
-- um cliente pode ter vários pedidos (`1:N`).
+Cardinalidade descreve como uma entidade se relaciona com outra: um para um, um
+para muitos, ou muitos para muitos.
 
-Consequência prática: um cliente pode aparecer várias vezes após o JOIN.
+No nosso caso, um cliente pode ter vários pedidos. É um para muitos.
 
-## 3.4 Nulos, linhas faltantes e duplicidades
+**Como funciona na prática**
 
-Três sinais para sempre observar no resultado:
+A consequência é direta: depois do JOIN, um cliente aparece uma vez por pedido.
+Ana, com dois pedidos, aparece duas vezes. Isso não é duplicidade, é o grão do
+resultado, que passou a ser o do lado "muitos".
 
-1. **Nulos (`NULL`)**: indicam ausência de correspondência (muito comum em `LEFT JOIN`).
-2. **Linhas faltantes**: geralmente JOIN muito restritivo ou filtro mal posicionado.
-3. **Duplicidades aparentes**: muitas vezes são esperadas pela cardinalidade (ex.: um cliente com dois pedidos).
+**O equívoco comum**
 
----
+Somar uma coluna do lado "um" depois de um JOIN um para muitos. Se você somasse
+um valor da tabela `clientes` depois de juntar com `pedidos`, o valor de Ana
+entraria duas vezes. É o erro de duplicação de métrica, e ele não gera erro de
+SQL: gera número errado.
 
-## 4. JOINs com leitura conceitual e diagrama de Venn
+### 3.4 Os três sinais para olhar em todo resultado
 
-Antes dos tipos de JOIN, definimos os conjuntos:
+| Sinal | O que costuma significar |
+|---|---|
+| Nulos | Ausência de correspondência, comum e esperada em `LEFT JOIN` |
+| Linhas faltando | JOIN restritivo demais, ou filtro na posição errada |
+| Linhas repetidas | Em geral, a cardinalidade explicando o grão do resultado |
 
-- **A** = conjunto de clientes (`clientes`).
-- **B** = conjunto de clientes que aparecem em pedidos (`pedidos`, projetado por `cliente_id`).
+O terceiro é o que mais gera alarme falso. Antes de tratar repetição como
+defeito, confirme a cardinalidade.
 
-Importante: diagrama de Venn ajuda na intuição de pertencimento de conjunto, mas não mostra multiplicidade de linhas.
+## 4. Os tipos de JOIN
 
-### 4.1 `INNER JOIN` (interseção)
+Antes dos tipos, os conjuntos. **A** é o conjunto de clientes. **B** é o conjunto
+de clientes que aparecem em pedidos.
 
-Retorna apenas o que existe em A e em B ao mesmo tempo.
+O diagrama de Venn ajuda na intuição de pertencimento, e tem um limite que vale
+dizer logo: **ele não mostra multiplicidade de linhas.** Ana aparece uma vez no
+diagrama e duas vezes no resultado.
 
-Leitura em conjuntos:
+### 4.1 INNER JOIN, a interseção
 
-- `INNER JOIN = A ∩ B`
-
-Diagrama de Venn (conceitual):
+Retorna apenas o que existe em A e em B ao mesmo tempo. A documentação do
+PostgreSQL descreve assim: para cada linha de T1, a tabela resultante tem uma
+linha para cada linha de T2 que satisfaz a condição de junção.
 
 ```text
 Clientes (A)                    Pedidos (B)
@@ -148,22 +186,18 @@ Clientes (A)                    Pedidos (B)
     \           /########\           /
      \_________/##########\_________/
 
-Área hachurada (########) = resultado do INNER JOIN
+Area hachurada = resultado do INNER JOIN
 ```
 
-Quando usar:
+Quando usar: quando só interessa registro com correspondência nos dois lados.
 
-- quando você quer apenas registros com correspondência nos dois lados.
+### 4.2 LEFT JOIN, preserva a esquerda
 
-### 4.2 `LEFT JOIN` (preserva esquerda)
-
-Retorna tudo de A e, quando houver, dados de B.
-
-Leitura em conjuntos:
-
-- `LEFT JOIN = A`
-
-Diagrama de Venn (conceitual):
+Retorna tudo de A e, quando houver, os dados de B. A documentação é precisa sobre
+o mecanismo: primeiro a junção interna é feita; depois, para cada linha de T1 que
+não satisfez a condição com nenhuma linha de T2, uma linha é acrescentada com
+nulos nas colunas de T2. Logo a tabela resultante tem sempre pelo menos uma linha
+para cada linha de T1.
 
 ```text
 Clientes (A)                    Pedidos (B)
@@ -173,22 +207,17 @@ Clientes (A)                    Pedidos (B)
     \###########/########\           /
      \#########/##########\_________/
 
-Área hachurada = todo o conjunto A
+Area hachurada = todo o conjunto A
 ```
 
-Quando usar:
+Quando usar: quando cobrir a base da esquerda é requisito de negócio. A pergunta
+"quais clientes não compraram" só existe aqui.
 
-- quando cobertura da base da esquerda é requisito de negócio.
+### 4.3 FULL OUTER JOIN, a união
 
-### 4.3 `FULL OUTER JOIN` (união completa)
-
-Retorna tudo de A e tudo de B.
-
-Leitura em conjuntos:
-
-- `FULL OUTER JOIN = A ∪ B`
-
-Diagrama de Venn (conceitual):
+Retorna tudo de A e tudo de B. Pelo mecanismo da documentação: a junção interna é
+feita, depois entram as linhas de T1 sem correspondência com nulos do lado de T2,
+e também as linhas de T2 sem correspondência com nulos do lado de T1.
 
 ```text
 Clientes (A)                    Pedidos (B)
@@ -198,44 +227,54 @@ Clientes (A)                    Pedidos (B)
     \###########/########\###########/
      \#########/##########\#########/
 
-Área hachurada = A inteiro + B inteiro
+Area hachurada = A inteiro mais B inteiro
 ```
 
-Quando usar:
+Quando usar: auditoria de cobertura e reconciliação entre duas bases. É o JOIN
+que responde "o que existe de um lado e não do outro, nos dois sentidos".
 
-- auditoria de cobertura;
-- reconciliação entre duas bases.
+Uma ressalva de portabilidade: o `FULL OUTER JOIN` funciona no PostgreSQL, e foi
+executado nesta apostila. Alguns engines analíticos o suportam de forma parcial ou
+com restrição de sintaxe. Se o seu destino não é PostgreSQL, confira antes de
+depender dele.
 
-Observação prática:
+### 4.4 Comparativo
 
-- em alguns engines, `FULL OUTER JOIN` pode ter limitações ou não ser suportado.
+| Tipo | Regra | Melhor uso | Pergunta que ele responde |
+|---|---|---|---|
+| `INNER JOIN` | Só correspondência em ambos | Análise de interseção | Quem comprou? |
+| `LEFT JOIN` | Preserva a esquerda | Cobertura da base principal | Quem não comprou? |
+| `FULL OUTER JOIN` | Preserva os dois lados | Reconciliação e auditoria | O que não bate entre as bases? |
 
-### 4.4 Comparativo rápido
+## 5. ON contra WHERE, o ponto que decide tudo
 
-| Tipo de JOIN | Regra | Melhor uso |
-|---|---|---|
-| `INNER JOIN` | Apenas correspondência em ambos | Análise de interseção |
-| `LEFT JOIN` | Preserva esquerda | Cobertura de base principal |
-| `FULL OUTER JOIN` | Preserva ambos | Reconciliação/auditoria |
+### 5.1 A regra, e a razão dela
 
----
+**O que é**
 
-## 5. `ON` vs `WHERE` (ponto mais importante da sessão)
+`ON` controla como as tabelas se conectam. `WHERE` filtra o resultado depois da
+conexão.
 
-Regra prática:
+A documentação do PostgreSQL diz o porquê em uma frase: uma restrição colocada na
+cláusula `ON` é processada **antes** da junção, e uma restrição colocada no
+`WHERE` é processada **depois**. Com junção interna isso não importa. Com junção
+externa, importa muito.
 
-- `ON` controla como as tabelas se conectam.
-- `WHERE` filtra o resultado depois da conexão.
+A mesma documentação alerta que a cláusula `ON` de uma junção externa não é
+equivalente a uma condição `WHERE`, porque ela resulta na adição de linhas, para
+as linhas sem correspondência, e não apenas na remoção.
 
-Em `LEFT JOIN`, essa diferença muda o significado da consulta.
+### 5.2 O caso correto, filtro no ON
 
-### 5.1 Caso correto para preservar todos os clientes
+Todos os clientes, com o total apenas do período:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
     c.cliente_id,
     c.nome,
-    COALESCE(SUM(p.valor), 0) AS valor_periodo
+    COALESCE(SUM(p.valor), 0.00) AS valor_periodo
 FROM clientes c
 LEFT JOIN pedidos p
     ON c.cliente_id = p.cliente_id
@@ -244,18 +283,32 @@ GROUP BY c.cliente_id, c.nome
 ORDER BY valor_periodo DESC, c.cliente_id;
 ```
 
-Interpretação:
+Resultado, executado de verdade:
 
-- mantém todos os clientes;
-- limita apenas os pedidos considerados na agregação.
+```
+ cliente_id | nome  | valor_periodo
+------------+-------+---------------
+          1 | Ana   |        200.00
+          2 | Bruno |         50.00
+          3 | Carla |          0.00
+          4 | Diego |          0.00
+(4 rows)
+```
 
-### 5.2 Caso que quebra cobertura sem perceber
+Quatro clientes, quatro linhas. Carla tem pedido, mas fora do período, e por isso
+aparece com zero. Diego não tem pedido nenhum, e também aparece.
+
+### 5.3 O caso que quebra a cobertura em silêncio
+
+O mesmo objetivo, com o filtro no `WHERE`:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
     c.cliente_id,
     c.nome,
-    COALESCE(SUM(p.valor), 0) AS valor_periodo
+    COALESCE(SUM(p.valor), 0.00) AS valor_periodo
 FROM clientes c
 LEFT JOIN pedidos p
     ON c.cliente_id = p.cliente_id
@@ -264,26 +317,51 @@ GROUP BY c.cliente_id, c.nome
 ORDER BY valor_periodo DESC, c.cliente_id;
 ```
 
-Interpretação:
+Resultado, executado de verdade:
 
-- remove clientes sem pedido no período;
-- na prática, comporta-se como `INNER JOIN` para essa condição.
+```
+ cliente_id | nome  | valor_periodo
+------------+-------+---------------
+          1 | Ana   |        200.00
+          2 | Bruno |         50.00
+(2 rows)
+```
 
-Mensagem-chave da sessão:
+**Duas linhas em vez de quatro.** Carla e Diego desapareceram, e nada na saída
+avisa que eles existiam. O `LEFT JOIN` os manteve com nulos nas colunas de
+`pedidos`, e o `WHERE` os eliminou depois, porque `NULL BETWEEN alguma coisa` não
+é verdadeiro.
 
-> Se a intenção é manter todos os clientes, filtros da tabela da direita devem ir no `ON` (quando aplicável ao relacionamento).
+**O equívoco comum**
 
----
+Escrever a segunda query, receber um resultado plausível, e entregar. Ela não dá
+erro. Ela responde outra pergunta.
 
-## 6. Setup e base de dados da prática
+**Como inspecionar**
 
-Ferramentas sugeridas:
+Conte as linhas. Se você começou de uma tabela com quatro clientes e usou
+`LEFT JOIN`, o resultado agrupado por cliente tem que ter quatro linhas. Menos que
+isso significa que algo filtrou depois da junção.
 
-- SQLBolt: https://sqlbolt.com/
-- DB Fiddle (PostgreSQL): https://www.db-fiddle.com/
-- W3Schools SQL Tryit (contingência): https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_all
+A mensagem do módulo, em uma frase:
 
-Script base (copiar e executar):
+> Se a intenção é manter todos os clientes, o filtro da tabela da direita vai no
+> `ON`, não no `WHERE`.
+
+## 6. A base da prática
+
+Qualquer editor SQL de navegador serve. As três opções abaixo respondiam em
+2026-07-31:
+
+| Ferramenta | Para quê |
+|---|---|
+| DB Fiddle, com PostgreSQL | O mais fiel ao que esta apostila executou |
+| SQLBolt | Exercício guiado, bom para aquecer |
+| W3Schools SQL Tryit | Contingência, quando os outros estiverem fora |
+
+Script base, para copiar e executar:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, criou as tabelas e inseriu 4 mais 4 linhas, 2026-07-31 -->
 
 ```sql
 CREATE TABLE clientes (
@@ -312,56 +390,28 @@ INSERT INTO pedidos (pedido_id, cliente_id, data_pedido, valor) VALUES
 (104, 3, '2026-03-15', 200.00);
 ```
 
-Leitura rápida da base:
+A base é pequena de propósito, e cada linha tem função didática:
 
-- 4 clientes;
-- 4 pedidos;
-- 1 cliente sem pedido (caso didático para `LEFT JOIN`).
+- quatro clientes e quatro pedidos;
+- Ana tem dois pedidos, para exercitar cardinalidade um para muitos;
+- Carla tem um pedido **fora** da janela de 1 a 10 de março, para separar "não
+  comprou" de "não comprou no período";
+- Diego não tem pedido nenhum, o caso que só o `LEFT JOIN` mostra.
 
----
+## 7. Exercícios e entregáveis
 
-## 7. Roteiro de condução (60 minutos)
+**Exercício 1: quem comprou**
 
-### Bloco 1 (0,10 min), Aquecimento
+Objetivo: usar `INNER JOIN` e reconhecer quem o resultado exclui.
 
-- revisão rápida de `SELECT`, `WHERE`, `GROUP BY`;
-- confirmação de PK/FK e grão das tabelas;
-- alinhamento de objetivo da sessão.
+Contexto: a base da seção 6.
 
-### Bloco 2 (10,25 min), Conceito de JOINs
+Entregável: a query que lista cliente, pedido e valor de quem comprou, mais uma
+frase dizendo quem ficou de fora e por quê.
 
-- `INNER JOIN`, `LEFT JOIN`, `FULL OUTER JOIN`;
-- leitura dos diagramas de Venn;
-- explicação de `ON` vs `WHERE` com exemplo comparativo.
+Gabarito:
 
-### Bloco 3 (25,45 min), Prática guiada
-
-Distribuição sugerida:
-
-- 25,32 min: exercício 1 (`INNER JOIN`);
-- 32,39 min: exercício 2 (`LEFT JOIN`);
-- 39,45 min: exercício 3 (`JOIN + GROUP BY`).
-
-### Bloco 4 (45,55 min), Mini-desafio
-
-- resolver query final com período e agregação;
-- interpretar resultado (nulos, cobertura da base e ordenação).
-
-### Bloco 5 (55,60 min), Fechamento
-
-- registrar 3 aprendizados;
-- registrar 1 dúvida pendente;
-- validar se o objetivo da sessão foi atingido.
-
----
-
-## 8. Exercícios guiados com gabarito comentado
-
-### Exercício 1, `INNER JOIN` básico
-
-Enunciado:
-
-> Listar cliente, pedido e valor para quem comprou.
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
@@ -375,24 +425,33 @@ INNER JOIN pedidos p
 ORDER BY c.cliente_id, p.pedido_id;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome  | pedido_id | valor
+------------+-------+-----------+--------
+          1 | Ana   |       101 | 120.00
+          1 | Ana   |       102 |  80.00
+          2 | Bruno |       103 |  50.00
+          3 | Carla |       104 | 200.00
+(4 rows)
+```
 
-| cliente_id | nome | pedido_id | valor |
-|---:|---|---:|---:|
-| 1 | Ana | 101 | 120.00 |
-| 1 | Ana | 102 | 80.00 |
-| 2 | Bruno | 103 | 50.00 |
-| 3 | Carla | 104 | 200.00 |
+Por que a resposta é essa: Diego não aparece porque não tem pedido, e o
+`INNER JOIN` só devolve o que tem correspondência nos dois lados. Repare também
+que Ana ocupa duas linhas, porque o grão do resultado passou a ser o pedido.
 
-Leitura didática:
+**Exercício 2: quem não comprou**
 
-- Diego não aparece porque não possui pedido.
+Objetivo: usar `LEFT JOIN` para cobrir a base da esquerda, e isolar os sem
+correspondência.
 
-### Exercício 2, `LEFT JOIN` para cobertura da base
+Contexto: a base da seção 6.
 
-Enunciado:
+Entregável: duas queries, uma listando todos os clientes com o pedido quando
+houver, outra listando apenas quem não tem pedido.
 
-> Listar todos os clientes e identificar quem não comprou.
+Gabarito, parte um:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
@@ -405,17 +464,20 @@ LEFT JOIN pedidos p
 ORDER BY c.cliente_id, p.pedido_id;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome  | pedido_id
+------------+-------+-----------
+          1 | Ana   |       101
+          1 | Ana   |       102
+          2 | Bruno |       103
+          3 | Carla |       104
+          4 | Diego |
+(5 rows)
+```
 
-| cliente_id | nome | pedido_id |
-|---:|---|---:|
-| 1 | Ana | 101 |
-| 1 | Ana | 102 |
-| 2 | Bruno | 103 |
-| 3 | Carla | 104 |
-| 4 | Diego | `NULL` |
+Gabarito, parte dois:
 
-Agora, apenas clientes sem pedido:
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
@@ -427,23 +489,36 @@ LEFT JOIN pedidos p
 WHERE p.pedido_id IS NULL;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome
+------------+-------
+          4 | Diego
+(1 row)
+```
 
-| cliente_id | nome |
-|---:|---|
-| 4 | Diego |
+Por que a resposta é essa: a célula vazia de Diego na primeira query é um `NULL`,
+e é justamente por ele que a segunda query filtra. Este é o único uso de `WHERE`
+sobre coluna da direita que **não** contradiz o `LEFT JOIN`: aqui a intenção é
+mesmo ficar só com quem não tem correspondência.
 
-### Exercício 3, `JOIN + GROUP BY` (resumo analítico)
+**Exercício 3: resumo por cliente**
 
-Enunciado:
+Objetivo: combinar JOIN com agregação e tratar ausência de valor.
 
-> Calcular total financeiro e quantidade de pedidos por cliente.
+Contexto: a base da seção 6.
+
+Entregável: a query com valor total e quantidade de pedidos por cliente, mais a
+explicação do que acontece com Diego em cada uma das duas colunas.
+
+Gabarito:
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
     c.cliente_id,
     c.nome,
-    COALESCE(SUM(p.valor), 0) AS valor_total,
+    COALESCE(SUM(p.valor), 0.00) AS valor_total,
     COUNT(p.pedido_id) AS total_pedidos
 FROM clientes c
 LEFT JOIN pedidos p
@@ -452,42 +527,62 @@ GROUP BY c.cliente_id, c.nome
 ORDER BY valor_total DESC, c.cliente_id;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome  | valor_total | total_pedidos
+------------+-------+-------------+---------------
+          1 | Ana   |      200.00 |             2
+          3 | Carla |      200.00 |             1
+          2 | Bruno |       50.00 |             1
+          4 | Diego |        0.00 |             0
+(4 rows)
+```
 
-| cliente_id | nome | valor_total | total_pedidos |
-|---:|---|---:|---:|
-| 1 | Ana | 200.00 | 2 |
-| 3 | Carla | 200.00 | 1 |
-| 2 | Bruno | 50.00 | 1 |
-| 4 | Diego | 0.00 | 0 |
+Por que a resposta é essa. O `COALESCE` troca o total nulo de Diego por zero, e
+sem ele a coluna viria vazia. O `COUNT(p.pedido_id)` devolve 0 para Diego porque
+`COUNT` de uma coluna ignora nulos; se estivesse escrito `COUNT(*)`, Diego
+apareceria com 1, contando a linha que o `LEFT JOIN` fabricou. Essa diferença
+entre `COUNT(coluna)` e `COUNT(*)` depois de um `LEFT JOIN` é sutil e cara.
 
-Leitura didática:
+Repare no empate entre Ana e Carla, resolvido pelo `cliente_id` no `ORDER BY`.
+Ordenação sem critério de desempate produz saída que muda de execução para
+execução.
 
-- `COALESCE` evita total nulo para clientes sem pedido;
-- `COUNT(p.pedido_id)` conta apenas linhas com pedido válido.
+**Exercício 4: o filtro na posição errada**
 
----
+Objetivo: reproduzir de propósito o erro da seção 5.
 
-## 9. Mini-desafio final com solução e interpretação
+Contexto: a base da seção 6.
 
-### Enunciado
+Entregável: as duas versões da query de período, a contagem de linhas de cada
+uma, e a explicação de qual pergunta cada uma responde.
 
-Monte uma query que traga todos os clientes com total de compras apenas no período de `2026-03-01` a `2026-03-10`, incluindo clientes sem compras no período. Ordene por maior valor total.
+Gabarito: as duas queries são as das seções 5.2 e 5.3, com quatro e duas linhas
+respectivamente. Escrever a explicação com as suas palavras é o exercício.
 
-### Dicas antes do gabarito
+## 8. Mini-desafio com solução
+
+**Enunciado**
+
+Monte uma query que traga **todos** os clientes com o total de compras apenas no
+período de 1 a 10 de março de 2026, incluindo quem não comprou no período. Ordene
+por maior valor total.
+
+**Dicas**
 
 1. Comece de `clientes`.
-2. Use `LEFT JOIN` para preservar cobertura.
-3. Posicione o filtro de período no `ON`.
-4. Agregue com `SUM` e trate nulos com `COALESCE`.
+2. Use `LEFT JOIN` para preservar a cobertura.
+3. O filtro de período tem uma posição certa, e a seção 5 diz qual.
+4. Agregue com `SUM` e trate o nulo.
 
-### Gabarito
+**Gabarito comentado**
+
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
 ```sql
 SELECT
     c.cliente_id,
     c.nome,
-    COALESCE(SUM(p.valor), 0) AS valor_total_periodo,
+    COALESCE(SUM(p.valor), 0.00) AS valor_total_periodo,
     COUNT(p.pedido_id) AS qtd_pedidos_periodo
 FROM clientes c
 LEFT JOIN pedidos p
@@ -497,99 +592,226 @@ GROUP BY c.cliente_id, c.nome
 ORDER BY valor_total_periodo DESC, c.cliente_id;
 ```
 
-Resultado esperado:
+```
+ cliente_id | nome  | valor_total_periodo | qtd_pedidos_periodo
+------------+-------+---------------------+---------------------
+          1 | Ana   |              200.00 |                   2
+          2 | Bruno |               50.00 |                   1
+          3 | Carla |                0.00 |                   0
+          4 | Diego |                0.00 |                   0
+(4 rows)
+```
 
-| cliente_id | nome | valor_total_periodo | qtd_pedidos_periodo |
-|---:|---|---:|---:|
-| 1 | Ana | 200.00 | 2 |
-| 2 | Bruno | 50.00 | 1 |
-| 3 | Carla | 0.00 | 0 |
-| 4 | Diego | 0.00 | 0 |
+**Interpretação**
 
-Interpretação:
+Carla e Diego têm o mesmo zero e chegaram nele por caminhos diferentes. Carla
+comprou, no dia 15, fora da janela. Diego nunca comprou. A query não distingue os
+dois, e essa é a limitação dela.
 
-- Carla tem pedido fora do período e, por isso, fica com 0 no recorte;
-- Diego segue aparecendo por causa do `LEFT JOIN`.
+Se o negócio precisa separar "não comprou no período" de "nunca comprou", isso é
+uma coluna a mais, não um JOIN diferente. Perceber isso é o que separa a resposta
+correta da boa resposta.
 
----
+**Um detalhe que só aparece executando**
 
-## 10. Rubrica de validação da aprendizagem
+O fallback do `COALESCE` está escrito como `0.00` e não como `0`. Os dois
+funcionam e devolvem tipo numérico, mas a escala do literal aparece na saída: com
+`0`, a linha de Diego imprime `0`, e as outras imprimem `200.00`. Coluna
+financeira com escala inconsistente na mesma saída é ruído para quem lê, e o
+conserto custa dois caracteres.
 
-Considere a sessão bem-sucedida quando a mentorada:
+## 9. Rubrica de validação da aprendizagem
 
-- explica a diferença entre `INNER` e `LEFT` com exemplo próprio;
-- identifica por que linhas “somem” em um JOIN;
-- evita o erro clássico de filtro no `WHERE` após `LEFT JOIN`;
-- entrega mini-desafio com leitura correta do resultado;
-- comunica a lógica da query com linguagem de negócio.
+| Critério | Insuficiente | Suficiente | Excelente |
+|---|---|---|---|
+| Tipos de JOIN | Usa `INNER` para tudo | Escolhe pelo que a pergunta pede | Justifica com a pergunta de negócio, sem citar sintaxe |
+| `ON` contra `WHERE` | Comete o erro e não percebe | Sabe a regra e a aplica | Explica por que o `WHERE` elimina a linha com nulo |
+| Grão e cardinalidade | Trata repetição como defeito | Reconhece o grão do resultado | Antecipa a duplicação de métrica antes de somar |
+| Tratamento de nulo | Entrega coluna vazia | Usa `COALESCE` na apresentação | Sabe a diferença entre `COUNT(coluna)` e `COUNT(*)` |
+| Diagnóstico | Ajusta a query até parecer certa | Conta linhas e compara com o esperado | Localiza a causa a partir da contagem |
+| Comunicação | Descreve a query | Descreve o resultado | Traduz o resultado em linguagem de negócio |
 
-Checklist rápido:
+Checklist rápido, para a call:
 
-- [ ] Entendeu PK/FK e grão das tabelas.
+- [ ] Entendeu chave primária, chave estrangeira e grão das tabelas.
 - [ ] Diferenciou `INNER`, `LEFT` e `FULL OUTER`.
-- [ ] Demonstrou domínio de `ON` vs `WHERE`.
-- [ ] Construiu query final sem ajuda total.
+- [ ] Demonstrou domínio de `ON` contra `WHERE`.
+- [ ] Construiu a query do mini-desafio sem gabarito.
+- [ ] Explicou a diferença entre o zero de Carla e o zero de Diego.
 
----
+## 10. Erros comuns e como corrigir
 
-## 11. Erros comuns e como corrigir
+**Explosão de linhas, o produto cartesiano**
 
-1. **Esquecer condição de JOIN (`ON`)**
-   - Sintoma: explosão de linhas (produto cartesiano).
-   - Correção: validar relacionamento por chave antes de executar.
+Sintoma: o resultado vem com muito mais linhas do que qualquer um dos lados. Com
+4 clientes e 4 pedidos, vem com 16.
 
-2. **Aplicar filtro da tabela da direita no `WHERE` após `LEFT JOIN`**
-   - Sintoma: perda de clientes sem correspondência.
-   - Correção: mover o filtro para o `ON` quando a intenção for preservar a esquerda.
+Causa, e aqui vale desfazer um mito. Escrever `JOIN` **sem** `ON` não produz
+produto cartesiano no PostgreSQL: produz erro de sintaxe, e você descobre na hora.
 
-3. **Somar sem agrupar corretamente**
-   - Sintoma: erro SQL de coluna não agregada.
-   - Correção: incluir no `GROUP BY` todas as colunas não agregadas do `SELECT`.
+<!-- verificacao: nivel 3, executado em PostgreSQL 16.13, saida real, 2026-07-31 -->
 
-4. **Não tratar `NULL` em saída analítica**
-   - Sintoma: métricas em branco e leitura confusa.
-   - Correção: usar `COALESCE` na apresentação do resultado.
+```
+ERROR:  syntax error at or near ";"
+LINE 1: SELECT count(*) FROM clientes c JOIN pedidos p;
+```
 
-5. **Interpretar duplicidade como erro sem checar cardinalidade**
-   - Sintoma: suspeita falsa de dado duplicado.
-   - Correção: confirmar se o relacionamento `1:N` explica múltiplas linhas.
+O produto cartesiano de verdade vem de dois outros caminhos, os dois medidos na
+base desta apostila e os dois devolvendo 16 linhas:
 
----
+- a junção por vírgula, `FROM clientes c, pedidos p`, sem condição no `WHERE`;
+- uma condição que não relaciona as chaves, como `ON 1=1`.
 
-## 12. Plano de continuidade pós-sessão
+Correção: conferir se o `ON` liga as chaves de verdade, e desconfiar de junção por
+vírgula em query nova. A conta de sanidade é rápida: 4 vezes 4 é 16, e 16 nunca
+foi a resposta esperada.
 
-Se houver necessidade de reforço:
+**Filtro da tabela da direita no `WHERE` depois de `LEFT JOIN`**
 
-1. repetir os exercícios com outra janela de datas;
-2. adicionar uma terceira tabela simples (ex.: `campanhas`) para múltiplos JOINs;
-3. montar lista curta de 10 queries progressivas (básico -> intermediário);
-4. registrar dúvidas e decisões em `../../notes/`.
+Sintoma: clientes desaparecem do resultado, sem nenhum erro.
 
-Próximo degrau natural da trilha:
+Causa: o `WHERE` roda depois da junção e elimina as linhas em que a coluna da
+direita é nula.
 
-- avançar para JOIN em mais de duas tabelas e introduzir CTE para legibilidade.
+Correção: mover o filtro para o `ON`. Confirmar contando as linhas, como na seção
+5.3.
 
----
+**Somar sem agrupar corretamente**
 
-## 13. Glossário rápido
+Sintoma: erro de coluna que não está em função de agregação nem no `GROUP BY`.
 
-- **PK (Primary Key)**: chave única da tabela.
-- **FK (Foreign Key)**: chave que referencia outra tabela.
-- **Cardinalidade**: padrão de relacionamento entre entidades.
-- **JOIN**: operação de combinação de tabelas.
-- **`NULL`**: ausência de valor.
-- **Agregação**: resumo de dados com funções como `SUM`, `COUNT`, `AVG`.
+Causa: coluna no `SELECT` que não é agregada e não foi agrupada.
 
----
+Correção: incluir no `GROUP BY` toda coluna não agregada do `SELECT`.
 
-## 14. Referências
+**`COUNT(*)` depois de `LEFT JOIN`**
 
-- SQLBolt: https://sqlbolt.com/
+Sintoma: cliente sem pedido aparece com contagem 1 em vez de 0.
+
+Causa: `COUNT(*)` conta a linha que o `LEFT JOIN` fabricou com nulos. `COUNT` de
+uma coluna ignora nulos.
+
+Correção: contar a coluna do lado direito, como `COUNT(p.pedido_id)`.
+
+**Não tratar nulo na saída analítica**
+
+Sintoma: métrica em branco no relatório.
+
+Causa: agregação sobre conjunto vazio devolve nulo, não zero.
+
+Correção: `COALESCE` na apresentação, com o literal na mesma escala das outras
+linhas.
+
+**Interpretar repetição como duplicidade**
+
+Sintoma: suspeita de dado duplicado onde não há.
+
+Causa: relacionamento um para muitos. Ana com dois pedidos ocupa duas linhas.
+
+Correção: confirmar a cardinalidade antes de investigar. Se a repetição é
+esperada e o problema é a métrica, agregue.
+
+**Ordenação sem desempate**
+
+Sintoma: a mesma query devolve linhas em ordem diferente entre execuções.
+
+Causa: `ORDER BY` por uma coluna com valores repetidos, como o empate de 200.00
+entre Ana e Carla.
+
+Correção: acrescentar uma coluna estável de desempate, como a chave.
+
+## 11. Plano de continuidade
+
+**Antes da próxima call**
+
+Faça os exercícios 2 e 4. O quarto é o que mais se parece com o erro que você vai
+cometer em produção.
+
+**O que estudar em seguida, dentro da trilha**
+
+O próximo degrau natural é JOIN entre mais de duas tabelas, e a introdução de CTE
+para manter a query legível. Depois disso, o bloco de armazenamento da trilha
+mostra onde essas tabelas moram de verdade e por que a forma de guardá-las decide
+o custo da consulta.
+
+O módulo de transformação com dbt retoma tudo isto num contexto novo: lá os
+`SELECT` que você escreve aqui viram modelos versionados e testados.
+
+**O que aprofundar por conta**
+
+Reescreva os exercícios com outra janela de datas, e depois com uma terceira
+tabela, por exemplo campanhas, para exercitar o JOIN em cadeia. Não precisa de
+ferramenta nova.
+
+**O que não perseguir agora**
+
+Otimização de plano de execução e índices. Eles importam, e importam depois de a
+leitura de JOIN ser automática para você.
+
+## 12. Glossário
+
+| Termo | Significado |
+|---|---|
+| Agregação | Resumo de dados com funções como `SUM`, `COUNT` e `AVG` |
+| Cardinalidade | Padrão de relacionamento entre duas entidades |
+| Chave estrangeira | Coluna que referencia a chave primária de outra tabela |
+| Chave primária | Coluna que identifica unicamente uma linha |
+| `COALESCE` | Função que devolve o primeiro valor não nulo da lista |
+| Grão | O que cada linha de uma tabela representa |
+| JOIN | Operação que combina linhas de duas tabelas por uma condição |
+| Junção externa | JOIN que preserva linhas sem correspondência, com nulos |
+| Junção interna | JOIN que devolve apenas linhas com correspondência |
+| `NULL` | Ausência de valor, diferente de zero e de texto vazio |
+| Produto cartesiano | Cruzamento de todas as linhas com todas, quando falta condição |
+
+## Referências
+
+Documentação oficial do PostgreSQL 16, consultada em 2026-07-31:
+
+- Expressões de tabela e tipos de junção: https://www.postgresql.org/docs/16/queries-table-expressions.html
+- Funções condicionais, incluindo `COALESCE`: https://www.postgresql.org/docs/16/functions-conditional.html
+
+Ferramentas de prática, conferidas em 2026-07-31:
+
 - DB Fiddle: https://www.db-fiddle.com/
+- SQLBolt: https://sqlbolt.com/
 - W3Schools SQL Tryit: https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_all
 
-Materiais locais da sessão:
+## Fontes verificadas (2026-07-31)
 
-- `sessao-01-sql-joins.md`
-- `plano-aula.md`
-- `checklist-execucao-ao-vivo.md`
+- Uma restrição na cláusula `ON` é processada antes da junção, e uma restrição no
+  `WHERE` é processada depois. Isso não importa em junção interna e importa muito
+  em junção externa. A mesma documentação afirma que a cláusula `ON` de uma junção
+  externa não é equivalente a uma condição `WHERE`, porque resulta na adição de
+  linhas para as entradas sem correspondência, e não apenas na remoção.
+  https://www.postgresql.org/docs/16/queries-table-expressions.html
+- O mecanismo do `LEFT OUTER JOIN` é: primeiro a junção interna, depois, para cada
+  linha de T1 sem correspondência em T2, uma linha com nulos nas colunas de T2.
+  Logo o resultado tem sempre pelo menos uma linha por linha de T1. O
+  `FULL OUTER JOIN` faz o mesmo nos dois sentidos.
+  https://www.postgresql.org/docs/16/queries-table-expressions.html
+- Todo o SQL desta apostila foi executado em PostgreSQL 16.13 em 2026-07-31, em
+  container descartável, e todas as tabelas de resultado transcritas aqui são a
+  saída real do `psql`. Isso inclui o script de criação, as quatro consultas dos
+  exercícios, as duas consultas comparativas da seção 5, o mini-desafio e o
+  `FULL OUTER JOIN`. Nenhuma tabela de resultado desta apostila foi escrita de
+  memória.
+- O contraste central do módulo foi medido: com o filtro no `ON`, a consulta da
+  seção 5.2 devolve 4 linhas; com o mesmo filtro no `WHERE`, a consulta da seção
+  5.3 devolve 2. As duas foram executadas na mesma base.
+- O `FULL OUTER JOIN` foi executado com sucesso no PostgreSQL 16.13, devolvendo 5
+  linhas. A ressalva de portabilidade da seção 4.3 não foi testada em outros
+  engines, e está escrita como ressalva justamente por isso.
+- A escala do literal usado como fallback do `COALESCE` aparece na saída. Com
+  `COALESCE(SUM(p.valor), 0)` a linha sem pedido imprime `0`, e com
+  `COALESCE(SUM(p.valor), 0.00)` imprime `0.00`. Nos dois casos o tipo devolvido é
+  numérico, conferido com `pg_typeof`. Esta apostila usa a forma decimal, e as
+  tabelas de resultado refletem isso.
+  https://www.postgresql.org/docs/16/functions-conditional.html
+- As três ferramentas de prática da seção 6 responderam com código 200 em
+  2026-07-31.
+- O `JOIN` sem `ON` é erro de sintaxe no PostgreSQL 16.13, e não produto
+  cartesiano. O produto cartesiano de 16 linhas foi reproduzido de duas outras
+  formas na base desta apostila: junção por vírgula sem condição, e `ON 1=1`. A
+  versão anterior desta apostila atribuía a explosão de linhas à ausência do `ON`,
+  e a execução mostrou que isso está errado.
