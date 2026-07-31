@@ -1,11 +1,13 @@
 {
   "modulo": "particionamento-performance",
-  "verificado_em": "2026-07-30",
-  "nivel_maximo_atingido": 0,
-  "observacao": "Nivel 3, execucao real dos containers, ainda nao foi rodado neste modulo.",
+  "verificado_em": "2026-07-31",
+  "nivel_maximo_atingido": 3,
+  "observacao": "Nivel 3 alcancado apenas para a pilha de metadados: metastore-db, hive-jdbc-init e hive-metastore subiram de verdade e o schema do Hive foi criado no PostgreSQL. MinIO, minio-init e Trino NAO foram executados, e nenhuma query particionada foi rodada, logo os laboratorios de consulta seguem sem verificacao de execucao. Todos os comandos rodam a partir de engenharia_de_dados/modulos/particionamento-performance/infrastructure.",
   "versoes": {
     "apache/hive": "4.0.0",
     "debian": "bookworm-slim",
+    "docker": "28.3.3",
+    "docker-compose": "v2.39.1",
     "minio/mc": "RELEASE.2025-02-08T19-14-21Z",
     "minio/minio": "RELEASE.2025-02-03T21-03-04Z",
     "postgres": "16",
@@ -15,16 +17,23 @@
     {
       "arquivo": "infrastructure/docker-compose.yml",
       "nivel": 2,
-      "comando": "docker compose -f /home/iurizambotto/zambotto_new/github/zambotto/mentorias/.worktrees/019-plataforma-material-mentoria/engenharia_de_dados/modulos/particionamento-performance/infrastructure/docker-compose.yml config -q",
-      "verificado_em": "2026-07-30",
-      "saida": "sem erro"
+      "comando": "docker compose config -q",
+      "verificado_em": "2026-07-31",
+      "saida": "sem erro, codigo 0"
     },
     {
       "arquivo": "infrastructure/hive/conf/hive-site.xml",
+      "nivel": 3,
+      "comando": "docker compose up -d metastore-db hive-jdbc-init hive-metastore",
+      "verificado_em": "2026-07-31",
+      "saida": "Initialized schema successfully e Starting Hive Metastore Server. As 83 tabelas do schema do metastore foram criadas no PostgreSQL, com SCHEMA_VERSION 4.0.0, e a porta 9083 aceitou conexao. Isso prova que as propriedades javax.jdo deste arquivo sao suficientes para a conexao, sem duplicata em SERVICE_OPTS."
+    },
+    {
+      "arquivo": "infrastructure/trino/catalog/hive.properties",
       "nivel": 0,
       "comando": "",
-      "verificado_em": "2026-07-30",
-      "saida": "biblioteca ausente: defusedxml, nada foi verificado"
+      "verificado_em": "2026-07-31",
+      "saida": "o Trino nao foi executado nesta verificacao, nada foi verificado neste arquivo"
     }
   ],
   "labs": []
