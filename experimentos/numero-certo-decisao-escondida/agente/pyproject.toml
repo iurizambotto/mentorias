@@ -1,0 +1,18 @@
+[project]
+name = "agente-de-analise"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["pandas", "matplotlib", "python-pptx", "python-docx", "openpyxl"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
