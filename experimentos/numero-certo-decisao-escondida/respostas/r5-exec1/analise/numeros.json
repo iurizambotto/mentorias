@@ -1,0 +1,1780 @@
+{
+  "linhas.arquivo": {
+    "valor": 16809.0,
+    "descricao": "Linhas no arquivo inteiro",
+    "unidade": "",
+    "linhas": 16809,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:39"
+  },
+  "linhas.planejado": {
+    "valor": 45.0,
+    "descricao": "Linhas de Planejado (flights)",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:39"
+  },
+  "linhas.realizado": {
+    "valor": 16764.0,
+    "descricao": "Linhas de Realizado (entrega diaria)",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:39"
+  },
+  "grao.realizado_dup_campanha_veiculo_data": {
+    "valor": 9249.0,
+    "descricao": "Linhas de Realizado duplicadas na chave campanha+veiculo+data (grao e mais fino)",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:39"
+  },
+  "grao.realizado_dup_campaign_name": {
+    "valor": 0.0,
+    "descricao": "Linhas de Realizado duplicadas na chave campaign_name+veiculo+data",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:39"
+  },
+  "nulotexto.objetivo": {
+    "valor": 18.0,
+    "descricao": "Linhas com o texto N/a em Objetivo",
+    "unidade": "",
+    "linhas": 16809,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:39"
+  },
+  "nulotexto.publico": {
+    "valor": 241.0,
+    "descricao": "Linhas com o texto N/a em Publico",
+    "unidade": "",
+    "linhas": 16809,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:39"
+  },
+  "linhas.realizado_dentro": {
+    "valor": 884.0,
+    "descricao": "Linhas de Realizado que entram na conta de pacing",
+    "unidade": "",
+    "linhas": 884,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [
+      "janela inclusiva nas duas pontas",
+      "match por Campanha + Veiculo"
+    ],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "linhas.fora_campanha": {
+    "valor": 10209.0,
+    "descricao": "Linhas de Realizado fora: campanha fora do plano",
+    "unidade": "",
+    "linhas": 10209,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "linhas.fora_veiculo": {
+    "valor": 4166.0,
+    "descricao": "Linhas de Realizado fora: veiculo nao planejado para a campanha",
+    "unidade": "",
+    "linhas": 4166,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "linhas.fora_janela": {
+    "valor": 1505.0,
+    "descricao": "Linhas de Realizado fora: data fora da janela do flight",
+    "unidade": "",
+    "linhas": 1505,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "linhas.realizado_fora": {
+    "valor": 15880.0,
+    "descricao": "Linhas de Realizado fora da conta",
+    "unidade": "",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "valor.realizado_fora": {
+    "valor": 16027790.897899998,
+    "descricao": "Investimento realizado fora da conta de pacing",
+    "unidade": "BRL",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "valor.realizado_total": {
+    "valor": 17075125.3785,
+    "descricao": "Investimento realizado no arquivo inteiro",
+    "unidade": "BRL",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "plano.pares_sem_entrega": {
+    "valor": 1.0,
+    "descricao": "Pares campanha+veiculo planejados sem nenhum realizado na janela",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "plano.pares": {
+    "valor": 26.0,
+    "descricao": "Pares campanha+veiculo com plano",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "plano.campanhas": {
+    "valor": 19.0,
+    "descricao": "Campanhas com linha de Planejado",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "arquivo.campanhas": {
+    "valor": 185.0,
+    "descricao": "Campanhas distintas no arquivo",
+    "unidade": "",
+    "linhas": 16809,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "arquivo.campanhas_sem_plano": {
+    "valor": 166.0,
+    "descricao": "Campanhas que rodaram sem linha de Planejado",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/01_escopo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "sobreposicao.grupos": {
+    "valor": 3.0,
+    "descricao": "Pares campanha+veiculo com flights de janela sobreposta",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "sobreposicao.pares_flight": {
+    "valor": 8.0,
+    "descricao": "Pares de flights que se sobrepoem",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "sobreposicao.flights_envolvidos": {
+    "valor": 8.0,
+    "descricao": "Flights envolvidos em alguma sobreposicao",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "join.linhas_ingenuo": {
+    "valor": 1107.0,
+    "descricao": "Linhas apos join ingenuo Realizado x flight (com dupla contagem)",
+    "unidade": "",
+    "linhas": 1107,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "join.linhas_dedup": {
+    "valor": 884.0,
+    "descricao": "Linhas de Realizado apos deduplicacao (cada linha conta uma vez)",
+    "unidade": "",
+    "linhas": 884,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [
+      "uniao de janelas por par campanha+veiculo"
+    ],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "join.linhas_infladas": {
+    "valor": 223.0,
+    "descricao": "Linhas extras criadas pela dupla contagem do join ingenuo",
+    "unidade": "",
+    "linhas": 1107,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:41"
+  },
+  "join.linhas_multiplas": {
+    "valor": 147.0,
+    "descricao": "Linhas de Realizado que casaram com mais de um flight",
+    "unidade": "",
+    "linhas": 884,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "join.max_flights_por_linha": {
+    "valor": 4.0,
+    "descricao": "Maior numero de flights em que uma unica linha de Realizado caiu",
+    "unidade": "",
+    "linhas": 884,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "dupla.investimento_ingenuo": {
+    "valor": 1570037.1009,
+    "descricao": "Realizado de investimento com dupla contagem (join ingenuo)",
+    "unidade": "BRL",
+    "linhas": 1107,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "dupla.investimento_dedup": {
+    "valor": 1047334.4806,
+    "descricao": "Realizado de investimento deduplicado",
+    "unidade": "BRL",
+    "linhas": 884,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "dupla.impressoes_ingenuo": {
+    "valor": 301758902.0,
+    "descricao": "Realizado de impressoes com dupla contagem (join ingenuo)",
+    "unidade": "",
+    "linhas": 1107,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "dupla.impressoes_dedup": {
+    "valor": 167431466.0,
+    "descricao": "Realizado de impressoes deduplicado",
+    "unidade": "",
+    "linhas": 884,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "dupla.investimento_inflado": {
+    "valor": 522702.62029999995,
+    "descricao": "Investimento que a dupla contagem teria inventado",
+    "unidade": "BRL",
+    "linhas": 1107,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/02_sobreposicao.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "zero.flights_denominador_invalido": {
+    "valor": 2.0,
+    "descricao": "Flights com alguma metrica planejada zerada ou nula",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/03_denominadores.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "zero.flights_investimento_nulo": {
+    "valor": 2.0,
+    "descricao": "Flights sem investimento planejado (nulo)",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/03_denominadores.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "zero.pares_denominador_invalido": {
+    "valor": 1.0,
+    "descricao": "Pares campanha+veiculo em que o pacing nao pode ser calculado",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/03_denominadores.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "zero.realizado_sem_denominador": {
+    "valor": 5949.3076,
+    "descricao": "Investimento realizado em pares sem denominador valido",
+    "unidade": "BRL",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/03_denominadores.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "zero.impressoes_sem_denominador": {
+    "valor": 558959.0,
+    "descricao": "Impressoes realizadas em pares sem denominador valido",
+    "unidade": "",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/03_denominadores.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:42"
+  },
+  "pacing.pares_no_agregado": {
+    "valor": 25.0,
+    "descricao": "Pares campanha+veiculo no agregado de pacing",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "plan.investimento": {
+    "valor": 1033625.083984375,
+    "descricao": "Planejado total de investimento",
+    "unidade": "BRL",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "real.investimento": {
+    "valor": 1041385.1730000002,
+    "descricao": "Realizado total de investimento dentro do plano",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.investimento": {
+    "valor": 100.75076438602979,
+    "descricao": "Pacing de investimento (realizado / planejado)",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [
+      "uniao de janelas evita dupla contagem",
+      "pares sem denominador valido fora do agregado"
+    ],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "plan.impressoes": {
+    "valor": 137123083.0,
+    "descricao": "Planejado total de impressoes",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "real.impressoes": {
+    "valor": 166872507.0,
+    "descricao": "Realizado total de impressoes dentro do plano",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.impressoes": {
+    "valor": 121.69541651860322,
+    "descricao": "Pacing de impressoes (realizado / planejado)",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [
+      "uniao de janelas evita dupla contagem",
+      "pares sem denominador valido fora do agregado"
+    ],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "plan.cliques": {
+    "valor": 626766.0,
+    "descricao": "Planejado total de cliques",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "real.cliques": {
+    "valor": 296581.0,
+    "descricao": "Realizado total de cliques dentro do plano",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.cliques": {
+    "valor": 47.31925471388046,
+    "descricao": "Pacing de cliques (realizado / planejado)",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [
+      "uniao de janelas evita dupla contagem",
+      "pares sem denominador valido fora do agregado"
+    ],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.pares_abaixo_90": {
+    "valor": 3.0,
+    "descricao": "Pares com pacing de investimento abaixo de 90%",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.pares_acima_110": {
+    "valor": 3.0,
+    "descricao": "Pares com pacing de investimento acima de 110%",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.pares_na_faixa": {
+    "valor": 19.0,
+    "descricao": "Pares com pacing de investimento entre 90% e 110%",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.pares_zerados": {
+    "valor": 1.0,
+    "descricao": "Pares planejados sem nenhuma entrega na janela",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.mediana_par": {
+    "valor": 99.99993939393941,
+    "descricao": "Mediana do pacing de investimento por par",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.verba_nao_entregue": {
+    "valor": 55132.330859375,
+    "descricao": "Verba planejada e nao entregue nos pares abaixo de 90%",
+    "unidade": "BRL",
+    "linhas": 3,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.gap_total": {
+    "valor": -7760.089015625184,
+    "descricao": "Diferenca entre investimento planejado e realizado",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.excedente_investimento": {
+    "valor": 7760.089015625184,
+    "descricao": "Investimento realizado acima do planejado, no agregado",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "pacing.campanhas_no_agregado": {
+    "valor": 18.0,
+    "descricao": "Campanhas no agregado de pacing",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.meta_ads.pacing_inv": {
+    "valor": 106.99300102109508,
+    "descricao": "Pacing de investimento em Meta Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.meta_ads.pacing_imp": {
+    "valor": 135.0053576766337,
+    "descricao": "Pacing de impressoes em Meta Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.meta_ads.plan_inv": {
+    "valor": 825982.09375,
+    "descricao": "Investimento planejado em Meta Ads",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.meta_ads.real_inv": {
+    "valor": 883743.03,
+    "descricao": "Investimento realizado em Meta Ads",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.tiktok_ads.pacing_inv": {
+    "valor": 47.743898159845486,
+    "descricao": "Pacing de investimento em Tiktok Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.tiktok_ads.pacing_imp": {
+    "valor": 24.285685259678967,
+    "descricao": "Pacing de impressoes em Tiktok Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.tiktok_ads.plan_inv": {
+    "valor": 99049.830078125,
+    "descricao": "Investimento planejado em Tiktok Ads",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.tiktok_ads.real_inv": {
+    "valor": 47290.25000000001,
+    "descricao": "Investimento realizado em Tiktok Ads",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.youtube_ads.pacing_inv": {
+    "valor": 101.61956134366055,
+    "descricao": "Pacing de investimento em Youtube Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.youtube_ads.pacing_imp": {
+    "valor": 87.8367988366024,
+    "descricao": "Pacing de impressoes em Youtube Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.youtube_ads.plan_inv": {
+    "valor": 108593.16015625,
+    "descricao": "Investimento planejado em Youtube Ads",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "veiculo.youtube_ads.real_inv": {
+    "valor": 110351.89300000001,
+    "descricao": "Investimento realizado em Youtube Ads",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/04_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "alt.pacing_sem_dedup": {
+    "valor": 151.3206110740675,
+    "descricao": "Pacing de investimento se a dupla contagem nao fosse corrigida",
+    "unidade": "%",
+    "linhas": 1081,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "alt.pacing_sem_janela": {
+    "valor": 361.7156716135305,
+    "descricao": "Pacing de investimento se a janela do flight fosse ignorada",
+    "unidade": "%",
+    "linhas": 2317,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "alt.pacing_sem_veiculo": {
+    "valor": 103.45519639267626,
+    "descricao": "Pacing de investimento se o veiculo fosse ignorado no match",
+    "unidade": "%",
+    "linhas": 899,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "alt.realizado_com_par_invalido": {
+    "valor": 1047334.4806000002,
+    "descricao": "Realizado dentro do plano incluindo o par sem denominador valido",
+    "unidade": "BRL",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "recon.diferenca_campanha": {
+    "valor": 1.1641532182693481e-10,
+    "descricao": "Diferenca da reconciliacao por campanha",
+    "unidade": "BRL",
+    "linhas": 18,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "recon.diferenca_veiculo": {
+    "valor": 1.1641532182693481e-10,
+    "descricao": "Diferenca da reconciliacao por veiculo",
+    "unidade": "BRL",
+    "linhas": 3,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "cobertura.share_realizado_no_plano": {
+    "valor": 6.098843492600362,
+    "descricao": "Share do investimento realizado que o plano cobre",
+    "unidade": "%",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "alt.maior_distorcao_razao": {
+    "valor": 3.5902027524833984,
+    "descricao": "Quantas vezes a pior alternativa de metodo distorce o pacing",
+    "unidade": "",
+    "linhas": 2317,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "cobertura.share_realizado_fora": {
+    "valor": 93.90115650739965,
+    "descricao": "Share do investimento realizado que fica fora da conta de pacing",
+    "unidade": "%",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/05_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:43"
+  },
+  "mes.2024_05.real_inv": {
+    "valor": 20061.41,
+    "descricao": "Investimento realizado dentro do plano em 2024-05",
+    "unidade": "BRL",
+    "linhas": 858,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "mes.2024_06.real_inv": {
+    "valor": 608633.785,
+    "descricao": "Investimento realizado dentro do plano em 2024-06",
+    "unidade": "BRL",
+    "linhas": 858,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "mes.2024_07.real_inv": {
+    "valor": 412689.978,
+    "descricao": "Investimento realizado dentro do plano em 2024-07",
+    "unidade": "BRL",
+    "linhas": 858,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "periodo.dias_com_entrega": {
+    "valor": 65.0,
+    "descricao": "Dias distintos com entrega dentro do plano",
+    "unidade": "",
+    "linhas": 858,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "periodo.dias_calendario": {
+    "valor": 585.0,
+    "descricao": "Dias do calendario entre a primeira e a ultima entrega do arquivo",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "cpm.fator": {
+    "valor": 1000.0,
+    "descricao": "Fator de mil impressoes usado no calculo do CPM",
+    "unidade": "",
+    "linhas": 858,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "cpm.planejado": {
+    "valor": 7.5379364390776935,
+    "descricao": "CPM planejado",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "cpm.realizado": {
+    "valor": 6.2406036304110915,
+    "descricao": "CPM realizado",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "cpc.planejado": {
+    "valor": 1.6491403234769835,
+    "descricao": "CPC planejado",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "cpc.realizado": {
+    "valor": 3.5113010374906017,
+    "descricao": "CPC realizado",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "ctr.planejado": {
+    "valor": 0.4570827801472345,
+    "descricao": "CTR planejado",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "ctr.realizado": {
+    "valor": 0.17772909710045887,
+    "descricao": "CTR realizado",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "cliques.deficit": {
+    "valor": 330185.0,
+    "descricao": "Cliques planejados e nao entregues",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "veiculo.meta_ads.pacing_cli": {
+    "valor": 48.33726624825586,
+    "descricao": "Pacing de cliques em Meta Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "veiculo.tiktok_ads.pacing_cli": {
+    "valor": 12.808041504539558,
+    "descricao": "Pacing de cliques em Tiktok Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "veiculo.youtube_ads.pacing_cli": {
+    "valor": 111.73758398103017,
+    "descricao": "Pacing de cliques em Youtube Ads",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "fora.campanhas": {
+    "valor": 182.0,
+    "descricao": "Campanhas com gasto fora da conta de pacing",
+    "unidade": "",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "fora.top10_share": {
+    "valor": 37.96266483235201,
+    "descricao": "Share das 10 maiores campanhas no gasto fora do plano",
+    "unidade": "%",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "fora.valor.campanha_fora_do_plano": {
+    "valor": 12098469.922,
+    "descricao": "Investimento fora do plano: campanha fora do plano",
+    "unidade": "BRL",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "fora.valor.data_fora_da_janela_do_flight": {
+    "valor": 2712664.117,
+    "descricao": "Investimento fora do plano: data fora da janela do flight",
+    "unidade": "BRL",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "fora.valor.veiculo_nao_planejado_para_a_campanha": {
+    "valor": 1216656.8589,
+    "descricao": "Investimento fora do plano: veiculo nao planejado para a campanha",
+    "unidade": "BRL",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "periodo.realizado_inicio_ano": {
+    "valor": 2023.0,
+    "descricao": "Primeiro ano com entrega no arquivo",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "fora.antes_do_plano": {
+    "valor": 15400.0,
+    "descricao": "Linhas de Realizado anteriores ao inicio do plano",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "fora.depois_do_plano": {
+    "valor": 202.0,
+    "descricao": "Linhas de Realizado posteriores ao fim do plano",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/06_series.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "faixa.limite_inferior": {
+    "valor": 90.0,
+    "descricao": "Limite inferior da faixa de pacing aceitavel (convencao da area)",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "faixa.limite_superior": {
+    "valor": 110.0,
+    "descricao": "Limite superior da faixa de pacing aceitavel (convencao da area)",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.inauguracao.pacing_inv": {
+    "valor": 0.0,
+    "descricao": "Pacing de investimento de Inauguracao",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.inauguracao.plan_inv": {
+    "valor": 24797.5,
+    "descricao": "Investimento planejado de Inauguracao",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.inauguracao.real_inv": {
+    "valor": 0.0,
+    "descricao": "Investimento realizado de Inauguracao",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.inauguracao.pacing_cli": {
+    "valor": 0.0,
+    "descricao": "Pacing de cliques de Inauguracao",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.inauguracao.pacing_imp": {
+    "valor": 0.0,
+    "descricao": "Pacing de impressoes de Inauguracao",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.impulsionamentos.pacing_inv": {
+    "valor": 82.18411799410032,
+    "descricao": "Pacing de investimento de Impulsionamentos",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.impulsionamentos.plan_inv": {
+    "valor": 169500.0,
+    "descricao": "Investimento planejado de Impulsionamentos",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.impulsionamentos.real_inv": {
+    "valor": 139302.08000000005,
+    "descricao": "Investimento realizado de Impulsionamentos",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.impulsionamentos.pacing_cli": {
+    "valor": 92.50003047776951,
+    "descricao": "Pacing de cliques de Impulsionamentos",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.impulsionamentos.pacing_imp": {
+    "valor": 72.65917550488234,
+    "descricao": "Pacing de impressoes de Impulsionamentos",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback_resgate.pacing_inv": {
+    "valor": 93.06553204852804,
+    "descricao": "Pacing de investimento de Cashback Resgate",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback_resgate.plan_inv": {
+    "valor": 26867.51953125,
+    "descricao": "Investimento planejado de Cashback Resgate",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback_resgate.real_inv": {
+    "valor": 25004.4,
+    "descricao": "Investimento realizado de Cashback Resgate",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback_resgate.pacing_cli": {
+    "valor": 101.27388535031847,
+    "descricao": "Pacing de cliques de Cashback Resgate",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback_resgate.pacing_imp": {
+    "valor": 136.11951318871576,
+    "descricao": "Pacing de impressoes de Cashback Resgate",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.feira_de_santana.pacing_inv": {
+    "valor": 93.72288656956424,
+    "descricao": "Pacing de investimento de Feira de Santana",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.feira_de_santana.plan_inv": {
+    "valor": 53932.80078125,
+    "descricao": "Investimento planejado de Feira de Santana",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.feira_de_santana.real_inv": {
+    "valor": 50547.3777,
+    "descricao": "Investimento realizado de Feira de Santana",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.feira_de_santana.pacing_cli": {
+    "valor": 75.13887433183103,
+    "descricao": "Pacing de cliques de Feira de Santana",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.feira_de_santana.pacing_imp": {
+    "valor": 167.5657406466043,
+    "descricao": "Pacing de impressoes de Feira de Santana",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fortaleza.pacing_inv": {
+    "valor": 99.99693573883162,
+    "descricao": "Pacing de investimento de Fortaleza",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fortaleza.plan_inv": {
+    "valor": 29100.0,
+    "descricao": "Investimento planejado de Fortaleza",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fortaleza.real_inv": {
+    "valor": 29099.108300000004,
+    "descricao": "Investimento realizado de Fortaleza",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fortaleza.pacing_cli": {
+    "valor": 298.9912280701754,
+    "descricao": "Pacing de cliques de Fortaleza",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fortaleza.pacing_imp": {
+    "valor": 286.3721710526316,
+    "descricao": "Pacing de impressoes de Fortaleza",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback.pacing_inv": {
+    "valor": 99.99757667550172,
+    "descricao": "Pacing de investimento de Cashback",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback.plan_inv": {
+    "valor": 105640.0,
+    "descricao": "Investimento planejado de Cashback",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback.real_inv": {
+    "valor": 105637.44000000002,
+    "descricao": "Investimento realizado de Cashback",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback.pacing_cli": {
+    "valor": 102.81902552204176,
+    "descricao": "Pacing de cliques de Cashback",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.cashback.pacing_imp": {
+    "valor": 96.70933874709976,
+    "descricao": "Pacing de impressoes de Cashback",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.uberlandia.pacing_inv": {
+    "valor": 99.99758666337286,
+    "descricao": "Pacing de investimento de Uberlandia",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.uberlandia.plan_inv": {
+    "valor": 50789.640625,
+    "descricao": "Investimento planejado de Uberlandia",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.uberlandia.real_inv": {
+    "valor": 50788.4149,
+    "descricao": "Investimento realizado de Uberlandia",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.uberlandia.pacing_cli": {
+    "valor": 70.23227719510187,
+    "descricao": "Pacing de cliques de Uberlandia",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.uberlandia.pacing_imp": {
+    "valor": 190.4572106636302,
+    "descricao": "Pacing de impressoes de Uberlandia",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3_ofertasbr.pacing_inv": {
+    "valor": 99.99999649908167,
+    "descricao": "Pacing de investimento de Fds3 Ofertasbr",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3_ofertasbr.plan_inv": {
+    "valor": 24547.130859375,
+    "descricao": "Investimento planejado de Fds3 Ofertasbr",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3_ofertasbr.real_inv": {
+    "valor": 24547.13,
+    "descricao": "Investimento realizado de Fds3 Ofertasbr",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3_ofertasbr.pacing_cli": {
+    "valor": 109.31312637496944,
+    "descricao": "Pacing de cliques de Fds3 Ofertasbr",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3_ofertasbr.pacing_imp": {
+    "valor": 186.18029606318458,
+    "descricao": "Pacing de impressoes de Fds3 Ofertasbr",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2_ofertasbr.pacing_inv": {
+    "valor": 99.99999649908167,
+    "descricao": "Pacing de investimento de Fds2 Ofertasbr",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2_ofertasbr.plan_inv": {
+    "valor": 24547.130859375,
+    "descricao": "Investimento planejado de Fds2 Ofertasbr",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2_ofertasbr.real_inv": {
+    "valor": 24547.13,
+    "descricao": "Investimento realizado de Fds2 Ofertasbr",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2_ofertasbr.pacing_cli": {
+    "valor": 85.45587875824981,
+    "descricao": "Pacing de cliques de Fds2 Ofertasbr",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2_ofertasbr.pacing_imp": {
+    "valor": 114.6348706824119,
+    "descricao": "Pacing de impressoes de Fds2 Ofertasbr",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.mega_day.pacing_inv": {
+    "valor": 100.0,
+    "descricao": "Pacing de investimento de Mega Day",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.mega_day.plan_inv": {
+    "valor": 101840.0,
+    "descricao": "Investimento planejado de Mega Day",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.mega_day.real_inv": {
+    "valor": 101840.0,
+    "descricao": "Investimento realizado de Mega Day",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.mega_day.pacing_cli": {
+    "valor": 161.2753036437247,
+    "descricao": "Pacing de cliques de Mega Day",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.mega_day.pacing_imp": {
+    "valor": 60.83284412955465,
+    "descricao": "Pacing de impressoes de Mega Day",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.oportunidades_incriveis.pacing_inv": {
+    "valor": 100.0,
+    "descricao": "Pacing de investimento de Oportunidades Incriveis",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.oportunidades_incriveis.plan_inv": {
+    "valor": 45000.0,
+    "descricao": "Investimento planejado de Oportunidades Incriveis",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.oportunidades_incriveis.real_inv": {
+    "valor": 45000.0,
+    "descricao": "Investimento realizado de Oportunidades Incriveis",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.oportunidades_incriveis.pacing_cli": {
+    "valor": 125.38666666666667,
+    "descricao": "Pacing de cliques de Oportunidades Incriveis",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.oportunidades_incriveis.pacing_imp": {
+    "valor": 152.208,
+    "descricao": "Pacing de impressoes de Oportunidades Incriveis",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds1.pacing_inv": {
+    "valor": 100.0,
+    "descricao": "Pacing de investimento de Fds1",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds1.plan_inv": {
+    "valor": 76000.0,
+    "descricao": "Investimento planejado de Fds1",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds1.real_inv": {
+    "valor": 76000.0,
+    "descricao": "Investimento realizado de Fds1",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds1.pacing_cli": {
+    "valor": 60.68421052631579,
+    "descricao": "Pacing de cliques de Fds1",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds1.pacing_imp": {
+    "valor": 74.18793062200957,
+    "descricao": "Pacing de impressoes de Fds1",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.especial_cabelos.pacing_inv": {
+    "valor": 100.00000000000004,
+    "descricao": "Pacing de investimento de Especial Cabelos",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.especial_cabelos.plan_inv": {
+    "valor": 5000.0,
+    "descricao": "Investimento planejado de Especial Cabelos",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.especial_cabelos.real_inv": {
+    "valor": 5000.000000000001,
+    "descricao": "Investimento realizado de Especial Cabelos",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.especial_cabelos.pacing_cli": {
+    "valor": 105.71581196581197,
+    "descricao": "Pacing de cliques de Especial Cabelos",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.especial_cabelos.pacing_imp": {
+    "valor": 142.80944,
+    "descricao": "Pacing de impressoes de Especial Cabelos",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2.pacing_inv": {
+    "valor": 100.0000040719373,
+    "descricao": "Pacing de investimento de Fds2",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2.plan_inv": {
+    "valor": 19186.19921875,
+    "descricao": "Investimento planejado de Fds2",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2.real_inv": {
+    "valor": 19186.2,
+    "descricao": "Investimento realizado de Fds2",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2.pacing_cli": {
+    "valor": 78.79261807944948,
+    "descricao": "Pacing de cliques de Fds2",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds2.pacing_imp": {
+    "valor": 99.09255089595646,
+    "descricao": "Pacing de impressoes de Fds2",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3.pacing_inv": {
+    "valor": 100.0000040719373,
+    "descricao": "Pacing de investimento de Fds3",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3.plan_inv": {
+    "valor": 19186.19921875,
+    "descricao": "Investimento planejado de Fds3",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3.real_inv": {
+    "valor": 19186.2,
+    "descricao": "Investimento realizado de Fds3",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3.pacing_cli": {
+    "valor": 53.73787926180794,
+    "descricao": "Pacing de cliques de Fds3",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.fds3.pacing_imp": {
+    "valor": 68.40807455358538,
+    "descricao": "Pacing de impressoes de Fds3",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.joao_pessoa.pacing_inv": {
+    "valor": 104.2735705011508,
+    "descricao": "Pacing de investimento de Joao Pessoa",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.joao_pessoa.plan_inv": {
+    "valor": 41165.80078125,
+    "descricao": "Investimento planejado de Joao Pessoa",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.joao_pessoa.real_inv": {
+    "valor": 42925.0503,
+    "descricao": "Investimento realizado de Joao Pessoa",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.joao_pessoa.pacing_cli": {
+    "valor": 43.251750497848015,
+    "descricao": "Pacing de cliques de Joao Pessoa",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.joao_pessoa.pacing_imp": {
+    "valor": 129.8048579613273,
+    "descricao": "Pacing de impressoes de Joao Pessoa",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.freeshop.pacing_inv": {
+    "valor": 128.27346855085736,
+    "descricao": "Pacing de investimento de Freeshop",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.freeshop.plan_inv": {
+    "valor": 130157.5625,
+    "descricao": "Investimento planejado de Freeshop",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:44"
+  },
+  "campanha.freeshop.real_inv": {
+    "valor": 166957.62,
+    "descricao": "Investimento realizado de Freeshop",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "campanha.freeshop.pacing_cli": {
+    "valor": 11.483815136792213,
+    "descricao": "Pacing de cliques de Freeshop",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "campanha.freeshop.pacing_imp": {
+    "valor": 114.13552734147466,
+    "descricao": "Pacing de impressoes de Freeshop",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "campanha.maceio.pacing_inv": {
+    "valor": 134.09776620378406,
+    "descricao": "Pacing de investimento de Maceio",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "campanha.maceio.plan_inv": {
+    "valor": 86367.599609375,
+    "descricao": "Investimento planejado de Maceio",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "campanha.maceio.real_inv": {
+    "valor": 115817.0218,
+    "descricao": "Investimento realizado de Maceio",
+    "unidade": "BRL",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "campanha.maceio.pacing_cli": {
+    "valor": 341.4552880481514,
+    "descricao": "Pacing de cliques de Maceio",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "campanha.maceio.pacing_imp": {
+    "valor": 191.11472206137813,
+    "descricao": "Pacing de impressoes de Maceio",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "excedente.impressoes_pp": {
+    "valor": 21.695416518603228,
+    "descricao": "Impressoes entregues acima do plano, em pontos percentuais",
+    "unidade": "%",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "excedente.impressoes_abs": {
+    "valor": 29749424.0,
+    "descricao": "Impressoes entregues acima do plano",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  },
+  "cpc.razao": {
+    "valor": 2.129170566933632,
+    "descricao": "Quantas vezes o CPC realizado supera o planejado",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec1-130631/analise/scripts/07_destaques.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:25:45"
+  }
+}

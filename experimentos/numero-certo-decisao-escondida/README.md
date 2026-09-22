@@ -40,11 +40,20 @@ legítima, que tira da conta o flight sem verba orçada, e só quem montou o pla
 
 ```
 numero-certo-decisao-escondida/
-├── prompts/          o texto literal de cada rodada, com a hipótese registrada antes de rodar
+├── prompts/    o texto literal de cada rodada, com a hipótese registrada antes de rodar
+├── dados/      a base de pacing usada nas 15 execuções
+├── respostas/  o que cada execução produziu, uma pasta por rodada e execução
 └── agente/
-    ├── skills/       as quatro skills usadas na rodada 5
-    └── tests/        testes dos scripts das skills
+    ├── skills/  as quatro skills usadas na rodada 5
+    └── tests/   testes dos scripts das skills
 ```
+
+`respostas/` tem uma pasta por rodada e execução (`r3-exec1`, `r5-exec2`, e assim por diante) com
+o que aquela sessão gerou: script e CSV nas rodadas 3 e 4, e o pacote completo de entregáveis
+(`entregas/`) e do rastro de análise (`analise/`) na rodada 5. As rodadas 1 e 2 não produzem
+arquivo, só resposta em texto, e essa resposta não está publicada aqui: ela vive só na
+transcrição de sessão do Claude Code, e publicar a transcrição bruta arrisca levar junto coisa que
+não é a resposta, como saída de ferramenta ou raciocínio intermediário sem curadoria.
 
 ## O agente de análise
 
@@ -101,5 +110,6 @@ Com a entrada padrão fechada, porque o modo não interativo acrescenta ao promp
 
 ## O que não está aqui
 
-- O arquivo de dados do experimento não está publicado neste repositório.
-- O script que orquestrou as 15 sessões e o gabarito das respostas não estão publicados.
+- O script que orquestrou as 15 sessões não está publicado.
+- A resposta em texto das rodadas 1 e 2, e a narrativa das rodadas 3 e 4, não estão publicadas:
+  só o que essas rodadas geraram como arquivo está em `respostas/`.
