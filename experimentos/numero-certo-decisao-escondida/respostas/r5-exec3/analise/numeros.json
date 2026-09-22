@@ -1,0 +1,2797 @@
+{
+  "arquivo.linhas": {
+    "valor": 16809.0,
+    "descricao": "Linhas no arquivo",
+    "unidade": "",
+    "linhas": 16809,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.flights": {
+    "valor": 45.0,
+    "descricao": "Linhas de Planejado (flights)",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.linhas": {
+    "valor": 16764.0,
+    "descricao": "Linhas de Realizado (entrega diaria)",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.campanhas": {
+    "valor": 19.0,
+    "descricao": "Campanhas com plano",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.campanhas": {
+    "valor": 185.0,
+    "descricao": "Campanhas com entrega",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.blocos": {
+    "valor": 40.0,
+    "descricao": "Blocos de plano apos unir flights sobrepostos",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.flights_em_sobreposicao": {
+    "valor": 8.0,
+    "descricao": "Flights que dividem janela com outro flight da mesma campanha e veiculo",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.linhas_no_pacing": {
+    "valor": 884.0,
+    "descricao": "Linhas de Realizado que entram no pacing",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.linhas_fora": {
+    "valor": 15880.0,
+    "descricao": "Linhas de Realizado fora de qualquer flight",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.linhas_em_multiplos_flights": {
+    "valor": 147.0,
+    "descricao": "Linhas de Realizado dentro da janela de mais de um flight",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [
+      "linha em flights sobrepostos conta uma vez so"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.max_flights_por_linha": {
+    "valor": 4.0,
+    "descricao": "Maior numero de flights que cobrem a mesma linha de Realizado",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.max_blocos_por_linha": {
+    "valor": 1.0,
+    "descricao": "Maior numero de blocos de plano que cobrem a mesma linha de Realizado",
+    "unidade": "",
+    "linhas": 884,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.fora_sem_plano": {
+    "valor": 14375.0,
+    "descricao": "Linhas fora: campanha/veiculo sem nenhum flight",
+    "unidade": "",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.fora_da_janela": {
+    "valor": 1505.0,
+    "descricao": "Linhas fora: campanha/veiculo planejado, data fora da janela",
+    "unidade": "",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.investimento_fora": {
+    "valor": 16027790.897899998,
+    "descricao": "Investimento realizado fora do pacing",
+    "unidade": "R$",
+    "linhas": 15880,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.campanhas_sem_plano": {
+    "valor": 166.0,
+    "descricao": "Campanhas com entrega e sem nenhuma linha de Planejado",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.zero_investimento": {
+    "valor": 0.0,
+    "descricao": "Flights com investimento planejado igual a zero",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.nulo_investimento": {
+    "valor": 2.0,
+    "descricao": "Flights com investimento planejado nulo",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.zero_impressoes": {
+    "valor": 2.0,
+    "descricao": "Flights com impressoes planejado igual a zero",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.nulo_impressoes": {
+    "valor": 0.0,
+    "descricao": "Flights com impressoes planejado nulo",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.zero_cliques": {
+    "valor": 2.0,
+    "descricao": "Flights com cliques planejado igual a zero",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.nulo_cliques": {
+    "valor": 0.0,
+    "descricao": "Flights com cliques planejado nulo",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.flights_sem_denominador": {
+    "valor": 2.0,
+    "descricao": "Flights sem denominador utilizavel (zero ou nulo em alguma metrica)",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.linhas_no_periodo_do_plano": {
+    "valor": 1162.0,
+    "descricao": "Linhas de Realizado dentro do periodo coberto pelo plano, qualquer campanha",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/01_universo.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.total_investimento": {
+    "valor": 1033625.083984375,
+    "descricao": "investimento planejado, blocos com denominador utilizavel",
+    "unidade": "R$",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.total_investimento": {
+    "valor": 1041385.1729999998,
+    "descricao": "investimento realizado dentro das janelas, deduplicado",
+    "unidade": "R$",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "linha em flights sobrepostos conta uma vez so"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.investimento": {
+    "valor": 1.0075076438602975,
+    "descricao": "Pacing agregado de investimento",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "linha em flights sobrepostos conta uma vez so"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.blocos_validos_investimento": {
+    "valor": 39.0,
+    "descricao": "Blocos com investimento planejado utilizavel",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.total_impressoes": {
+    "valor": 137123083.0,
+    "descricao": "impressoes planejado, blocos com denominador utilizavel",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.total_impressoes": {
+    "valor": 166872507.0,
+    "descricao": "impressoes realizado dentro das janelas, deduplicado",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "linha em flights sobrepostos conta uma vez so"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.impressoes": {
+    "valor": 1.2169541651860323,
+    "descricao": "Pacing agregado de impressoes",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "linha em flights sobrepostos conta uma vez so"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.blocos_validos_impressoes": {
+    "valor": 39.0,
+    "descricao": "Blocos com impressoes planejado utilizavel",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "plan.total_cliques": {
+    "valor": 626766.0,
+    "descricao": "cliques planejado, blocos com denominador utilizavel",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.total_cliques": {
+    "valor": 296581.0,
+    "descricao": "cliques realizado dentro das janelas, deduplicado",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "linha em flights sobrepostos conta uma vez so"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.cliques": {
+    "valor": 0.4731925471388046,
+    "descricao": "Pacing agregado de cliques",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "linha em flights sobrepostos conta uma vez so"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.blocos_validos_cliques": {
+    "valor": 39.0,
+    "descricao": "Blocos com cliques planejado utilizavel",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "alt.pacing_sem_dedup_investimento": {
+    "valor": 1.50804165567596,
+    "descricao": "Pacing de investimento contando a linha em cada flight que a cobre (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 43,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "alternativa: sem deduplicacao"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "alt.pacing_sem_dedup_impressoes": {
+    "valor": 2.192503074044798,
+    "descricao": "Pacing de impressoes contando a linha em cada flight que a cobre (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 43,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "alternativa: sem deduplicacao"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "alt.pacing_sem_dedup_cliques": {
+    "valor": 0.6761869661085637,
+    "descricao": "Pacing de cliques contando a linha em cada flight que a cobre (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 43,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [
+      "alternativa: sem deduplicacao"
+    ],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "real.investimento_em_blocos_sobrepostos": {
+    "valor": 197972.5203,
+    "descricao": "Investimento realizado nos blocos que uniram flights sobrepostos",
+    "unidade": "R$",
+    "linhas": 155,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.blocos_acima_de_100_impressoes": {
+    "valor": 20.0,
+    "descricao": "Blocos que bateram ou passaram a meta de impressoes",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.blocos_abaixo_de_80_impressoes": {
+    "valor": 13.0,
+    "descricao": "Blocos que entregaram menos de 80% das impressoes planejadas",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.blocos_sem_entrega": {
+    "valor": 1.0,
+    "descricao": "Blocos de plano sem nenhuma linha de Realizado na janela",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "pacing.mediana_impressoes": {
+    "valor": 1.1014785714285715,
+    "descricao": "Pacing mediano de impressoes entre blocos",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/02_pacing.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:41"
+  },
+  "veiculo.meta.pacing_investimento": {
+    "valor": 1.0699300102109508,
+    "descricao": "Pacing de investimento em Meta Ads",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.meta.pacing_impressoes": {
+    "valor": 1.350053576766337,
+    "descricao": "Pacing de impressoes em Meta Ads",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.meta.pacing_cliques": {
+    "valor": 0.48337266248255856,
+    "descricao": "Pacing de cliques em Meta Ads",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.meta.plan_investimento": {
+    "valor": 825982.09375,
+    "descricao": "Investimento planejado em Meta Ads",
+    "unidade": "R$",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.meta.real_investimento": {
+    "valor": 883743.03,
+    "descricao": "Investimento realizado em Meta Ads",
+    "unidade": "R$",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.tiktok.pacing_investimento": {
+    "valor": 0.4774389815984548,
+    "descricao": "Pacing de investimento em Tiktok Ads",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.tiktok.pacing_impressoes": {
+    "valor": 0.24285685259678966,
+    "descricao": "Pacing de impressoes em Tiktok Ads",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.tiktok.pacing_cliques": {
+    "valor": 0.12808041504539558,
+    "descricao": "Pacing de cliques em Tiktok Ads",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.tiktok.plan_investimento": {
+    "valor": 99049.830078125,
+    "descricao": "Investimento planejado em Tiktok Ads",
+    "unidade": "R$",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.tiktok.real_investimento": {
+    "valor": 47290.25,
+    "descricao": "Investimento realizado em Tiktok Ads",
+    "unidade": "R$",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.youtube.pacing_investimento": {
+    "valor": 1.0161956134366052,
+    "descricao": "Pacing de investimento em Youtube Ads",
+    "unidade": "",
+    "linhas": 9,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.youtube.pacing_impressoes": {
+    "valor": 0.878367988366024,
+    "descricao": "Pacing de impressoes em Youtube Ads",
+    "unidade": "",
+    "linhas": 9,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.youtube.pacing_cliques": {
+    "valor": 1.1173758398103018,
+    "descricao": "Pacing de cliques em Youtube Ads",
+    "unidade": "",
+    "linhas": 9,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.youtube.plan_investimento": {
+    "valor": 108593.16015625,
+    "descricao": "Investimento planejado em Youtube Ads",
+    "unidade": "R$",
+    "linhas": 9,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "veiculo.youtube.real_investimento": {
+    "valor": 110351.893,
+    "descricao": "Investimento realizado em Youtube Ads",
+    "unidade": "R$",
+    "linhas": 9,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "plan.cpm": {
+    "valor": 7.5379364390776935,
+    "descricao": "CPM planejado",
+    "unidade": "R$",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "plan.ctr": {
+    "valor": 0.0045708278014723455,
+    "descricao": "CTR planejado",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "real.cpm": {
+    "valor": 6.240603630411089,
+    "descricao": "CPM realizado",
+    "unidade": "R$",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "real.ctr": {
+    "valor": 0.0017772909710045885,
+    "descricao": "CTR realizado",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "campanha.n_no_pacing": {
+    "valor": 18.0,
+    "descricao": "Campanhas na conta de pacing",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "campanha.pior_pacing_impressoes": {
+    "valor": 0.0,
+    "descricao": "Menor pacing de impressoes entre campanhas (Inauguracao)",
+    "unidade": "",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "campanha.melhor_pacing_impressoes": {
+    "valor": 2.863721710526316,
+    "descricao": "Maior pacing de impressoes entre campanhas (Fortaleza)",
+    "unidade": "",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "real.investimento_total_arquivo": {
+    "valor": 17075125.3785,
+    "descricao": "Investimento realizado em todo o arquivo",
+    "unidade": "R$",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "real.share_investimento_no_pacing": {
+    "valor": 0.0609884349260036,
+    "descricao": "Fatia do investimento realizado que a conta de pacing cobre",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/03_cortes.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.sem_veiculo_investimento": {
+    "valor": 1.0287961945552733,
+    "descricao": "Pacing de investimento casando so por campanha e janela (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: ignorar veiculo no casamento"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.sem_veiculo_impressoes": {
+    "valor": 1.227967460445737,
+    "descricao": "Pacing de impressoes casando so por campanha e janela (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: ignorar veiculo no casamento"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.sem_veiculo_cliques": {
+    "valor": 0.4830447088706152,
+    "descricao": "Pacing de cliques casando so por campanha e janela (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: ignorar veiculo no casamento"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.por_familia_investimento": {
+    "valor": 1.0075076438602975,
+    "descricao": "Pacing de investimento agrupando variantes de nome por prefixo (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: agrupar variantes de nome"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.por_familia_impressoes": {
+    "valor": 1.2169541651860323,
+    "descricao": "Pacing de impressoes agrupando variantes de nome por prefixo (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: agrupar variantes de nome"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.por_familia_cliques": {
+    "valor": 0.4731925471388046,
+    "descricao": "Pacing de cliques agrupando variantes de nome por prefixo (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: agrupar variantes de nome"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.linhas_absorvidas_por_familia": {
+    "valor": 1361.0,
+    "descricao": "Linhas de Realizado que mudariam de campanha se as variantes fossem agrupadas",
+    "unidade": "",
+    "linhas": 16764,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.denominador_zero_incluido_investimento": {
+    "valor": 1.0132634132317866,
+    "descricao": "Pacing de investimento somando tambem a entrega dos blocos sem meta (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: incluir blocos sem denominador"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.denominador_zero_incluido_impressoes": {
+    "valor": 1.2210304956460176,
+    "descricao": "Pacing de impressoes somando tambem a entrega dos blocos sem meta (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: incluir blocos sem denominador"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.denominador_zero_incluido_cliques": {
+    "valor": 0.4742998184330356,
+    "descricao": "Pacing de cliques somando tambem a entrega dos blocos sem meta (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: incluir blocos sem denominador"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.media_simples_investimento": {
+    "valor": 0.9890108628164347,
+    "descricao": "Pacing de investimento como media simples dos blocos (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: media simples entre blocos"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.media_simples_impressoes": {
+    "valor": 1.4499608403406148,
+    "descricao": "Pacing de impressoes como media simples dos blocos (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: media simples entre blocos"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.media_simples_cliques": {
+    "valor": 1.4622656192509738,
+    "descricao": "Pacing de cliques como media simples dos blocos (alternativa rejeitada)",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [
+      "alternativa: media simples entre blocos"
+    ],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "real.impressoes_em_blocos_sem_meta": {
+    "valor": 558959.0,
+    "descricao": "Impressoes entregues em blocos cujo plano nao tem meta utilizavel",
+    "unidade": "",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "real.investimento_em_blocos_sem_meta": {
+    "valor": 5949.3076,
+    "descricao": "Investimento entregue em blocos cujo plano nao tem meta utilizavel",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/04_alternativas.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:42"
+  },
+  "alt.inflacao_sem_dedup_investimento": {
+    "valor": 0.49680418294182926,
+    "descricao": "Quanto o pacing de investimento subiria sem deduplicar os flights sobrepostos",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [
+      "alternativa: sem deduplicacao"
+    ],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "alt.inflacao_sem_dedup_impressoes": {
+    "valor": 0.8016315953112634,
+    "descricao": "Quanto o pacing de impressoes subiria sem deduplicar os flights sobrepostos",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [
+      "alternativa: sem deduplicacao"
+    ],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "alt.inflacao_sem_dedup_cliques": {
+    "valor": 0.42898904515124037,
+    "descricao": "Quanto o pacing de cliques subiria sem deduplicar os flights sobrepostos",
+    "unidade": "",
+    "linhas": 40,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [
+      "alternativa: sem deduplicacao"
+    ],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "real.dias_em_blocos_sem_meta": {
+    "valor": 26.0,
+    "descricao": "Dias de entrega em blocos de plano sem meta utilizavel",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "plan.menor_investimento_bloco": {
+    "valor": 3570.0,
+    "descricao": "Menor investimento planejado em um bloco",
+    "unidade": "R$",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "plan.maior_investimento_bloco": {
+    "valor": 130157.5625,
+    "descricao": "Maior investimento planejado em um bloco",
+    "unidade": "R$",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "qualidade.objetivo_nulo_em_texto": {
+    "valor": 18.0,
+    "descricao": "Linhas com Objetivo preenchido com o texto N/a",
+    "unidade": "",
+    "linhas": 16809,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "qualidade.publico_nulo_em_texto": {
+    "valor": 241.0,
+    "descricao": "Linhas com Publico preenchido com o texto N/a",
+    "unidade": "",
+    "linhas": 16809,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "real.investimento_fora_da_janela": {
+    "valor": 2712664.1169999996,
+    "descricao": "Investimento de campanha e veiculo planejados, entregue fora da janela do flight",
+    "unidade": "R$",
+    "linhas": 1505,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/05_complementos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "gap.cliques": {
+    "valor": 330185.0,
+    "descricao": "Cliques planejados que nao foram entregues",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "gap.investimento": {
+    "valor": 7760.089015624835,
+    "descricao": "Investimento gasto acima do planejado",
+    "unidade": "R$",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "gap.impressoes": {
+    "valor": 29749424.0,
+    "descricao": "Impressoes entregues acima do planejado",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "var.excedente_impressoes": {
+    "valor": 0.21695416518603228,
+    "descricao": "Quanto a audiencia superou o plano",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "var.falta_cliques": {
+    "valor": 0.5268074528611955,
+    "descricao": "Quanto o clique ficou abaixo do plano",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "var.queda_cpm": {
+    "valor": 0.17210715679971167,
+    "descricao": "Quanto o custo por mil impressoes ficou abaixo da premissa do plano",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "var.queda_ctr": {
+    "valor": 0.6111665002054789,
+    "descricao": "Quanto a taxa de clique ficou abaixo da premissa do plano",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "inauguracao.investimento_planejado": {
+    "valor": 24797.5,
+    "descricao": "Investimento planejado no flight de Inauguracao no Tiktok, que nao teve entrega",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "inauguracao.dias_planejados": {
+    "valor": 12.0,
+    "descricao": "Dias de veiculacao planejados no flight de Inauguracao no Tiktok",
+    "unidade": "",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "veiculo.tiktok.verba_nao_gasta": {
+    "valor": 51759.580078125,
+    "descricao": "Verba planejada e nao gasta no Tiktok",
+    "unidade": "R$",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "veiculo.meta.blocos": {
+    "valor": 26.0,
+    "descricao": "Blocos de plano com meta utilizavel em Meta Ads",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "veiculo.youtube.blocos": {
+    "valor": 9.0,
+    "descricao": "Blocos de plano com meta utilizavel em Youtube Ads",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "veiculo.tiktok.blocos": {
+    "valor": 4.0,
+    "descricao": "Blocos de plano com meta utilizavel em Tiktok Ads",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "plan.flights_em_blocos_com_meta": {
+    "valor": 44.0,
+    "descricao": "Flights que acabam num bloco com meta utilizavel",
+    "unidade": "",
+    "linhas": 45,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "pacing.blocos_investimento_dentro_de_1pc": {
+    "valor": 30.0,
+    "descricao": "Blocos que fecharam a verba a menos de 1% do plano",
+    "unidade": "",
+    "linhas": 39,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/06_derivados.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:43"
+  },
+  "bloco.cashback_meta_ads_0528.pacing_investimento": {
+    "valor": 0.9999603715170279,
+    "descricao": "Pacing de investimento em Cashback / Meta Ads a partir de 2024-05-28",
+    "unidade": "",
+    "linhas": 11,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0528.pacing_impressoes": {
+    "valor": 0.6044650154798762,
+    "descricao": "Pacing de impressoes em Cashback / Meta Ads a partir de 2024-05-28",
+    "unidade": "",
+    "linhas": 11,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0528.pacing_cliques": {
+    "valor": 0.7516253869969041,
+    "descricao": "Pacing de cliques em Cashback / Meta Ads a partir de 2024-05-28",
+    "unidade": "",
+    "linhas": 11,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0528.plan_investimento": {
+    "valor": 64600.0,
+    "descricao": "Investimento planejado em Cashback / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0528.dias_entrega": {
+    "valor": 11.0,
+    "descricao": "Dias de entrega em Cashback / Meta Ads",
+    "unidade": "",
+    "linhas": 11,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0701.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Cashback / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 7,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0701.pacing_impressoes": {
+    "valor": 2.0516208333333332,
+    "descricao": "Pacing de impressoes em Cashback / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 7,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0701.pacing_cliques": {
+    "valor": 1.8553240740740742,
+    "descricao": "Pacing de cliques em Cashback / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 7,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0701.plan_investimento": {
+    "valor": 41040.0,
+    "descricao": "Investimento planejado em Cashback / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_meta_ads_0701.dias_entrega": {
+    "valor": 7.0,
+    "descricao": "Dias de entrega em Cashback / Meta Ads",
+    "unidade": "",
+    "linhas": 7,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0610.pacing_investimento": {
+    "valor": 0.9061283437299805,
+    "descricao": "Pacing de investimento em Cashback Resgate / Meta Ads a partir de 2024-06-10",
+    "unidade": "",
+    "linhas": 20,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0610.pacing_impressoes": {
+    "valor": 1.1017574487895716,
+    "descricao": "Pacing de impressoes em Cashback Resgate / Meta Ads a partir de 2024-06-10",
+    "unidade": "",
+    "linhas": 20,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0610.pacing_cliques": {
+    "valor": 0.7917205692108668,
+    "descricao": "Pacing de cliques em Cashback Resgate / Meta Ads a partir de 2024-06-10",
+    "unidade": "",
+    "linhas": 20,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0610.plan_investimento": {
+    "valor": 19847.51953125,
+    "descricao": "Investimento planejado em Cashback Resgate / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0610.dias_entrega": {
+    "valor": 20.0,
+    "descricao": "Dias de entrega em Cashback Resgate / Meta Ads",
+    "unidade": "",
+    "linhas": 20,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0708.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Cashback Resgate / Meta Ads a partir de 2024-07-08",
+    "unidade": "",
+    "linhas": 22,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0708.pacing_impressoes": {
+    "valor": 1.856548148148148,
+    "descricao": "Pacing de impressoes em Cashback Resgate / Meta Ads a partir de 2024-07-08",
+    "unidade": "",
+    "linhas": 22,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0708.pacing_cliques": {
+    "valor": 1.435105067985167,
+    "descricao": "Pacing de cliques em Cashback Resgate / Meta Ads a partir de 2024-07-08",
+    "unidade": "",
+    "linhas": 22,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0708.plan_investimento": {
+    "valor": 7020.0,
+    "descricao": "Investimento planejado em Cashback Resgate / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.cashback_resgate_meta_ads_0708.dias_entrega": {
+    "valor": 22.0,
+    "descricao": "Dias de entrega em Cashback Resgate / Meta Ads",
+    "unidade": "",
+    "linhas": 22,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.especial_cabelos_meta_ads_0611.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Especial Cabelos / Meta Ads a partir de 2024-06-11",
+    "unidade": "",
+    "linhas": 13,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.especial_cabelos_meta_ads_0611.pacing_impressoes": {
+    "valor": 1.4280944,
+    "descricao": "Pacing de impressoes em Especial Cabelos / Meta Ads a partir de 2024-06-11",
+    "unidade": "",
+    "linhas": 13,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.especial_cabelos_meta_ads_0611.pacing_cliques": {
+    "valor": 1.0571581196581197,
+    "descricao": "Pacing de cliques em Especial Cabelos / Meta Ads a partir de 2024-06-11",
+    "unidade": "",
+    "linhas": 13,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.especial_cabelos_meta_ads_0611.plan_investimento": {
+    "valor": 5000.0,
+    "descricao": "Investimento planejado em Especial Cabelos / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.especial_cabelos_meta_ads_0611.dias_entrega": {
+    "valor": 13.0,
+    "descricao": "Dias de entrega em Especial Cabelos / Meta Ads",
+    "unidade": "",
+    "linhas": 13,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0606.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Fds1 / Meta Ads a partir de 2024-06-06",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0606.pacing_impressoes": {
+    "valor": 0.5321010526315789,
+    "descricao": "Pacing de impressoes em Fds1 / Meta Ads a partir de 2024-06-06",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0606.pacing_cliques": {
+    "valor": 0.5463157894736842,
+    "descricao": "Pacing de cliques em Fds1 / Meta Ads a partir de 2024-06-06",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0606.plan_investimento": {
+    "valor": 30400.0,
+    "descricao": "Investimento planejado em Fds1 / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0606.dias_entrega": {
+    "valor": 4.0,
+    "descricao": "Dias de entrega em Fds1 / Meta Ads",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0704.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Fds1 / Meta Ads a partir de 2024-07-04",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0704.pacing_impressoes": {
+    "valor": 0.9166945175438597,
+    "descricao": "Pacing de impressoes em Fds1 / Meta Ads a partir de 2024-07-04",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0704.pacing_cliques": {
+    "valor": 0.6572807017543859,
+    "descricao": "Pacing de cliques em Fds1 / Meta Ads a partir de 2024-07-04",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0704.plan_investimento": {
+    "valor": 45600.0,
+    "descricao": "Investimento planejado em Fds1 / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds1_meta_ads_0704.dias_entrega": {
+    "valor": 4.0,
+    "descricao": "Dias de entrega em Fds1 / Meta Ads",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_meta_ads_0613.pacing_investimento": {
+    "valor": 1.000000040719373,
+    "descricao": "Pacing de investimento em Fds2 / Meta Ads a partir de 2024-06-13",
+    "unidade": "",
+    "linhas": 7,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_meta_ads_0613.pacing_impressoes": {
+    "valor": 0.9909255089595647,
+    "descricao": "Pacing de impressoes em Fds2 / Meta Ads a partir de 2024-06-13",
+    "unidade": "",
+    "linhas": 7,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_meta_ads_0613.pacing_cliques": {
+    "valor": 0.7879261807944948,
+    "descricao": "Pacing de cliques em Fds2 / Meta Ads a partir de 2024-06-13",
+    "unidade": "",
+    "linhas": 7,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_meta_ads_0613.plan_investimento": {
+    "valor": 19186.19921875,
+    "descricao": "Investimento planejado em Fds2 / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_meta_ads_0613.dias_entrega": {
+    "valor": 7.0,
+    "descricao": "Dias de entrega em Fds2 / Meta Ads",
+    "unidade": "",
+    "linhas": 7,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_ofertasbr_meta_ads_0613.pacing_investimento": {
+    "valor": 0.9999999649908169,
+    "descricao": "Pacing de investimento em Fds2 Ofertasbr / Meta Ads a partir de 2024-06-13",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_ofertasbr_meta_ads_0613.pacing_impressoes": {
+    "valor": 1.146348706824119,
+    "descricao": "Pacing de impressoes em Fds2 Ofertasbr / Meta Ads a partir de 2024-06-13",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_ofertasbr_meta_ads_0613.pacing_cliques": {
+    "valor": 0.8545587875824981,
+    "descricao": "Pacing de cliques em Fds2 Ofertasbr / Meta Ads a partir de 2024-06-13",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_ofertasbr_meta_ads_0613.plan_investimento": {
+    "valor": 24547.130859375,
+    "descricao": "Investimento planejado em Fds2 Ofertasbr / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds2_ofertasbr_meta_ads_0613.dias_entrega": {
+    "valor": 4.0,
+    "descricao": "Dias de entrega em Fds2 Ofertasbr / Meta Ads",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_meta_ads_0620.pacing_investimento": {
+    "valor": 1.000000040719373,
+    "descricao": "Pacing de investimento em Fds3 / Meta Ads a partir de 2024-06-20",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_meta_ads_0620.pacing_impressoes": {
+    "valor": 0.6840807455358539,
+    "descricao": "Pacing de impressoes em Fds3 / Meta Ads a partir de 2024-06-20",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_meta_ads_0620.pacing_cliques": {
+    "valor": 0.5373787926180794,
+    "descricao": "Pacing de cliques em Fds3 / Meta Ads a partir de 2024-06-20",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_meta_ads_0620.plan_investimento": {
+    "valor": 19186.19921875,
+    "descricao": "Investimento planejado em Fds3 / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_meta_ads_0620.dias_entrega": {
+    "valor": 4.0,
+    "descricao": "Dias de entrega em Fds3 / Meta Ads",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_ofertasbr_meta_ads_0620.pacing_investimento": {
+    "valor": 0.9999999649908169,
+    "descricao": "Pacing de investimento em Fds3 Ofertasbr / Meta Ads a partir de 2024-06-20",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_ofertasbr_meta_ads_0620.pacing_impressoes": {
+    "valor": 1.8618029606318458,
+    "descricao": "Pacing de impressoes em Fds3 Ofertasbr / Meta Ads a partir de 2024-06-20",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_ofertasbr_meta_ads_0620.pacing_cliques": {
+    "valor": 1.0931312637496944,
+    "descricao": "Pacing de cliques em Fds3 Ofertasbr / Meta Ads a partir de 2024-06-20",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_ofertasbr_meta_ads_0620.plan_investimento": {
+    "valor": 24547.130859375,
+    "descricao": "Investimento planejado em Fds3 Ofertasbr / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fds3_ofertasbr_meta_ads_0620.dias_entrega": {
+    "valor": 4.0,
+    "descricao": "Dias de entrega em Fds3 Ofertasbr / Meta Ads",
+    "unidade": "",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0601.pacing_investimento": {
+    "valor": 0.7499999783409671,
+    "descricao": "Pacing de investimento em Feira de Santana / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0601.pacing_impressoes": {
+    "valor": 2.140317601135557,
+    "descricao": "Pacing de impressoes em Feira de Santana / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0601.pacing_cliques": {
+    "valor": 0.9157054125998225,
+    "descricao": "Pacing de cliques em Feira de Santana / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0601.plan_investimento": {
+    "valor": 13526.400390625,
+    "descricao": "Investimento planejado em Feira de Santana / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0601.dias_entrega": {
+    "valor": 28.0,
+    "descricao": "Dias de entrega em Feira de Santana / Meta Ads",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0701.pacing_investimento": {
+    "valor": 0.9999999711212896,
+    "descricao": "Pacing de investimento em Feira de Santana / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0701.pacing_impressoes": {
+    "valor": 2.651390613910575,
+    "descricao": "Pacing de impressoes em Feira de Santana / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0701.pacing_cliques": {
+    "valor": 0.9997781721384206,
+    "descricao": "Pacing de cliques em Feira de Santana / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0701.plan_investimento": {
+    "valor": 13526.400390625,
+    "descricao": "Investimento planejado em Feira de Santana / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_meta_ads_0701.dias_entrega": {
+    "valor": 31.0,
+    "descricao": "Dias de entrega em Feira de Santana / Meta Ads",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0601.pacing_investimento": {
+    "valor": 0.9999181770833333,
+    "descricao": "Pacing de investimento em Feira de Santana / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0601.pacing_impressoes": {
+    "valor": 0.6394136904761905,
+    "descricao": "Pacing de impressoes em Feira de Santana / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0601.pacing_cliques": {
+    "valor": 0.466123584343334,
+    "descricao": "Pacing de cliques em Feira de Santana / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0601.plan_investimento": {
+    "valor": 13440.0,
+    "descricao": "Investimento planejado em Feira de Santana / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0601.dias_entrega": {
+    "valor": 25.0,
+    "descricao": "Dias de entrega em Feira de Santana / Youtube Ads",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0701.pacing_investimento": {
+    "valor": 0.999797425595238,
+    "descricao": "Pacing de investimento em Feira de Santana / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0701.pacing_impressoes": {
+    "valor": 0.7790303571428572,
+    "descricao": "Pacing de impressoes em Feira de Santana / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0701.pacing_cliques": {
+    "valor": 0.6669978144247963,
+    "descricao": "Pacing de cliques em Feira de Santana / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0701.plan_investimento": {
+    "valor": 13440.0,
+    "descricao": "Investimento planejado em Feira de Santana / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.feira_de_santana_youtube_ads_0701.dias_entrega": {
+    "valor": 31.0,
+    "descricao": "Dias de entrega em Feira de Santana / Youtube Ads",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0601.pacing_investimento": {
+    "valor": 0.9999373737373737,
+    "descricao": "Pacing de investimento em Fortaleza / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0601.pacing_impressoes": {
+    "valor": 3.521748484848485,
+    "descricao": "Pacing de impressoes em Fortaleza / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0601.pacing_cliques": {
+    "valor": 4.636363636363637,
+    "descricao": "Pacing de cliques em Fortaleza / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0601.plan_investimento": {
+    "valor": 4950.0,
+    "descricao": "Investimento planejado em Fortaleza / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0601.dias_entrega": {
+    "valor": 28.0,
+    "descricao": "Dias de entrega em Fortaleza / Meta Ads",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0701.pacing_investimento": {
+    "valor": 1.000025974025974,
+    "descricao": "Pacing de investimento em Fortaleza / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0701.pacing_impressoes": {
+    "valor": 3.516304761904762,
+    "descricao": "Pacing de impressoes em Fortaleza / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0701.pacing_cliques": {
+    "valor": 3.2883116883116883,
+    "descricao": "Pacing de cliques em Fortaleza / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0701.plan_investimento": {
+    "valor": 11550.0,
+    "descricao": "Investimento planejado em Fortaleza / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_meta_ads_0701.dias_entrega": {
+    "valor": 31.0,
+    "descricao": "Dias de entrega em Fortaleza / Meta Ads",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0601.pacing_investimento": {
+    "valor": 1.0000552142857142,
+    "descricao": "Pacing de investimento em Fortaleza / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0601.pacing_impressoes": {
+    "valor": 1.1014785714285715,
+    "descricao": "Pacing de impressoes em Fortaleza / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0601.pacing_cliques": {
+    "valor": 0.8571428571428571,
+    "descricao": "Pacing de cliques em Fortaleza / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0601.plan_investimento": {
+    "valor": 4200.0,
+    "descricao": "Investimento planejado em Fortaleza / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0601.dias_entrega": {
+    "valor": 25.0,
+    "descricao": "Dias de entrega em Fortaleza / Youtube Ads",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0701.pacing_investimento": {
+    "valor": 0.9998674285714285,
+    "descricao": "Pacing de investimento em Fortaleza / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0701.pacing_impressoes": {
+    "valor": 1.1747083333333332,
+    "descricao": "Pacing de impressoes em Fortaleza / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0701.pacing_cliques": {
+    "valor": 1.2952380952380953,
+    "descricao": "Pacing de cliques em Fortaleza / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0701.plan_investimento": {
+    "valor": 8400.0,
+    "descricao": "Investimento planejado em Fortaleza / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.fortaleza_youtube_ads_0701.dias_entrega": {
+    "valor": 31.0,
+    "descricao": "Dias de entrega em Fortaleza / Youtube Ads",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.freeshop_meta_ads_0617.pacing_investimento": {
+    "valor": 1.2827346855085735,
+    "descricao": "Pacing de investimento em Freeshop / Meta Ads a partir de 2024-06-17",
+    "unidade": "",
+    "linhas": 22,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.freeshop_meta_ads_0617.pacing_impressoes": {
+    "valor": 1.1413552734147465,
+    "descricao": "Pacing de impressoes em Freeshop / Meta Ads a partir de 2024-06-17",
+    "unidade": "",
+    "linhas": 22,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.freeshop_meta_ads_0617.pacing_cliques": {
+    "valor": 0.11483815136792212,
+    "descricao": "Pacing de cliques em Freeshop / Meta Ads a partir de 2024-06-17",
+    "unidade": "",
+    "linhas": 22,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.freeshop_meta_ads_0617.plan_investimento": {
+    "valor": 130157.5625,
+    "descricao": "Investimento planejado em Freeshop / Meta Ads",
+    "unidade": "R$",
+    "linhas": 4,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.freeshop_meta_ads_0617.dias_entrega": {
+    "valor": 22.0,
+    "descricao": "Dias de entrega em Freeshop / Meta Ads",
+    "unidade": "",
+    "linhas": 22,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0601.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Impulsionamentos / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 27,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0601.pacing_impressoes": {
+    "valor": 0.9164103355704698,
+    "descricao": "Pacing de impressoes em Impulsionamentos / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 27,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0601.pacing_cliques": {
+    "valor": 1.06751677852349,
+    "descricao": "Pacing de cliques em Impulsionamentos / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 27,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0601.plan_investimento": {
+    "valor": 74500.0,
+    "descricao": "Investimento planejado em Impulsionamentos / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0601.dias_entrega": {
+    "valor": 27.0,
+    "descricao": "Dias de entrega em Impulsionamentos / Meta Ads",
+    "unidade": "",
+    "linhas": 27,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0701.pacing_investimento": {
+    "valor": 0.9006727673915051,
+    "descricao": "Pacing de investimento em Impulsionamentos / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0701.pacing_impressoes": {
+    "valor": 0.9128469476686788,
+    "descricao": "Pacing de impressoes em Impulsionamentos / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0701.pacing_cliques": {
+    "valor": 1.9216922794342741,
+    "descricao": "Pacing de cliques em Impulsionamentos / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0701.plan_investimento": {
+    "valor": 32666.669921875,
+    "descricao": "Investimento planejado em Impulsionamentos / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_meta_ads_0701.dias_entrega": {
+    "valor": 26.0,
+    "descricao": "Dias de entrega em Impulsionamentos / Meta Ads",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0601.pacing_investimento": {
+    "valor": 0.48533456521739127,
+    "descricao": "Pacing de investimento em Impulsionamentos / Tiktok Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 19,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0601.pacing_impressoes": {
+    "valor": 0.2720328260869565,
+    "descricao": "Pacing de impressoes em Impulsionamentos / Tiktok Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 19,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0601.pacing_cliques": {
+    "valor": 0.11647826086956521,
+    "descricao": "Pacing de cliques em Impulsionamentos / Tiktok Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 19,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0601.plan_investimento": {
+    "valor": 46000.0,
+    "descricao": "Investimento planejado em Impulsionamentos / Tiktok Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0601.dias_entrega": {
+    "valor": 19.0,
+    "descricao": "Dias de entrega em Impulsionamentos / Tiktok Ads",
+    "unidade": "",
+    "linhas": 19,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0701.pacing_investimento": {
+    "valor": 0.7992681184765862,
+    "descricao": "Pacing de investimento em Impulsionamentos / Tiktok Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 20,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0701.pacing_impressoes": {
+    "valor": 0.7893979913452991,
+    "descricao": "Pacing de impressoes em Impulsionamentos / Tiktok Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 20,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0701.pacing_cliques": {
+    "valor": 0.37545922116091107,
+    "descricao": "Pacing de cliques em Impulsionamentos / Tiktok Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 20,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0701.plan_investimento": {
+    "valor": 16333.330078125,
+    "descricao": "Investimento planejado em Impulsionamentos / Tiktok Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.impulsionamentos_tiktok_ads_0701.dias_entrega": {
+    "valor": 20.0,
+    "descricao": "Dias de entrega em Impulsionamentos / Tiktok Ads",
+    "unidade": "",
+    "linhas": 20,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.inauguracao_tiktok_ads_0719.pacing_investimento": {
+    "valor": 0.0,
+    "descricao": "Pacing de investimento em Inauguracao / Tiktok Ads a partir de 2024-07-19",
+    "unidade": "",
+    "linhas": 0,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.inauguracao_tiktok_ads_0719.pacing_impressoes": {
+    "valor": 0.0,
+    "descricao": "Pacing de impressoes em Inauguracao / Tiktok Ads a partir de 2024-07-19",
+    "unidade": "",
+    "linhas": 0,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.inauguracao_tiktok_ads_0719.pacing_cliques": {
+    "valor": 0.0,
+    "descricao": "Pacing de cliques em Inauguracao / Tiktok Ads a partir de 2024-07-19",
+    "unidade": "",
+    "linhas": 0,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.inauguracao_tiktok_ads_0719.plan_investimento": {
+    "valor": 24797.5,
+    "descricao": "Investimento planejado em Inauguracao / Tiktok Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.inauguracao_tiktok_ads_0719.dias_entrega": {
+    "valor": 0.0,
+    "descricao": "Dias de entrega em Inauguracao / Tiktok Ads",
+    "unidade": "",
+    "linhas": 0,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_meta_ads_0601.pacing_investimento": {
+    "valor": 0.9999995801170835,
+    "descricao": "Pacing de investimento em Joao Pessoa / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 30,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_meta_ads_0601.pacing_impressoes": {
+    "valor": 1.6496648466742214,
+    "descricao": "Pacing de impressoes em Joao Pessoa / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 30,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_meta_ads_0601.pacing_cliques": {
+    "valor": 0.4999732691793638,
+    "descricao": "Pacing de cliques em Joao Pessoa / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 30,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_meta_ads_0601.plan_investimento": {
+    "valor": 25676.80078125,
+    "descricao": "Investimento planejado em Joao Pessoa / Meta Ads",
+    "unidade": "R$",
+    "linhas": 2,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_meta_ads_0601.dias_entrega": {
+    "valor": 30.0,
+    "descricao": "Dias de entrega em Joao Pessoa / Meta Ads",
+    "unidade": "",
+    "linhas": 30,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_tiktok_ads_0601.pacing_investimento": {
+    "valor": 0.999257488044299,
+    "descricao": "Pacing de investimento em Joao Pessoa / Tiktok Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 18,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_tiktok_ads_0601.pacing_impressoes": {
+    "valor": 0.29780644349358165,
+    "descricao": "Pacing de impressoes em Joao Pessoa / Tiktok Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 18,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_tiktok_ads_0601.pacing_cliques": {
+    "valor": 0.2334088430237436,
+    "descricao": "Pacing de cliques em Joao Pessoa / Tiktok Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 18,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_tiktok_ads_0601.plan_investimento": {
+    "valor": 11919.0,
+    "descricao": "Investimento planejado em Joao Pessoa / Tiktok Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_tiktok_ads_0601.dias_entrega": {
+    "valor": 18.0,
+    "descricao": "Dias de entrega em Joao Pessoa / Tiktok Ads",
+    "unidade": "",
+    "linhas": 18,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_youtube_ads_0601.pacing_investimento": {
+    "valor": 1.4952689915966388,
+    "descricao": "Pacing de investimento em Joao Pessoa / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_youtube_ads_0601.pacing_impressoes": {
+    "valor": 3.277423529411765,
+    "descricao": "Pacing de impressoes em Joao Pessoa / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_youtube_ads_0601.pacing_cliques": {
+    "valor": 2.611764705882353,
+    "descricao": "Pacing de cliques em Joao Pessoa / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_youtube_ads_0601.plan_investimento": {
+    "valor": 3570.0,
+    "descricao": "Investimento planejado em Joao Pessoa / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 2,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_youtube_ads_0601.dias_entrega": {
+    "valor": 26.0,
+    "descricao": "Dias de entrega em Joao Pessoa / Youtube Ads",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.joao_pessoa_nao_pulavel_youtube_ads_0601.dias_entrega": {
+    "valor": 26.0,
+    "descricao": "Dias de entrega em Joao Pessoa - Não Pulavel / Youtube Ads",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0601.pacing_investimento": {
+    "valor": 0.9998359946013508,
+    "descricao": "Pacing de investimento em Maceio / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0601.pacing_impressoes": {
+    "valor": 5.186183127572017,
+    "descricao": "Pacing de impressoes em Maceio / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0601.pacing_cliques": {
+    "valor": 8.54868913857678,
+    "descricao": "Pacing de cliques em Maceio / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0601.plan_investimento": {
+    "valor": 13899.599609375,
+    "descricao": "Investimento planejado em Maceio / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0601.dias_entrega": {
+    "valor": 28.0,
+    "descricao": "Dias de entrega em Maceio / Meta Ads",
+    "unidade": "",
+    "linhas": 28,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0701.pacing_investimento": {
+    "valor": 1.9536133773633773,
+    "descricao": "Pacing de investimento em Maceio / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0701.pacing_impressoes": {
+    "valor": 1.9039329189329188,
+    "descricao": "Pacing de impressoes em Maceio / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0701.pacing_cliques": {
+    "valor": 2.2470454913388376,
+    "descricao": "Pacing de cliques em Maceio / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0701.plan_investimento": {
+    "valor": 30888.0,
+    "descricao": "Investimento planejado em Maceio / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_meta_ads_0701.dias_entrega": {
+    "valor": 31.0,
+    "descricao": "Dias de entrega em Maceio / Meta Ads",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0601.pacing_investimento": {
+    "valor": 0.9999402918069585,
+    "descricao": "Pacing de investimento em Maceio / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0601.pacing_impressoes": {
+    "valor": 0.9094846614291059,
+    "descricao": "Pacing de impressoes em Maceio / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0601.pacing_cliques": {
+    "valor": 2.7883895131086143,
+    "descricao": "Pacing de cliques em Maceio / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0601.plan_investimento": {
+    "valor": 10692.0,
+    "descricao": "Investimento planejado em Maceio / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0601.dias_entrega": {
+    "valor": 25.0,
+    "descricao": "Dias de entrega em Maceio / Youtube Ads",
+    "unidade": "",
+    "linhas": 25,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0701.pacing_investimento": {
+    "valor": 0.9999070901320901,
+    "descricao": "Pacing de investimento em Maceio / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0701.pacing_impressoes": {
+    "valor": 0.988465811965812,
+    "descricao": "Pacing de impressoes em Maceio / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0701.pacing_cliques": {
+    "valor": 5.747935891209325,
+    "descricao": "Pacing de cliques em Maceio / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0701.plan_investimento": {
+    "valor": 30888.0,
+    "descricao": "Investimento planejado em Maceio / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.maceio_youtube_ads_0701.dias_entrega": {
+    "valor": 31.0,
+    "descricao": "Dias de entrega em Maceio / Youtube Ads",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0612.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Mega Day / Meta Ads a partir de 2024-06-12",
+    "unidade": "",
+    "linhas": 8,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0612.pacing_impressoes": {
+    "valor": 0.631012030075188,
+    "descricao": "Pacing de impressoes em Mega Day / Meta Ads a partir de 2024-06-12",
+    "unidade": "",
+    "linhas": 8,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0612.pacing_cliques": {
+    "valor": 1.4610526315789474,
+    "descricao": "Pacing de cliques em Mega Day / Meta Ads a partir de 2024-06-12",
+    "unidade": "",
+    "linhas": 8,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0612.plan_investimento": {
+    "valor": 42560.0,
+    "descricao": "Investimento planejado em Mega Day / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0612.dias_entrega": {
+    "valor": 8.0,
+    "descricao": "Dias de entrega em Mega Day / Meta Ads",
+    "unidade": "",
+    "linhas": 8,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0708.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Mega Day / Meta Ads a partir de 2024-07-08",
+    "unidade": "",
+    "linhas": 8,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0708.pacing_impressoes": {
+    "valor": 0.5818642543859649,
+    "descricao": "Pacing de impressoes em Mega Day / Meta Ads a partir de 2024-07-08",
+    "unidade": "",
+    "linhas": 8,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0708.pacing_cliques": {
+    "valor": 1.789736842105263,
+    "descricao": "Pacing de cliques em Mega Day / Meta Ads a partir de 2024-07-08",
+    "unidade": "",
+    "linhas": 8,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0708.plan_investimento": {
+    "valor": 59280.0,
+    "descricao": "Investimento planejado em Mega Day / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.mega_day_meta_ads_0708.dias_entrega": {
+    "valor": 8.0,
+    "descricao": "Dias de entrega em Mega Day / Meta Ads",
+    "unidade": "",
+    "linhas": 8,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.oportunidades_incriveis_meta_ads_0705.pacing_investimento": {
+    "valor": 1.0,
+    "descricao": "Pacing de investimento em Oportunidades Incriveis / Meta Ads a partir de 2024-07-05",
+    "unidade": "",
+    "linhas": 14,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.oportunidades_incriveis_meta_ads_0705.pacing_impressoes": {
+    "valor": 1.52208,
+    "descricao": "Pacing de impressoes em Oportunidades Incriveis / Meta Ads a partir de 2024-07-05",
+    "unidade": "",
+    "linhas": 14,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.oportunidades_incriveis_meta_ads_0705.pacing_cliques": {
+    "valor": 1.2538666666666667,
+    "descricao": "Pacing de cliques em Oportunidades Incriveis / Meta Ads a partir de 2024-07-05",
+    "unidade": "",
+    "linhas": 14,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.oportunidades_incriveis_meta_ads_0705.plan_investimento": {
+    "valor": 45000.0,
+    "descricao": "Investimento planejado em Oportunidades Incriveis / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.oportunidades_incriveis_meta_ads_0705.dias_entrega": {
+    "valor": 14.0,
+    "descricao": "Dias de entrega em Oportunidades Incriveis / Meta Ads",
+    "unidade": "",
+    "linhas": 14,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0601.pacing_investimento": {
+    "valor": 0.9999897288138243,
+    "descricao": "Pacing de investimento em Uberlandia / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 30,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0601.pacing_impressoes": {
+    "valor": 2.9038293933030777,
+    "descricao": "Pacing de impressoes em Uberlandia / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 30,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0601.pacing_cliques": {
+    "valor": 0.9844764324019193,
+    "descricao": "Pacing de cliques em Uberlandia / Meta Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 30,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0601.plan_investimento": {
+    "valor": 9743.580078125,
+    "descricao": "Investimento planejado em Uberlandia / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0601.dias_entrega": {
+    "valor": 30.0,
+    "descricao": "Dias de entrega em Uberlandia / Meta Ads",
+    "unidade": "",
+    "linhas": 30,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0701.pacing_investimento": {
+    "valor": 1.0000023186563225,
+    "descricao": "Pacing de investimento em Uberlandia / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0701.pacing_impressoes": {
+    "valor": 2.537642203607116,
+    "descricao": "Pacing de impressoes em Uberlandia / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0701.pacing_cliques": {
+    "valor": 0.8674042852125043,
+    "descricao": "Pacing de cliques em Uberlandia / Meta Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0701.plan_investimento": {
+    "valor": 17082.900390625,
+    "descricao": "Investimento planejado em Uberlandia / Meta Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_meta_ads_0701.dias_entrega": {
+    "valor": 31.0,
+    "descricao": "Dias de entrega em Uberlandia / Meta Ads",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0601.pacing_investimento": {
+    "valor": 0.9999645801652397,
+    "descricao": "Pacing de investimento em Uberlandia / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0601.pacing_impressoes": {
+    "valor": 0.7224332162049487,
+    "descricao": "Pacing de impressoes em Uberlandia / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0601.pacing_cliques": {
+    "valor": 0.3293577981651376,
+    "descricao": "Pacing de cliques em Uberlandia / Youtube Ads a partir de 2024-06-01",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0601.plan_investimento": {
+    "valor": 8731.16015625,
+    "descricao": "Investimento planejado em Uberlandia / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0601.dias_entrega": {
+    "valor": 26.0,
+    "descricao": "Dias de entrega em Uberlandia / Youtube Ads",
+    "unidade": "",
+    "linhas": 26,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0701.pacing_investimento": {
+    "valor": 0.9999438025210085,
+    "descricao": "Pacing de investimento em Uberlandia / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0701.pacing_impressoes": {
+    "valor": 0.7057752100840337,
+    "descricao": "Pacing de impressoes em Uberlandia / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0701.pacing_cliques": {
+    "valor": 0.5760869565217391,
+    "descricao": "Pacing de cliques em Uberlandia / Youtube Ads a partir de 2024-07-01",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0701.plan_investimento": {
+    "valor": 15232.0,
+    "descricao": "Investimento planejado em Uberlandia / Youtube Ads",
+    "unidade": "R$",
+    "linhas": 1,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "bloco.uberlandia_youtube_ads_0701.dias_entrega": {
+    "valor": 31.0,
+    "descricao": "Dias de entrega em Uberlandia / Youtube Ads",
+    "unidade": "",
+    "linhas": 31,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/07_blocos.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:44"
+  },
+  "dim_calendario.dias": {
+    "valor": 585.0,
+    "descricao": "Dias na tabela de calendario, do primeiro ao ultimo dia de entrega",
+    "unidade": "",
+    "linhas": 585,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/09_powerbi.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:45"
+  },
+  "constante.mil": {
+    "valor": 1000.0,
+    "descricao": "Divisor do CPM, o custo por mil impressoes",
+    "unidade": "",
+    "linhas": 0,
+    "script": "/home/iurizambotto/lab-curso-llm/runs/completo-20260918-03/r5-exec3-130837/analise/scripts/09_powerbi.py",
+    "decisoes": [],
+    "registrado_em": "2026-09-21T13:32:45"
+  }
+}

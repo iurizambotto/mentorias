@@ -1,0 +1,452 @@
+{
+  "formato": {
+    "arquivo": "BASE DE PACING_v2.csv.xls",
+    "extensao": "xls",
+    "bytes": 3049125,
+    "separador": ",",
+    "quebra_linha": "CRLF",
+    "encoding": "utf-8-sig",
+    "bom": true,
+    "formato_real": "csv",
+    "extensao_confere": false
+  },
+  "linhas": 16809,
+  "colunas_total": 14,
+  "duplicatas_exatas": 0,
+  "colunas": {
+    "Base": {
+      "tipo": "object",
+      "nulos": 0,
+      "nulos_em_texto": 0,
+      "distintos": 2,
+      "exemplos": [
+        "Planejado",
+        "Realizado"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": []
+    },
+    "campaign_name": {
+      "tipo": "object",
+      "nulos": 45,
+      "nulos_em_texto": 0,
+      "distintos": 2790,
+      "exemplos": [
+        "Marcasfilial_filial_acaocashback-janeiro_alcance_2301",
+        "Marcasfilial_filial_acao-influenciadora-lais-cintra_engajamento_2301",
+        "Marcasfilial_filial_acao-influenciadores-fds4-nao-socio_engajamento_2301",
+        "Marcasfilial_filial_acao-influenciadores-fds4-socio_engajamento_2301",
+        "Marcasfilial_filial_inauguracao_inauguracao-barra_nsocios_alcance_interesses_2308"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": []
+    },
+    "Campanha": {
+      "tipo": "object",
+      "nulos": 0,
+      "nulos_em_texto": 0,
+      "distintos": 185,
+      "exemplos": [
+        "Cashback",
+        "Cashback Resgate",
+        "Especial Cabelos",
+        "Fds1",
+        "Fds2"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": [
+        [
+          "Casa Limpa",
+          "Casa Limpa 3m",
+          "Casa Limpa Organizada"
+        ],
+        [
+          "Cashback",
+          "Cashback Resgate"
+        ],
+        [
+          "Fds1",
+          "Fds1 Out",
+          "Fds1 Set"
+        ],
+        [
+          "Fds2",
+          "Fds2 Ofertasbr"
+        ],
+        [
+          "Fds3",
+          "Fds3 Ofertasbr"
+        ],
+        [
+          "Fds4",
+          "Fds4 Ofertasbr"
+        ],
+        [
+          "Fds5",
+          "Fds5 Ofertasbr"
+        ],
+        [
+          "Freeshop",
+          "Freeshop From Like To Love",
+          "Freeshop Gui",
+          "Freeshop Jesk",
+          "Freeshop Time To Try",
+          "Freeshop Vini"
+        ],
+        [
+          "Inauguracao",
+          "Inauguracao Barra",
+          "Inauguracao Bonoco",
+          "Inauguracao Cristal",
+          "Inauguracao Florianopolis",
+          "Inauguracao Lauro"
+        ],
+        [
+          "Joao Pessoa",
+          "Joao Pessoa - Não Pulavel"
+        ],
+        [
+          "Material Didatico",
+          "Material Didatico Emb Economicas Novidades",
+          "Material Didatico Influ",
+          "Material Didatico Parceiros Cashback",
+          "Material Didatico Queridinhos So Tem No Marcas"
+        ],
+        [
+          "Natal",
+          "Natal Angola",
+          "Natal Japao",
+          "Natal Previa",
+          "Natal Ucrania"
+        ],
+        [
+          "Novidades",
+          "Novidades Marcas"
+        ],
+        [
+          "Pascoa",
+          "Pascoa Aquecimento",
+          "Pascoa Lancamento",
+          "Pascoa Sustentacao"
+        ]
+      ]
+    },
+    "Soma de Cliques": {
+      "tipo": "int64",
+      "nulos": 0,
+      "nulos_em_texto": 0,
+      "distintos": 2259,
+      "exemplos": [
+        "12920",
+        "4320",
+        "1546",
+        "809",
+        "1872"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": [],
+      "min": 0.0,
+      "max": 330858.0,
+      "soma": 8284195.0
+    },
+    "Data": {
+      "tipo": "object",
+      "nulos": 0,
+      "nulos_em_texto": 0,
+      "distintos": 584,
+      "exemplos": [
+        "2024-05-28 00:00:00",
+        "2024-07-01 00:00:00",
+        "2024-06-10 00:00:00",
+        "2024-07-08 00:00:00",
+        "2024-06-11 00:00:00"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": []
+    },
+    "Data de Inicio": {
+      "tipo": "object",
+      "nulos": 16764,
+      "nulos_em_texto": 0,
+      "distintos": 15,
+      "exemplos": [
+        "2024-05-28 00:00:00",
+        "2024-07-01 00:00:00",
+        "2024-06-10 00:00:00",
+        "2024-07-08 00:00:00",
+        "2024-06-11 00:00:00"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": []
+    },
+    "Data de Termino": {
+      "tipo": "object",
+      "nulos": 16764,
+      "nulos_em_texto": 0,
+      "distintos": 11,
+      "exemplos": [
+        "2024-06-07 00:00:00",
+        "2024-07-07 00:00:00",
+        "2024-06-30 00:00:00",
+        "2024-07-31 00:00:00",
+        "2024-06-23 00:00:00"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": []
+    },
+    "Soma de Dias_Veiculacao": {
+      "tipo": "float64",
+      "nulos": 16764,
+      "nulos_em_texto": 0,
+      "distintos": 11,
+      "exemplos": [
+        "10.0",
+        "6.0",
+        "20.0",
+        "23.0",
+        "12.0"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": [],
+      "min": 3.0,
+      "max": 30.0,
+      "soma": 955.0
+    },
+    "Soma de Impressoes": {
+      "tipo": "int64",
+      "nulos": 0,
+      "nulos_em_texto": 0,
+      "distintos": 14783,
+      "exemplos": [
+        "6460000",
+        "2160000",
+        "257760",
+        "135000",
+        "1250000"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": [],
+      "min": 0.0,
+      "max": 33085853.0,
+      "soma": 2544823113.0
+    },
+    "Soma de Investimento": {
+      "tipo": "float64",
+      "nulos": 2,
+      "nulos_em_texto": 0,
+      "distintos": 16670,
+      "exemplos": [
+        "64600.0",
+        "41040.0",
+        "19847.51953125",
+        "7020.0",
+        "5000.0"
+      ],
+      "artefatos_float": 38,
+      "variantes_de_prefixo": [],
+      "min": 0.0107,
+      "max": 99257.5625,
+      "soma": 18108750.462484375
+    },
+    "Modalidade": {
+      "tipo": "object",
+      "nulos": 0,
+      "nulos_em_texto": 0,
+      "distintos": 56,
+      "exemplos": [
+        "Regular",
+        "Trade",
+        "Inauguracao",
+        "Acaocashback Janeiro",
+        "Acao Influenciadora Lais Cintra"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": [
+        [
+          "Regular",
+          "Regular Janeiro Fds1 Cone",
+          "Regular Janeiro Fds1 Cone Nsocio Interesses",
+          "Regular Janeiro Fds1 Cone Nsocio Lookalike",
+          "Regular Janeiro Fds1 Nsocio",
+          "Regular Janeiro Fds1 Sp",
+          "Regular Janeiro Fds1 Sp Nsocio Interesses",
+          "Regular Janeiro Fds1 Sp Nsocio Lookalike",
+          "Regular Janeiro Fds1 Sulsudeste",
+          "Regular Janeiro Fds1 Sulsudeste Nsocio Interesses",
+          "Regular Janeiro Fds1 Sulsudeste Nsocio Lookalike",
+          "Regular Janeiro Fds2 Cone",
+          "Regular Janeiro Fds2 Cone Nsocio Interesses",
+          "Regular Janeiro Fds2 Cone Nsocio Lookalike",
+          "Regular Janeiro Fds2 Sp",
+          "Regular Janeiro Fds2 Sp Nsocio Interesses",
+          "Regular Janeiro Fds2 Sp Nsocio Lookalike",
+          "Regular Janeiro Fds2 Sulsudeste",
+          "Regular Janeiro Fds2 Sulsudeste Nsocio Interesses",
+          "Regular Janeiro Fds2 Sulsudeste Nsocio Lookalike",
+          "Regular Janeiro Fds3 Cone",
+          "Regular Janeiro Fds3 Cone Nsocio Interesses",
+          "Regular Janeiro Fds3 Cone Nsocio Lookalike",
+          "Regular Janeiro Fds3 Sp",
+          "Regular Janeiro Fds3 Sp Nsocio Interesses",
+          "Regular Janeiro Fds3 Sp Nsocio Lookalike",
+          "Regular Janeiro Fds3 Sulsudeste",
+          "Regular Janeiro Fds3 Sulsudeste Nsocio Interesses",
+          "Regular Janeiro Fds3 Sulsudeste Nsocio Lookalike",
+          "Regular Janeiro Fds4 Cone",
+          "Regular Janeiro Fds4 Cone Nsocio Interesses",
+          "Regular Janeiro Fds4 Cone Nsocio Lookalike",
+          "Regular Janeiro Fds4 Sp",
+          "Regular Janeiro Fds4 Sp Nsocio Interesses",
+          "Regular Janeiro Fds4 Sp Nsocio Lookalike",
+          "Regular Janeiro Fds4 Sulsudeste",
+          "Regular Janeiro Fds4 Sulsudeste Nsocio Interesses",
+          "Regular Janeiro Fds4 Sulsudeste Nsocio Lookalike",
+          "Regular Janeiro Happy Hour",
+          "Regular Janeiro Megaday Nsocios",
+          "Regular Janeiro Megaday Socios",
+          "Regular Janeiro Solucao Da Casa"
+        ],
+        [
+          "Regular Janeiro Fds1 Cone",
+          "Regular Janeiro Fds1 Cone Nsocio Interesses",
+          "Regular Janeiro Fds1 Cone Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds1 Sp",
+          "Regular Janeiro Fds1 Sp Nsocio Interesses",
+          "Regular Janeiro Fds1 Sp Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds1 Sulsudeste",
+          "Regular Janeiro Fds1 Sulsudeste Nsocio Interesses",
+          "Regular Janeiro Fds1 Sulsudeste Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds2 Cone",
+          "Regular Janeiro Fds2 Cone Nsocio Interesses",
+          "Regular Janeiro Fds2 Cone Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds2 Sp",
+          "Regular Janeiro Fds2 Sp Nsocio Interesses",
+          "Regular Janeiro Fds2 Sp Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds2 Sulsudeste",
+          "Regular Janeiro Fds2 Sulsudeste Nsocio Interesses",
+          "Regular Janeiro Fds2 Sulsudeste Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds3 Cone",
+          "Regular Janeiro Fds3 Cone Nsocio Interesses",
+          "Regular Janeiro Fds3 Cone Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds3 Sp",
+          "Regular Janeiro Fds3 Sp Nsocio Interesses",
+          "Regular Janeiro Fds3 Sp Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds3 Sulsudeste",
+          "Regular Janeiro Fds3 Sulsudeste Nsocio Interesses",
+          "Regular Janeiro Fds3 Sulsudeste Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds4 Cone",
+          "Regular Janeiro Fds4 Cone Nsocio Interesses",
+          "Regular Janeiro Fds4 Cone Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds4 Sp",
+          "Regular Janeiro Fds4 Sp Nsocio Interesses",
+          "Regular Janeiro Fds4 Sp Nsocio Lookalike"
+        ],
+        [
+          "Regular Janeiro Fds4 Sulsudeste",
+          "Regular Janeiro Fds4 Sulsudeste Nsocio Interesses",
+          "Regular Janeiro Fds4 Sulsudeste Nsocio Lookalike"
+        ],
+        [
+          "Trade",
+          "Trade Lg Week"
+        ]
+      ]
+    },
+    "Objetivo": {
+      "tipo": "object",
+      "nulos": 0,
+      "nulos_em_texto": 18,
+      "distintos": 7,
+      "exemplos": [
+        "Alcance",
+        "Engajamento",
+        "Video Views",
+        "Trafego",
+        "Conversao"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": []
+    },
+    "Publico": {
+      "tipo": "object",
+      "nulos": 0,
+      "nulos_em_texto": 241,
+      "distintos": 3,
+      "exemplos": [
+        "Socios",
+        "Nao Socios",
+        "N/a"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": []
+    },
+    "Veiculo": {
+      "tipo": "object",
+      "nulos": 0,
+      "nulos_em_texto": 0,
+      "distintos": 3,
+      "exemplos": [
+        "Meta Ads",
+        "Youtube Ads",
+        "Tiktok Ads"
+      ],
+      "artefatos_float": 0,
+      "variantes_de_prefixo": []
+    }
+  },
+  "padroes_de_nulo": [
+    {
+      "colunas": [
+        "campaign_name"
+      ],
+      "linhas_nulas": 45,
+      "discriminador": {
+        "coluna": "Base",
+        "valores_quando_nulo": [
+          "Planejado"
+        ]
+      }
+    },
+    {
+      "colunas": [
+        "Data de Inicio",
+        "Data de Termino",
+        "Soma de Dias_Veiculacao"
+      ],
+      "linhas_nulas": 16764,
+      "discriminador": {
+        "coluna": "Base",
+        "valores_quando_nulo": [
+          "Realizado"
+        ]
+      }
+    },
+    {
+      "colunas": [
+        "Soma de Investimento"
+      ],
+      "linhas_nulas": 2,
+      "discriminador": null
+    }
+  ]
+}
