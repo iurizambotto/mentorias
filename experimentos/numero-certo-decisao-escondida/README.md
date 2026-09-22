@@ -48,12 +48,11 @@ numero-certo-decisao-escondida/
     └── tests/   testes dos scripts das skills
 ```
 
-`respostas/` tem uma pasta por rodada e execução (`r3-exec1`, `r5-exec2`, e assim por diante) com
-o que aquela sessão gerou: script e CSV nas rodadas 3 e 4, e o pacote completo de entregáveis
-(`entregas/`) e do rastro de análise (`analise/`) na rodada 5. As rodadas 1 e 2 não produzem
-arquivo, só resposta em texto, e essa resposta não está publicada aqui: ela vive só na
-transcrição de sessão do Claude Code, e publicar a transcrição bruta arrisca levar junto coisa que
-não é a resposta, como saída de ferramenta ou raciocínio intermediário sem curadoria.
+`respostas/` tem uma pasta por rodada e execução (`r1-exec1`, `r5-exec2`, e assim por diante) com
+`resposta.md`, o texto final que o modelo devolveu, extraído da transcrição de sessão sem o
+raciocínio intermediário nem saída de ferramenta. Rodadas 3 e 4 somam a isso o script e o CSV que
+a sessão gerou, e a rodada 5 substitui os dois por um pacote completo: `entregas/` com os
+documentos pedidos e `analise/` com o rastro de cálculo.
 
 ## O agente de análise
 
@@ -111,5 +110,3 @@ Com a entrada padrão fechada, porque o modo não interativo acrescenta ao promp
 ## O que não está aqui
 
 - O script que orquestrou as 15 sessões não está publicado.
-- A resposta em texto das rodadas 1 e 2, e a narrativa das rodadas 3 e 4, não estão publicadas:
-  só o que essas rodadas geraram como arquivo está em `respostas/`.
